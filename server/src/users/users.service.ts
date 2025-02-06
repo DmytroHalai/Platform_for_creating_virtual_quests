@@ -1,4 +1,7 @@
+import 'dotenv/config';
 import * as bcrypt from 'bcryptjs';
+import * as nodemailer from 'nodemailer';
+
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,6 +10,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { BCRYPT } from 'src/constants/enums/bcryptSalt';
 import { JwtService } from '@nestjs/jwt';
+import { EMAIL } from 'src/constants/enums/email';
 
 @Injectable()
 export class UsersService {
@@ -32,17 +36,51 @@ export class UsersService {
       sub: user.user_id,
     };
 
-    return this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload);
+    await this.sendConfirmationEmail(user.email, token);
+  }
+
+  async sendConfirmationEmail(email: string, token: string) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const confirmationUrl = `${EMAIL.CONFIRM_LINK}${token}`;
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: EMAIL.SUBJECT,
+      text: `${EMAIL.TEXT} ${confirmationUrl}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+  }
+
+  async confirmEmail(token: string) {
+    try {
+      const decoded = this.jwtService.verify(token);
+      const user = await this.findOneById(decoded.user_id);
+
+      user.isEmailConfirmed = true;
+      await this.userRepository.save(user);
+
+      return EMAIL.CONFIRM_SUCCESS;
+    } catch (error) {
+      throw new NotFoundException('Invalid or expired token');
+    }
   }
 
   setUserCookie(res, token: string) {
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'strict',
       maxAge: 24 * 60 * 60 * 1000,
     });
-    console.log(res);
   }
 
   async findAll() {
@@ -51,6 +89,16 @@ export class UsersService {
 
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    return user;
+  }
+
+  async findOneById(id: number) {
+    const user = await this.userRepository.findOne({ where: { user_id: id } });
 
     if (!user) {
       throw new NotFoundException('user not found');
