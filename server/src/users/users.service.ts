@@ -25,6 +25,8 @@ export class UsersService {
       password: hashPassword,
     });
 
+    await this.userRepository.save(user);
+
     const token = this.jwtService.sign({
       email: user.email,
       user_id: user.user_id,
