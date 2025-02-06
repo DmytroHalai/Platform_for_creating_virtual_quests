@@ -1,4 +1,5 @@
 import { QuestCategory } from 'src/constants/enums/questCategory';
+import { Rating } from 'src/rating/entities/rating.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('quests')
@@ -23,17 +25,20 @@ export class Quest {
   @Column('text')
   description: string;
 
-  @Column('time')
+  @Column('text')
   time: string;
 
   @Column({ type: 'enum', enum: QuestCategory })
   category: QuestCategory;
 
-  @Column({ type: 'int', default: null })  // another table
+  @Column({ type: 'int', default: null }) // another table
   rate: number;
 
   @ManyToOne(() => User, (user) => user.quests, { onDelete: 'CASCADE' })
   author: User;
+
+  @OneToMany(() => Rating, (rating) => rating.quest)
+  ratings: Rating[];
 
   @CreateDateColumn()
   created_at: Date;

@@ -42,7 +42,6 @@ export class UsersService {
       sameSite: 'strict',
       maxAge: 24 * 60 * 60 * 1000,
     });
-    console.log(res);
   }
 
   async findAll() {

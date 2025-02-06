@@ -1,4 +1,5 @@
 import { Quest } from 'src/quests/entities/quest.entity';
+import { Rating } from 'src/rating/entities/rating.entity';
 import {
   Column,
   CreateDateColumn,
@@ -27,6 +28,9 @@ export class User {
 
   @OneToMany(() => Quest, (quest) => quest.author)
   quests: Quest[];
+
+  @OneToMany(() => Rating, (rating) => rating.user)
+  ratings: Rating[];
 
   @CreateDateColumn()
   created_at: Date;
