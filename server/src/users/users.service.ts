@@ -32,7 +32,7 @@ export class UsersService {
       username: user.username,
     });
 
-    return { token };
+    return { token, ...userData };
   }
 
   async findAll() {
