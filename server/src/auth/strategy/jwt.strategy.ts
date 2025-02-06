@@ -8,14 +8,17 @@ import { IUser } from 'src/constants/types/user/user';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => {
+          return req.cookies?.jwt || null;
+        },
+      ]),
       ignoreExpiration: false,
       secretOrKey: String(process.env.JWT_SECRET_KEY),
     });
   }
 
   async validate(user: IUser) {
-    const { user_id, email, role, username } = user;
-    return { user_id, email, role, username };
+    return { user_id: user.user_id };
   }
 }

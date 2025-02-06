@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
+  Response,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,12 +20,15 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/registration')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto, @Response() res) {
+    const token = await this.usersService.create(createUserDto);
+    this.usersService.setUserCookie(res, token);
+    return res.send({ message: 'Logged in successfully' });
   }
+
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
+  findAll(@Request() req) {
     return this.usersService.findAll();
   }
 

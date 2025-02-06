@@ -27,14 +27,23 @@ export class UsersService {
 
     await this.userRepository.save(user);
 
-    const token = this.jwtService.sign({
-      email: user.email,
+    const payload = {
       user_id: user.user_id,
-      role: user.role,
-      username: user.username,
-    });
+      sub: user.user_id,
+    };
 
-    return { token, ...userData };
+    //const token = this.jwtService.sign(payload);
+
+    return this.jwtService.sign(payload);
+  }
+
+  setUserCookie(res, token: string) {
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
   }
 
   async findAll() {
