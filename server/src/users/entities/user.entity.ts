@@ -1,7 +1,9 @@
+import { Quest } from 'src/quests/entities/quest.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,6 +24,9 @@ export class User {
 
   @Column('text')
   role: string;
+
+  @OneToMany(() => Quest, (quest) => quest.author)
+  quests: Quest[];
 
   @CreateDateColumn()
   created_at: Date;

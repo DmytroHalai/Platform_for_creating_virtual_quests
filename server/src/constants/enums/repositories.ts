@@ -1,3 +1,4 @@
 export enum REPOSITORY {
   USER = 'USER_REPOSITORY',
+  QUEST = 'QUEST_REPOSITORY',
 }
