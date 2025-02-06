@@ -32,18 +32,17 @@ export class UsersService {
       sub: user.user_id,
     };
 
-    //const token = this.jwtService.sign(payload);
-
     return this.jwtService.sign(payload);
   }
 
   setUserCookie(res, token: string) {
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'strict',
       maxAge: 24 * 60 * 60 * 1000,
     });
+    console.log(res);
   }
 
   async findAll() {
