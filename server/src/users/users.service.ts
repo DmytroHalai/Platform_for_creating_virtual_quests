@@ -7,10 +7,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { REPOSITORY } from 'src/constants/enums/repositories';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { BCRYPT } from 'src/constants/enums/bcryptSalt';
 import { JwtService } from '@nestjs/jwt';
 import { EMAIL } from 'src/constants/enums/email';
+import { Cron } from '@nestjs/schedule';
+import { SCHEDULE } from 'src/constants/enums/scheduleConfig';
+import { COOKIE } from 'src/constants/enums/cookie';
 
 @Injectable()
 export class UsersService {
@@ -24,9 +27,15 @@ export class UsersService {
     const { password, ...userData } = createUserDto;
     const hashPassword = await bcrypt.hash(password, BCRYPT.SALT);
 
+    const expirationTime = new Date();
+    expirationTime.setMinutes(
+      expirationTime.getMinutes() + SCHEDULE.CONFIRMATION_EXPIRES_MINUTES,
+    );
+
     const user = this.userRepository.create({
       ...userData,
       password: hashPassword,
+      confirmationExpires: expirationTime,
     });
 
     await this.userRepository.save(user);
@@ -75,12 +84,28 @@ export class UsersService {
   }
 
   setUserCookie(res, token: string) {
-    res.cookie('jwt', token, {
+    res.cookie(COOKIE.TYPE, token, {
       httpOnly: true,
       secure: false,
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: COOKIE.SAME_SITE,
+      maxAge: COOKIE.MAX_AGE,
     });
+  }
+
+  @Cron(SCHEDULE.DELETE_UNCONFIRMED_USERS)
+  async deleteUnconfirmedUsers() {
+    const now = new Date();
+    const usersToDelete = await this.userRepository.find({
+      where: {
+        isEmailConfirmed: false,
+        confirmationExpires: LessThan(now),
+      },
+    });
+
+    if (usersToDelete.length) {
+      await this.userRepository.remove(usersToDelete);
+      console.log(`Delete ${usersToDelete.length} unconfirmed users.`);
+    }
   }
 
   async findAll() {

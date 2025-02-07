@@ -36,6 +36,7 @@ export class UsersController {
   async confirmEmail(@Query('token') token: string, @Response() res) {
     const message = await this.usersService.confirmEmail(token);
     this.usersService.setUserCookie(res, token);
+
     return res.send({ message });
   }
 

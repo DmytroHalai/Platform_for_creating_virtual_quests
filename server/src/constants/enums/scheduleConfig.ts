@@ -1,0 +1,4 @@
+export enum SCHEDULE {
+  DELETE_UNCONFIRMED_USERS = '* * * * *',
+  CONFIRMATION_EXPIRES_MINUTES = 1,
+}
