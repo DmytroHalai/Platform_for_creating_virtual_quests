@@ -1,5 +1,6 @@
 import { QuestCategory } from 'src/constants/enums/questCategory';
 import { Rating } from 'src/rating/entities/rating.entity';
+import { Task } from 'src/tasks/entities/task.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
@@ -13,8 +14,8 @@ import {
 
 @Entity('quests')
 export class Quest {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('increment')
+  quest_id: number;
 
   @Column('text')
   title: string;
@@ -31,14 +32,14 @@ export class Quest {
   @Column({ type: 'enum', enum: QuestCategory })
   category: QuestCategory;
 
-  @Column({ type: 'int', default: null }) // another table
-  rate: number;
-
   @ManyToOne(() => User, (user) => user.quests, { onDelete: 'CASCADE' })
   author: User;
 
   @OneToMany(() => Rating, (rating) => rating.quest)
   ratings: Rating[];
+
+  @OneToMany(() => Task, (task) => task.quest)
+  tasks: Task[];
 
   @CreateDateColumn()
   created_at: Date;

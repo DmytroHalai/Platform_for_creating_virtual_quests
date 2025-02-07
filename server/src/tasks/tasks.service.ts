@@ -1,12 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { REPOSITORY } from 'src/constants/enums/repositories';
+import { Task } from './entities/task.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
-  }
+  constructor(
+    @Inject(REPOSITORY.TASK)
+    private tasksRepository: Repository<Task>,
+  ) {}
+  async create(createTaskDto: CreateTaskDto) {}
 
   findAll() {
     return `This action returns all tasks`;

@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
   ManyToOne,
   Unique,
 } from 'typeorm';
@@ -13,7 +12,7 @@ import {
 @Entity('rating')
 @Unique(['user', 'quest'])
 export class Rating {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column('int')

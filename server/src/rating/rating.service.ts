@@ -1,10 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
+import { REPOSITORY } from 'src/constants/enums/repositories';
+import { Repository } from 'typeorm';
+import { Quest } from 'src/quests/entities/quest.entity';
+import { Rating } from './entities/rating.entity';
 
 @Injectable()
 export class RatingService {
-  create(createRatingDto: CreateRatingDto) {
-    return 'This action adds a new rating';
+  constructor(
+    @Inject(REPOSITORY.RATING)
+    private ratingRepository: Repository<Rating>,
+    @Inject(REPOSITORY.QUEST)
+    private questsRepository: Repository<Quest>,
+  ) {}
+
+  async create(
+    createRatingDto: CreateRatingDto,
+    user_id: number,
+    quest_id: number,
+  ) {
+    const quest = await this.questsRepository.findOne({
+      where: { quest_id: quest_id },
+    });
+    if (!quest) {
+      throw new NotFoundException('Quest not found');
+    }
+
+    const rating = this.ratingRepository.create({
+      ...createRatingDto,
+      user: { user_id: user_id },
+      quest: { quest_id: quest_id },
+    });
+
+    return await this.ratingRepository.save(rating);
   }
 
   findAll() {
