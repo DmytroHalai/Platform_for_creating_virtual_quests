@@ -1,6 +1,4 @@
-'use strict';
-
-import colors from 'colors/safe';
+import * as colors from 'colors';
 import writeFileLogger from './writeFileLogger';
 import selectPrefixColor from './selectPrefix';
 import ILogger from 'src/constants/types/logger/logger';
@@ -10,7 +8,6 @@ const createLogger = (prefix: string): ILogger => {
     log: (text: string) => {
       const logInfo = selectPrefixColor(prefix, colors.green);
       writeFileLogger(logInfo, text);
-      console.log(logInfo, text);
     },
 
     warn: (text: string) => {

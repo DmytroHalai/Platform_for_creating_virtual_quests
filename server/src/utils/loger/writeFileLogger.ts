@@ -9,7 +9,8 @@ writeStream.on('error', (err: any): void => {
   console.error('Write File Error', err.message);
 });
 const writeFileLogger = (prefix: string, text: string): void => {
-  const logMessage = `${prefix} ${text}\n`;
+  const timestamp = new Date().toISOString();
+  const logMessage = `[${timestamp}]: ${prefix} ${text}\n`;
   writeStream.write(logMessage);
 };
 
