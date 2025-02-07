@@ -1,7 +1,5 @@
 import 'dotenv/config';
 import * as bcrypt from 'bcryptjs';
-import * as nodemailer from 'nodemailer';
-
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,31 +9,31 @@ import { LessThan, Repository } from 'typeorm';
 import { BCRYPT } from 'src/constants/enums/bcryptSalt';
 import { JwtService } from '@nestjs/jwt';
 import { EMAIL } from 'src/constants/enums/email';
-import { Cron } from '@nestjs/schedule';
 import { SCHEDULE } from 'src/constants/enums/scheduleConfig';
-import { COOKIE } from 'src/constants/enums/cookie';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject(REPOSITORY.USER)
-    private userRepository: Repository<User>,
-    private jwtService: JwtService,
+    private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { password, ...userData } = createUserDto;
     const hashPassword = await bcrypt.hash(password, BCRYPT.SALT);
 
-    const expirationTime = new Date();
-    expirationTime.setMinutes(
-      expirationTime.getMinutes() + SCHEDULE.CONFIRMATION_EXPIRES_MINUTES,
-    );
+    // const expirationTime = new Date();
+    // expirationTime.setMinutes(
+    //   expirationTime.getMinutes() + SCHEDULE.CONFIRMATION_EXPIRES_MINUTES,
+    // );
 
     const user = this.userRepository.create({
       ...userData,
       password: hashPassword,
-      confirmationExpires: expirationTime,
+      //confirmationExpires: expirationTime,
     });
 
     await this.userRepository.save(user);
@@ -46,27 +44,7 @@ export class UsersService {
     };
 
     const token = this.jwtService.sign(payload);
-    await this.sendConfirmationEmail(user.email, token);
-  }
-
-  async sendConfirmationEmail(email: string, token: string) {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
-    const confirmationUrl = `${EMAIL.CONFIRM_LINK}${token}`;
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: EMAIL.SUBJECT,
-      text: `${EMAIL.TEXT} ${confirmationUrl}`,
-    };
-
-    await transporter.sendMail(mailOptions);
+    await this.emailService.sendConfirmationEmail(user.email, token);
   }
 
   async confirmEmail(token: string) {
@@ -83,29 +61,17 @@ export class UsersService {
     }
   }
 
-  setUserCookie(res, token: string) {
-    res.cookie(COOKIE.TYPE, token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: COOKIE.SAME_SITE,
-      maxAge: COOKIE.MAX_AGE,
+  async findOverdue(time: Date) {
+    return await this.userRepository.find({
+      where: {
+        isEmailConfirmed: false,
+        created_at: LessThan(time),
+      },
     });
   }
 
-  @Cron(SCHEDULE.DELETE_UNCONFIRMED_USERS)
-  async deleteUnconfirmedUsers() {
-    const now = new Date();
-    const usersToDelete = await this.userRepository.find({
-      where: {
-        isEmailConfirmed: false,
-        confirmationExpires: LessThan(now),
-      },
-    });
-
-    if (usersToDelete.length) {
-      await this.userRepository.remove(usersToDelete);
-      console.log(`Delete ${usersToDelete.length} unconfirmed users.`);
-    }
+  async removeOverdue(usersToDelete) {
+    return await this.userRepository.remove(usersToDelete);
   }
 
   async findAll() {

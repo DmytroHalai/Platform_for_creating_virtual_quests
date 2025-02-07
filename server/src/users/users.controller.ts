@@ -15,10 +15,14 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CookieService } from 'src/cookie/cookie.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly cookieService: CookieService,
+  ) {}
 
   @Post('/registration')
   async create(@Body() createUserDto: CreateUserDto, @Response() res) {
@@ -35,8 +39,7 @@ export class UsersController {
   @Post('confirm')
   async confirmEmail(@Query('token') token: string, @Response() res) {
     const message = await this.usersService.confirmEmail(token);
-    this.usersService.setUserCookie(res, token);
-
+    this.cookieService.setUserCookie(res, token);
     return res.send({ message });
   }
 
