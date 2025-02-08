@@ -1,11 +1,9 @@
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+
 export interface IUser {
   user_id: number;
 }
 
-export interface IGoogleUser {
-  email: string;
-  username: string;
-  role: string;
-  password: string;
+export interface IGoogleUser extends CreateUserDto {
   isEmailConfirmed: boolean;
 }
