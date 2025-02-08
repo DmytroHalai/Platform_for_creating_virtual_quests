@@ -15,7 +15,7 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private readonly cookieService: CookieService
+    private readonly cookieService: CookieService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -29,6 +29,14 @@ export class AuthController {
   @Get('google')
   @UseGuards(GoogleAuthGuard)
   googleAuth() {
-    return { message: 'Перенаправление на Google...' };
+    return { message: 'Redirect to Google...' };
+  }
+
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthCallback(@Request() req, @Response() res) {
+    const token = await this.authService.login(req.user);
+    this.cookieService.setUserCookie(res, token);
+    return res.send({ message: 'Logged in successfully' });
   }
 }

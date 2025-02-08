@@ -1,11 +1,14 @@
 import 'dotenv/config';
+import * as bcrypt from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
+import { AuthService } from '../auth.service';
+import { BCRYPT } from 'src/constants/enums/bcryptSalt';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(private authService: AuthService) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -19,13 +22,15 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     refreshToken: string,
     profile: any,
     done: VerifyCallback,
-  ): Promise<any> {
+  ) {
     const user = {
-      googleId: profile.id,
       email: profile.emails[0].value,
-      displayName: profile.displayName,
-      avatar: profile.photos[0].value,
+      username: profile.displayName,
+      password: bcrypt.hashSync('randomSecurePassword', BCRYPT.SALT),
+      role: 'user',
+      isEmailConfirmed: profile.emails[0].verified,
     };
-    done(null, user);
+    const validateUser = await this.authService.validateGoogleUser(user);
+    done(null, validateUser);
   }
 }
