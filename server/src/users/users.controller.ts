@@ -25,14 +25,14 @@ export class UsersController {
   ) {}
 
   @Post('/registration')
-  async create(@Body() createUserDto: CreateUserDto, @Response() res) {
+  async create(@Body() createUserDto: CreateUserDto) {
     await this.usersService.create(createUserDto);
-    return res.send({ message: 'Logged in successfully' });
+    return { message: 'Logged in successfully' };
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Request() req) {
+  findAll() {
     return this.usersService.findAll();
   }
 

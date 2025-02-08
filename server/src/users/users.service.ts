@@ -24,37 +24,29 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const { password, ...userData } = createUserDto;
     const hashPassword = await bcrypt.hash(password, BCRYPT.SALT);
-
-    // const expirationTime = new Date();
-    // expirationTime.setMinutes(
-    //   expirationTime.getMinutes() + SCHEDULE.CONFIRMATION_EXPIRES_MINUTES,
-    // );
-
     const user = this.userRepository.create({
       ...userData,
       password: hashPassword,
-      //confirmationExpires: expirationTime,
     });
-
     await this.userRepository.save(user);
-
     const payload = {
       user_id: user.user_id,
       sub: user.user_id,
     };
-
     const token = this.jwtService.sign(payload);
     await this.emailService.sendConfirmationEmail(user.email, token);
+  }
+
+  async createByGoogle(profile: CreateUserDto) {
+    return await this.userRepository.save(profile);
   }
 
   async confirmEmail(token: string) {
     try {
       const decoded = this.jwtService.verify(token);
       const user = await this.findOneById(decoded.user_id);
-
       user.isEmailConfirmed = true;
       await this.userRepository.save(user);
-
       return EMAIL.CONFIRM_SUCCESS;
     } catch (error) {
       throw new NotFoundException('Invalid or expired token');
@@ -74,35 +66,27 @@ export class UsersService {
     return await this.userRepository.remove(usersToDelete);
   }
 
-  async findAll() {
-    return `This action returns all users`;
-  }
-
   async findOneByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email } });
-
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
-
-    return user;
+    return await this.userRepository.findOne({ where: { email } });
   }
 
   async findOneById(id: number) {
     const user = await this.userRepository.findOne({ where: { user_id: id } });
-
     if (!user) {
       throw new NotFoundException('user not found');
     }
-
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findAll() {
+    return `This action returns all users`;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  // async update(id: number, updateUserDto: UpdateUserDto) {
+  //   return `This action updates a #${id} user`;
+  // }
+
+  // async remove(id: number) {
+  //   return `This action removes a #${id} user`;
+  // }
 }
