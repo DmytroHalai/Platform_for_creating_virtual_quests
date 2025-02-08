@@ -1,7 +1,8 @@
 export class CreateUserDto {
-  user_id: number;
+  user_id?: number;
   username: string;
   email: string;
   password: string;
   role: string;
+  isEmailConfirmed?: boolean;
 }
