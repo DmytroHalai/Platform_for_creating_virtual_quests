@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router';
 
 import Layout from './Layout.tsx';
 import ErrorRoute from './ErrorRoute.tsx';
-import HomeRoute from './HomeRoute.tsx';
+import HomeRoute from './HomeRoute/HomeRoute.tsx';
 import LoginRoute from './LoginRoute.tsx';
 import RegisterRoute from './RegisterRoute.tsx';
 import ProfileRoute from './ProfileRoute.tsx';
@@ -12,7 +12,7 @@ import UserQuestsRoute from './UserQuestsRoute.tsx';
 import ActiveQuestsRoute from './ActiveQuestsRoute.tsx';
 import CompletedQuestsRoute from './CompletedQuestsRoute.tsx';
 import EditProfileRoute from './EditProfileRoute.tsx';
-import QuestsRoute from './QuestsRoute.tsx';
+import QuestsRoute from './QuestsRoute/QuestsRoute.tsx';
 import QuestItemRoute from './QuestItemRoute.tsx';
 import CreateQuestRoute from './CreateQuestRoute.tsx';
 import ProgressRoute from './ProgressRoute.tsx';

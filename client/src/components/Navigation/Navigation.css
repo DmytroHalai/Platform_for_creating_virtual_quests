@@ -1,0 +1,36 @@
+.nav__list{
+  list-style-type: none;
+  display: flex;
+  gap: 2.1875rem;
+}
+
+.nav__list-link{
+  color: var(--whiteBlue);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1rem;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.nav__list-link::after{
+  content: '';
+  background-color: var(--whiteBlue);
+  height: 2px;
+  width: 0;
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transition: all 0.4s;
+}
+
+.nav__list-link--active::after{
+  width: 100%;
+  left: 0;
+}
+
+.nav__list-link:hover{
+  opacity: 0.5;
+}
+
+

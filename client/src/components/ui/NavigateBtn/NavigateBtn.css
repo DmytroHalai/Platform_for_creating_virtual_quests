@@ -1,0 +1,15 @@
+.navigate-btn {
+  text-decoration: none;
+  color: var(--lightBlue);
+  font-size: 1rem;
+  font-weight: 600;
+  border: 3px solid;
+  padding: 0.5em 1.933em;
+  border-radius: 0.4em;
+  transition: all 0.4s;
+}
+
+.navigate-btn:hover {
+  color: var(--lightBlueHov);
+  background-color: rgba(0, 0, 0, 0.1);
+}
