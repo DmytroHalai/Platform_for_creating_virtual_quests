@@ -38,8 +38,7 @@ export class AuthService {
     }
     const user = await this.usersService.findOneByEmail(profile.email);
     if (!user) {
-      const newUser = await this.usersService.createByGoogle(profile);
-      return newUser;
+      return await this.usersService.createByGoogle(profile);
     }
     return user;
   }
