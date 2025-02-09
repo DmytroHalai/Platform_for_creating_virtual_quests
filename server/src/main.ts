@@ -8,6 +8,13 @@ async function bootstrap() {
   const { log, error } = logger('main');
   app.use(cookieParser());
 
+  app.enableCors({
+    origin: 'http://localhost:5173', 
+    methods: 'GET, POST, PUT, DELETE, PATCH', 
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true, 
+  });
+
   try {
     await app.listen(process.env.APP_PORT ?? 3000);
     log(`Server is running`);

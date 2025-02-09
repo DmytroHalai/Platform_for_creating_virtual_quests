@@ -10,8 +10,14 @@ import { CookieService } from './cookie/cookie.service';
 import { CookieModule } from './cookie/cookie.module';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from './schedule/schedule.module';
+
+import { QuestGateway } from './websocket/events.gateway';
+
+
+
 import { UploadModule } from './upload/upload.module';
 import { AnswersModule } from './answers/answers.module';
+
 
 @Module({
   imports: [
@@ -28,6 +34,6 @@ import { AnswersModule } from './answers/answers.module';
     UploadModule,
     AnswersModule,
   ],
-  providers: [CookieService],
+  providers: [CookieService, QuestGateway],
 })
 export class AppModule {}

@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EMAIL } from 'src/constants/enums/email';
 import { SCHEDULE } from 'src/constants/enums/scheduleConfig';
 import { EmailService } from 'src/email/email.service';
+import { T } from 'react-router/dist/development/fog-of-war-CCAcUMgB';
 
 @Injectable()
 export class UsersService {
@@ -44,8 +45,6 @@ export class UsersService {
   async confirmEmail(token: string) {
     try {
       const decoded = this.jwtService.verify(token);
-      console.log(decoded);
-
       const user = await this.findOneById(decoded.user_id);
       user.isEmailConfirmed = true;
       await this.userRepository.save(user);
@@ -59,7 +58,6 @@ export class UsersService {
     return await this.userRepository.find({
       where: {
         isEmailConfirmed: false,
-        //created_at: LessThan(time),
       },
     });
   }
@@ -90,9 +88,50 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  // async update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
+  async countAllActiveUsers() {
+    const activeUserCount = await this.userRepository.count({
+      where: { isEmailConfirmed: true },
+    });
+    return activeUserCount;
+  }
+
+  async findProfile(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { user_id: id },
+      relations: ['quests', 'quests.ratings'],
+    });
+
+    if (!user) throw new NotFoundException('user not found');
+
+    const { password, ...userData } = user;
+    return userData;
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    await this.userRepository.update(id, updateUserDto);
+    return 'successful update';
+  }
+
+  async selectRating() {
+    const users = await this.userRepository.find({
+      select: {
+        username: true,
+        ratings: {
+          rating: true,
+        },
+      },
+      relations: ['ratings'],
+    });
+
+    return users;
+  }
+
+  async findByName(username: string) {
+    const user = await this.userRepository.findOneBy({ username });
+    if (!user) throw new NotFoundException('user not found');
+    const userProfile = await this.findProfile(+user.user_id);
+    return userProfile;
+  }
 
   // async remove(id: number) {
   //   return `This action removes a #${id} user`;

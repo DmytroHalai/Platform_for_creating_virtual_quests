@@ -25,5 +25,6 @@ import { AnswersModule } from 'src/answers/answers.module';
     ...userProviders,
     ...taskProviders,
   ],
+  exports: [QuestsService],
 })
 export class QuestsModule {}

@@ -7,8 +7,12 @@ import {
   Param,
   Delete,
   UseGuards,
+
+  Response,
+
   UseInterceptors,
   UploadedFiles,
+
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
@@ -77,23 +81,31 @@ export class QuestsController {
     return { quest };
   }
 
+  @Get('count')
+  async countAll(@Response() res) {
+    const questsCount = await this.questsService.countAll();
+    return res.send({ questsCount });
+  }
+
   @Get()
-  findAll() {
-    return this.questsService.findAll();
+  async findAll(@Response() res) {
+    const quests = await this.questsService.findAll();
+    return res.send({ quests });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questsService.findOne(+id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
+  //   return this.questsService.update(+id, updateQuestDto);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
-    return this.questsService.update(+id, updateQuestDto);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.questsService.remove(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questsService.remove(+id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('all')
+  // findAll(@GetUser() id: IUser) {
+  //   return this.questsService.findAllByAuthor(+id);
+  // }
 }

@@ -35,19 +35,54 @@ export class QuestsService {
     return quest;
   }
 
-  findAll() {
-    return `This action returns all quests`;
+  // findAll() {
+  //   return `This action returns all quests`;
+  // }
+
+  // findOne(id: number) {
+  //   return `This action returns a #${id} quest`;
+  // }
+
+  // update(id: number, updateQuestDto: UpdateQuestDto) {
+  //   return `This action updates a #${id} quest`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} quest`;
+  // }
+  // Почати квест
+
+  async updateProgress(userId: number, questId: number, progress: number) {
+    const quest = await this.questsRepository.findOne({
+      where: { quest_id: questId },
+    });
+    if (!quest) throw new Error('Квест не найден');
+
+    if (progress >= 100) {
+    }
+
+    await this.questsRepository.save(quest);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} quest`;
+  async findAllByAuthor(id: number) {
+    return await this.questsRepository.find({
+      where: { author: { user_id: id } },
+    });
   }
 
-  update(id: number, updateQuestDto: UpdateQuestDto) {
-    return `This action updates a #${id} quest`;
+  async countAll() {
+    const activeUserCount = await this.questsRepository.count();
+    return activeUserCount;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} quest`;
+  async findAll() {
+    return await this.questsRepository.find({
+      select: {
+        ratings: {
+          rating: true,
+        },
+      },
+      relations: ['ratings'],
+    });
   }
 }

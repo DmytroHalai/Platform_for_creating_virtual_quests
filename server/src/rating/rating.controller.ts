@@ -27,7 +27,7 @@ export class RatingController {
     return this.ratingService.create(createRatingDto, +user_id, +quest_id);
   }
 
-  @Get()
+  @Get('users/rating')
   findAll() {
     return this.ratingService.findAll();
   }
