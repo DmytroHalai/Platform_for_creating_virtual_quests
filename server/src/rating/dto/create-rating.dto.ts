@@ -1,1 +1,4 @@
-export class CreateRatingDto {}
+export class CreateRatingDto {
+  rating: number;
+  comment: string;
+}
