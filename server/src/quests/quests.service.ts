@@ -21,9 +21,7 @@ export class QuestsService {
     photo?: Express.Multer.File,
   ) {
     const author = await this.usersService.findById(userId);
-    if (!author) {
-      throw new NotFoundException('User not found');
-    }
+    if (!author) throw new NotFoundException('User not found');
 
     const quest = this.questsRepository.create({
       ...createQuestDto,
@@ -50,7 +48,6 @@ export class QuestsService {
   // remove(id: number) {
   //   return `This action removes a #${id} quest`;
   // }
-  // Почати квест
 
   async updateProgress(userId: number, questId: number, progress: number) {
     const quest = await this.questsRepository.findOne({

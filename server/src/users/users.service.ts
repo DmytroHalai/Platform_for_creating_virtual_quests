@@ -25,15 +25,18 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const { password, ...userData } = createUserDto;
     const hashPassword = await bcrypt.hash(password, BCRYPT.SALT);
+
     const user = this.userRepository.create({
       ...userData,
       password: hashPassword,
     });
     await this.userRepository.save(user);
+
     const payload = {
       user_id: user.user_id,
       sub: user.user_id,
     };
+
     const token = this.jwtService.sign(payload);
     await this.emailService.sendConfirmationEmail(user.email, token);
   }
@@ -72,20 +75,16 @@ export class UsersService {
 
   async findOneById(id: number) {
     const user = await this.userRepository.findOne({ where: { user_id: id } });
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
+    if (!user) throw new NotFoundException('user not found');
+
     return user;
   }
 
   async findAll() {
     return `This action returns all users`;
+  }
   async findById(userId: number) {
     return this.userRepository.findOneBy({ user_id: userId });
-  }
-
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 
   async countAllActiveUsers() {
@@ -100,9 +99,7 @@ export class UsersService {
       where: { user_id: id },
       relations: ['quests', 'quests.ratings'],
     });
-
     if (!user) throw new NotFoundException('user not found');
-
     const { password, ...userData } = user;
     return userData;
   }
@@ -129,6 +126,7 @@ export class UsersService {
   async findByName(username: string) {
     const user = await this.userRepository.findOneBy({ username });
     if (!user) throw new NotFoundException('user not found');
+
     const userProfile = await this.findProfile(+user.user_id);
     return userProfile;
   }

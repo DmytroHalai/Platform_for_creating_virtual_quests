@@ -7,12 +7,9 @@ import {
   Param,
   Delete,
   UseGuards,
-
   Response,
-
   UseInterceptors,
   UploadedFiles,
-
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
@@ -61,10 +58,10 @@ export class QuestsController {
       photoFiles && photoFiles[0] ? photoFiles[0] : undefined,
     );
 
-    if (photoFiles && photoFiles[0]) {
-      quest.photo = `${uploadQuestsPath}/${photoFiles[0].filename}`;
-      this.questsService.update(quest.quest_id, { photo: quest.photo });
-    }
+    // if (photoFiles && photoFiles[0]) {
+    //   quest.photo = `${uploadQuestsPath}/${photoFiles[0].filename}`;
+    //   this.questsService.update(quest.quest_id, { photo: quest.photo });
+    // }
 
     const sortedMedia = mediaFiles.sort((a, b) => {
       const indexA = a.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
