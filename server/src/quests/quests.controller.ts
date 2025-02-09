@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Response,
 } from '@nestjs/common';
 import { QuestsService } from './quests.service';
 import { CreateQuestDto } from './dto/create-quest.dto';
@@ -25,15 +26,17 @@ export class QuestsController {
     return this.questsService.create(createQuestDto, +id);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.questsService.findAll();
-  // }
+  @Get('count')
+  async countAll(@Response() res) {
+    const questsCount = await this.questsService.countAll();
+    return res.send({ questsCount });
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.questsService.findOne(+id);
-  // }
+  @Get()
+  async findAll(@Response() res) {
+    const quests = await this.questsService.findAll();
+    return res.send({ quests });
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
@@ -45,9 +48,9 @@ export class QuestsController {
   //   return this.questsService.remove(+id);
   // }
 
-  @UseGuards(JwtAuthGuard)
-  @Get("all")
-  findAll( @GetUser() id: IUser) {
-    return this.questsService.findAllByAuthor(+id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('all')
+  // findAll(@GetUser() id: IUser) {
+  //   return this.questsService.findAllByAuthor(+id);
+  // }
 }

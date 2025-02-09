@@ -67,15 +67,31 @@ export class QuestsService {
     });
     if (!quest) throw new Error('Квест не найден');
 
-
     if (progress >= 100) {
-
     }
 
     await this.questsRepository.save(quest);
   }
 
-  findAllByAuthor(id: number) {
-    return this.questsRepository.find({ where: { author: { user_id: id } } });
+  async findAllByAuthor(id: number) {
+    return await this.questsRepository.find({
+      where: { author: { user_id: id } },
+    });
+  }
+
+  async countAll() {
+    const activeUserCount = await this.questsRepository.count();
+    return activeUserCount;
+  }
+
+  async findAll() {
+    return await this.questsRepository.find({
+      select: {
+        ratings: {
+          rating: true,
+        },
+      },
+      relations: ['ratings'],
+    });
   }
 }
