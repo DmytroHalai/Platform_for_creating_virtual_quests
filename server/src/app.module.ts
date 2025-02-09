@@ -6,6 +6,7 @@ import { ProgressModule } from './progress/progress.module';
 import { RatingModule } from './rating/rating.module';
 import { ChatModule } from './chat/chat.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
     RatingModule,
     ChatModule,
     AuthModule,
+    UploadModule,
   ],
 })
 export class AppModule {}

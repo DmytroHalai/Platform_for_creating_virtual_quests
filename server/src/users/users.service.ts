@@ -58,6 +58,10 @@ export class UsersService {
     return user;
   }
 
+  async findById(userId: number) {
+    return this.userRepository.findOneBy({ user_id: userId });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
