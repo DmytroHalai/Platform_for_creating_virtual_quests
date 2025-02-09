@@ -1,0 +1,46 @@
+.error-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--darkBlue);
+}
+
+.error-page__content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.error-page__title {
+    font-size: 3rem;
+    color: var(--lightBlue);
+    margin-bottom: 1rem;
+}
+
+.error-page__description {
+    font-size: 1.2rem;
+    color: var(--whiteBlue);
+    margin-bottom: 2rem;
+}
+
+.error-page__button {
+    font-size: 1.1rem;
+    padding: 0.7em 1.5em;
+}
+
+@media (max-width: 768px) {
+    .error-page__title {
+        font-size: 2rem;
+    }
+
+    .error-page__description {
+        font-size: 1rem;
+    }
+
+    .error-page__button {
+        font-size: 1rem;
+    }
+}
