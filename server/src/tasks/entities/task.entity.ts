@@ -17,7 +17,7 @@ export class Task {
   @Column('text')
   title: string;
 
-  @Column('text')
+  @Column({ nullable: true })
   media: string;
 
   @Column('text')

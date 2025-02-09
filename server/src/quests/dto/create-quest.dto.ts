@@ -3,7 +3,7 @@ import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
 
 export class CreateQuestDto {
   title: string;
-  photo: string;
+  photo?: string;
   description: string;
   time: string;
   category: QuestCategory;

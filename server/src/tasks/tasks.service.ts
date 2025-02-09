@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { REPOSITORY } from 'src/constants/enums/repositories';
@@ -11,7 +11,25 @@ export class TasksService {
     @Inject(REPOSITORY.TASK)
     private tasksRepository: Repository<Task>,
   ) {}
-  async create(createTaskDto: CreateTaskDto) {}
+
+  async create(
+    createTaskDtos: CreateTaskDto[],
+    questId: number,
+    media?: Express.Multer.File[],
+  ) {
+    const tasks = createTaskDtos.map((task, index) => {
+      if (media && media[index]) {
+        task.media = `/uploads/tasks/${media[index].filename}`;
+      }
+
+      return this.tasksRepository.create({
+        ...task,
+        quest: { quest_id: questId },
+      });
+    });
+
+    return await this.tasksRepository.save(tasks);
+  }
 
   findAll() {
     return `This action returns all tasks`;

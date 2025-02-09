@@ -10,6 +10,7 @@ import { CookieService } from './cookie/cookie.service';
 import { CookieModule } from './cookie/cookie.module';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     CookieModule,
     EmailModule,
     ScheduleModule,
+    UploadModule,
   ],
   providers: [CookieService],
 })
