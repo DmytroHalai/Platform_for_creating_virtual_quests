@@ -25,23 +25,29 @@ export class QuestsController {
     return this.questsService.create(createQuestDto, +id);
   }
 
-  @Get()
-  findAll() {
-    return this.questsService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.questsService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questsService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.questsService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
-    return this.questsService.update(+id, updateQuestDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
+  //   return this.questsService.update(+id, updateQuestDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questsService.remove(+id);
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.questsService.remove(+id);
+  // }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("all")
+  findAll( @GetUser() id: IUser) {
+    return this.questsService.findAllByAuthor(+id);
   }
 }

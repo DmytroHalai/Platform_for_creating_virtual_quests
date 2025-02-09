@@ -15,5 +15,6 @@ import { taskProviders } from 'src/tasks/tasks.providers';
     ...userProviders,
     ...taskProviders,
   ],
+  exports: [QuestsService],
 })
 export class QuestsModule {}

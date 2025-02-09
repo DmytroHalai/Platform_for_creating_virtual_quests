@@ -84,6 +84,13 @@ export class UsersService {
     return `This action returns all users`;
   }
 
+  async countAllActiveUsers() {
+    const activeUserCount = await this.userRepository.count({
+      where: { isEmailConfirmed: true },
+    });
+    return activeUserCount;
+  }
+
   // async update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
   // }

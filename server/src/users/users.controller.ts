@@ -43,6 +43,12 @@ export class UsersController {
     return res.send({ message });
   }
 
+  @Get('count')
+  async countAllActiveUsers(@Response() res) {
+    const count = await this.usersService.countAllActiveUsers();
+    return res.send({ count });
+  }
+
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.usersService.findOneByEmail(+id);
