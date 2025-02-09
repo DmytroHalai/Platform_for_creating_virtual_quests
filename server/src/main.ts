@@ -9,9 +9,10 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: 'http://localhost:5173', // указываем адрес клиента
-    methods: 'GET, POST, PUT, DELETE', // указываем разрешенные методы
-    allowedHeaders: 'Content-Type, Authorization', // указываем разрешенные заголовки
+    origin: 'http://localhost:5173', 
+    methods: 'GET, POST, PUT, DELETE, PATCH', 
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true, 
   });
 
   try {
