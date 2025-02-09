@@ -1,5 +1,5 @@
 export enum QuestionType {
-  Open = 'Open answers',
+  Open = 'Open answer',
   Test = 'Test',
   Find = 'Find object',
 }

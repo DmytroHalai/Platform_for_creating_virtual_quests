@@ -11,6 +11,7 @@ import { CookieModule } from './cookie/cookie.module';
 import { EmailModule } from './email/email.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UploadModule } from './upload/upload.module';
+import { AnswersModule } from './answers/answers.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UploadModule } from './upload/upload.module';
     EmailModule,
     ScheduleModule,
     UploadModule,
+    AnswersModule,
   ],
   providers: [CookieService],
 })

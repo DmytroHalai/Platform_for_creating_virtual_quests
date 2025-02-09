@@ -4,8 +4,8 @@ import { UpdateQuestDto } from './dto/update-quest.dto';
 import { Repository } from 'typeorm';
 import { REPOSITORY } from 'src/constants/enums/repositories';
 import { Quest } from './entities/quest.entity';
-import { TasksService } from 'src/tasks/tasks.service';
 import { UsersService } from 'src/users/users.service';
+import { uploadQuestsPath } from 'src/constants/filePath/upload';
 
 @Injectable()
 export class QuestsService {
@@ -13,7 +13,6 @@ export class QuestsService {
     @Inject(REPOSITORY.QUEST)
     private questsRepository: Repository<Quest>,
     private readonly usersService: UsersService,
-    private readonly tasksService: TasksService,
   ) {}
 
   async create(
@@ -28,7 +27,7 @@ export class QuestsService {
 
     const quest = this.questsRepository.create({
       ...createQuestDto,
-      photo: photo ? `/uploads/quests/${photo.filename}` : undefined,
+      photo: photo ? `${uploadQuestsPath}/${photo.filename}` : undefined,
       author: { user_id: userId },
     });
     await this.questsRepository.save(quest);

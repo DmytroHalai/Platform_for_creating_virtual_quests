@@ -8,9 +8,16 @@ import { userProviders } from 'src/users/users.providers';
 import { taskProviders } from 'src/tasks/tasks.providers';
 import { TasksModule } from 'src/tasks/tasks.module';
 import { UploadModule } from 'src/upload/upload.module';
+import { AnswersModule } from 'src/answers/answers.module';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, TasksModule, UploadModule],
+  imports: [
+    DatabaseModule,
+    UsersModule,
+    TasksModule,
+    UploadModule,
+    AnswersModule,
+  ],
   controllers: [QuestsController],
   providers: [
     QuestsService,
