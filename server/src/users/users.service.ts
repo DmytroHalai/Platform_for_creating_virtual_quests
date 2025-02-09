@@ -44,6 +44,8 @@ export class UsersService {
   async confirmEmail(token: string) {
     try {
       const decoded = this.jwtService.verify(token);
+      console.log(decoded);
+
       const user = await this.findOneById(decoded.user_id);
       user.isEmailConfirmed = true;
       await this.userRepository.save(user);
@@ -57,7 +59,7 @@ export class UsersService {
     return await this.userRepository.find({
       where: {
         isEmailConfirmed: false,
-        created_at: LessThan(time),
+        //created_at: LessThan(time),
       },
     });
   }
