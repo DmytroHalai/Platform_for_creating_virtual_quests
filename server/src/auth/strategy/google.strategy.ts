@@ -27,7 +27,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       email: profile.emails[0].value,
       username: profile.displayName,
       password: bcrypt.hashSync('randomSecurePassword', BCRYPT.SALT),
-      role: 'user',
       isEmailConfirmed: profile.emails[0].verified,
     };
     const validateUser = await this.authService.validateGoogleUser(user);
