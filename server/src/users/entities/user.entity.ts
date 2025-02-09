@@ -23,8 +23,17 @@ export class User {
   @Column('text')
   password: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
+  gender: string;
+
+  @Column('text', { nullable: true })
+  dateOfBirth: string;
+
+  @Column('text', { default: 'user' })
   role: string;
+
+  @Column('text', { nullable: true })
+  description: string;
 
   @Column({ default: false })
   isEmailConfirmed: boolean;
