@@ -5,7 +5,7 @@ import Layout from './Layout.tsx';
 import ErrorRoute from './ErrorRoute.tsx';
 import HomeRoute from './HomeRoute/HomeRoute.tsx';
 import LoginRoute from './LoginRoute.tsx';
-import RegisterRoute from './RegisterRoute.tsx';
+import RegisterRoute from './RegisterRoute/RegisterRoute.tsx';
 import ProfileRoute from './ProfileRoute.tsx';
 import ProfileLayout from './ProfileLayout.tsx';
 import UserQuestsRoute from './UserQuestsRoute.tsx';
