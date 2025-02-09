@@ -13,7 +13,7 @@ import ActiveQuestsRoute from './ActiveQuestsRoute.tsx';
 import CompletedQuestsRoute from './CompletedQuestsRoute.tsx';
 import EditProfileRoute from './EditProfileRoute.tsx';
 import QuestsRoute from './QuestsRoute/QuestsRoute.tsx';
-import QuestItemRoute from './QuestItemRoute.tsx';
+import QuestItemRoute from './QuestItemRoute/QuestItemRoute.tsx';
 import CreateQuestRoute from './CreateQuestRoute/CreateQuestRoute.tsx';
 import ProgressRoute from './ProgressRoute.tsx';
 import UserQuestItemRoute from './UserQuestItemRoute.tsx';
