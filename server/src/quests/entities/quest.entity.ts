@@ -20,7 +20,7 @@ export class Quest {
   @Column('text')
   title: string;
 
-  @Column('text')
+  @Column({ nullable: true })
   photo: string;
 
   @Column('text')

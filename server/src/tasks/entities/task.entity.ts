@@ -1,10 +1,12 @@
-import { QuestionType } from 'src/constants/enums/quustionType';
+import { Answer } from 'src/answers/entities/answer.entity';
+import { QuestionType } from 'src/constants/enums/questionType';
 import { Quest } from 'src/quests/entities/quest.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,10 +16,7 @@ export class Task {
   @PrimaryGeneratedColumn('increment')
   task_id: number;
 
-  @Column('text')
-  title: string;
-
-  @Column('text')
+  @Column({ nullable: true })
   media: string;
 
   @Column('text')
@@ -28,6 +27,9 @@ export class Task {
 
   @ManyToOne(() => Quest, (quest) => quest.tasks, { onDelete: 'CASCADE' })
   quest: Quest;
+
+  @OneToMany(() => Answer, (answer) => answer.task)
+  answers: Answer[];
 
   @CreateDateColumn()
   created_at: Date;

@@ -80,6 +80,12 @@ export class UsersService {
 
   async findAll() {
     return `This action returns all users`;
+  async findById(userId: number) {
+    return this.userRepository.findOneBy({ user_id: userId });
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
   }
 
   async countAllActiveUsers() {
