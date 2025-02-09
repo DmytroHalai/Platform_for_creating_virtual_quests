@@ -1,11 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuestDto } from './dto/create-quest.dto';
 import { UpdateQuestDto } from './dto/update-quest.dto';
+import { Repository } from 'typeorm';
+import { REPOSITORY } from 'src/constants/enums/repositories';
+import { Quest } from './entities/quest.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Task } from 'src/tasks/entities/task.entity';
 
 @Injectable()
 export class QuestsService {
-  create(createQuestDto: CreateQuestDto) {
-    return 'This action adds a new quest';
+  constructor(
+    @Inject(REPOSITORY.QUEST)
+    private questsRepository: Repository<Quest>,
+    @Inject(REPOSITORY.USER)
+    private usersRepository: Repository<User>,
+    @Inject(REPOSITORY.TASK)
+    private tasksRepository: Repository<Task>,
+  ) {}
+
+  async create(createQuestDto: CreateQuestDto, userId: number) {
+    const author = await this.usersRepository.findOneBy({
+      user_id: userId,
+    });
+
+    if (!author) {
+      throw new NotFoundException('User not found');
+    }
+    const quest = this.questsRepository.create({
+      ...createQuestDto,
+      author: { user_id: userId },
+    });
+    await this.questsRepository.save(quest);
+
+    const tasks = createQuestDto.tasks.map((task) => {
+      return this.tasksRepository.create({
+        ...task,
+        quest: { quest_id: quest.quest_id },
+      });
+    });
+
+    await this.tasksRepository.save(tasks);
+
+    return { ...quest, tasks };
   }
 
   findAll() {
