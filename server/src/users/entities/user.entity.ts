@@ -26,6 +26,9 @@ export class User {
   @Column('text')
   role: string;
 
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
+
   @OneToMany(() => Quest, (quest) => quest.author)
   quests: Quest[];
 
