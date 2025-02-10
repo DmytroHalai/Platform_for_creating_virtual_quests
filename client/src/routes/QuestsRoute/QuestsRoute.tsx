@@ -3,8 +3,8 @@
 import type React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Sidebar from "../../components/Sidebar/Sidebar"
-import QuestCard from "../../components/QuestCard/QuestCard"
+import Sidebar from "../../components/Sidebar/CategorySideBar/CategorySideBar.tsx"
+import QuestCard from "../../components/QuestsCards/QuestCard/QuestCard.tsx"
 import NavigateBtn from "../../components/ui/NavigateBtn/NavigateBtn"
 import "./QuestsRoute.css"
 
@@ -71,4 +71,3 @@ const QuestsRoute: React.FC = () => {
 }
 
 export default QuestsRoute
-

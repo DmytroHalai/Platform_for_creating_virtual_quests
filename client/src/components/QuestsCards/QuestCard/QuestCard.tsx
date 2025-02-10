@@ -32,4 +32,3 @@ const QuestCard: React.FC<QuestCardProps> = ({ image, title, description, rating
 }
 
 export default QuestCard
-

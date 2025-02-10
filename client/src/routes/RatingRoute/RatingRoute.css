@@ -1,0 +1,137 @@
+.rating-page {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.rating-page__title {
+    color: var(--whiteBlue);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.rating-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* User Rating Card Styles */
+.user-rating-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.user-rating-card:hover {
+    transform: translateY(-4px);
+}
+
+.user-rating-card__avatar-container {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.user-rating-card__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-rating-card__info {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-rating-card__username {
+    color: var(--whiteBlue);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.user-rating-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--whiteBlue);
+    font-size: 0.875rem;
+}
+
+.user-rating-card__rating svg {
+    color: var(--lightBlue);
+    margin-left: 0.25rem;
+}
+
+/* Pagination Styles */
+.rating-page__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-current {
+    color: var(--whiteBlue);
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+@media (max-width: 1200px) {
+    .rating-page__grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .rating-page {
+        padding: 1rem 0;
+    }
+
+    .rating-page__title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .rating-page__grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .user-rating-card__info {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+

@@ -1,6 +1,6 @@
 import type React from "react"
 import { FaPalette, FaFlask, FaLeaf, FaBuilding } from "react-icons/fa"
-import "./Sidebar.css"
+import "./CategorySideBar.css"
 import { JSX } from 'react';
 
 interface Category {
@@ -21,7 +21,7 @@ interface SidebarProps {
   selectedCategory?: string
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCategory }) => {
+const CategorySideBar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCategory }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar__search">
@@ -43,5 +43,4 @@ const Sidebar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCategory })
   )
 }
 
-export default Sidebar
-
+export default CategorySideBar

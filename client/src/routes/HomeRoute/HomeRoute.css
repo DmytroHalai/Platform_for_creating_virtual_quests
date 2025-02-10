@@ -12,9 +12,14 @@
   gap: 0.5rem;
 }
 
-.discover__content-title {
-  
+.discover{
+  background-color: var(--darkBlue);
 }
+
+.explore{
+  background-color: var(--darkBlue);
+}
+
 
 .discover__content-desc{
   font-size: 1.175rem;

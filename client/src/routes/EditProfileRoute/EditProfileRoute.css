@@ -1,0 +1,148 @@
+.edit-profile {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.edit-profile__container {
+    display: flex;
+    gap: 2rem;
+}
+
+.edit-profile__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-profile__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.edit-profile__avatar-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.edit-profile__avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.edit-profile__avatar-edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--lightBlue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile__avatar-edit:hover {
+    background: var(--lightBlueHov);
+}
+
+.edit-profile__avatar-input {
+    display: none;
+}
+
+.edit-profile__fields {
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--whiteBlue);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--lightBlue);
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-size: 1rem;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--whiteBlue);
+    cursor: pointer;
+    padding: 0;
+}
+
+.save-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.save-button:hover {
+    background: var(--lightBlueHov);
+}
+
+@media (max-width: 768px) {
+    .edit-profile__container {
+        flex-direction: column;
+    }
+
+    .edit-profile__avatar-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    .edit-profile__fields {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-profile {
+        padding: 1rem 0;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+}
+
