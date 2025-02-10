@@ -17,6 +17,7 @@ import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
 
+
 @Controller('quests')
 export class QuestsController {
   constructor(
@@ -34,6 +35,7 @@ export class QuestsController {
   async create(
     @Body() createQuestDto: CreateQuestDto,
     @GetUser() id: IUser,
+    @Response() res,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
     const photoFiles =
@@ -63,7 +65,7 @@ export class QuestsController {
       sortedMedia,
     );
 
-    return { quest };
+    return res.send({ quest });
   }
 
   @Get('count')
@@ -78,19 +80,9 @@ export class QuestsController {
     return res.send({ quests });
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
-  //   return this.questsService.update(+id, updateQuestDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.questsService.remove(+id);
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Get('all')
-  // findAll(@GetUser() id: IUser) {
-  //   return this.questsService.findAllByAuthor(+id);
-  // }
+  @Get(':id')
+  async findQuest(@Param('id') id: string, @Response() res) {
+    const quest = await this.questsService.findById(+id);
+    return res.send({ quest });
+  }
 }
