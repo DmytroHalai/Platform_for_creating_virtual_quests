@@ -7,12 +7,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CookieModule } from 'src/cookie/cookie.module';
 import { EmailModule } from 'src/email/email.module';
+import { UploadModule } from 'src/upload/upload.module';
+import { FileUploadModule } from 'src/file-upload/file-upload.module';
 
 @Module({
   imports: [
     DatabaseModule,
     CookieModule,
     EmailModule,
+    UploadModule,
+    FileUploadModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
       signOptions: { expiresIn: process.env.JWT_TOKEN_LIFE_TIME },

@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Param,
   UseGuards,
   Response,
   UseInterceptors,
@@ -18,6 +19,7 @@ import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
 import { extractFiles, sortMediaFiles } from 'src/utils/files/file-utils';
+
 
 @Controller('quests')
 export class QuestsController {

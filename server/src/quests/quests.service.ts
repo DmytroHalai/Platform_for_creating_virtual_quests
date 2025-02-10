@@ -32,18 +32,6 @@ export class QuestsService {
     return quest;
   }
 
-  async updateProgress(userId: number, questId: number, progress: number) {
-    const quest = await this.questsRepository.findOne({
-      where: { quest_id: questId },
-    });
-    if (!quest) throw new Error('Квест не найден');
-
-    if (progress >= 100) {
-    }
-
-    await this.questsRepository.save(quest);
-  }
-
   async findAllByAuthor(id: number) {
     return await this.questsRepository.find({
       where: { author: { user_id: id } },
