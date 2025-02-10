@@ -9,6 +9,7 @@ import { taskProviders } from 'src/tasks/tasks.providers';
 import { TasksModule } from 'src/tasks/tasks.module';
 import { UploadModule } from 'src/upload/upload.module';
 import { AnswersModule } from 'src/answers/answers.module';
+import { FileUploadModule } from 'src/file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AnswersModule } from 'src/answers/answers.module';
     TasksModule,
     UploadModule,
     AnswersModule,
+    FileUploadModule,
   ],
   controllers: [QuestsController],
   providers: [

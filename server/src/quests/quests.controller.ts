@@ -3,9 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UseGuards,
   Response,
   UseInterceptors,
@@ -19,14 +17,12 @@ import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
-import { AnswersService } from './../answers/answers.service';
 
 @Controller('quests')
 export class QuestsController {
   constructor(
     private readonly questsService: QuestsService,
     private readonly tasksService: TasksService,
-    private readonly answersService: AnswersService,
   ) {}
 
   @Post('create')

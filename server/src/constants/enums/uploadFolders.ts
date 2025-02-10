@@ -3,4 +3,6 @@ export const FOLDERS = {
   quests: 'quests',
   tasks: 'tasks',
   other: 'other',
+  media:"quests",
+  photos: ""
 };

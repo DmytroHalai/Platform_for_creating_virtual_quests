@@ -22,8 +22,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CookieService } from 'src/cookie/cookie.service';
 import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadService } from 'src/upload/upload.service';
+
 import { FileSizeValidationPipe } from 'src/common/pipes/file-size-validation.pipe';
 import { FileUploadService } from 'src/file-upload/file-upload.service';
 import { UploadFile } from 'src/common/decorators/file-upload.decorator';
@@ -33,7 +32,6 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly cookieService: CookieService,
-    private readonly uploadService: UploadService,
     private readonly fileUploadService: FileUploadService,
   ) {}
 
@@ -81,10 +79,11 @@ export class UsersController {
     @GetUser() id: IUser,
     @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
     @Query('type') type: string,
+    @Response() res,
   ) {
     const filePath = await this.fileUploadService.saveFile(file, type);
     await this.usersService.update(+id, { avatar: filePath });
-    return { message: 'Файл загружен', path: filePath };
+    return res.send({ message: 'File upload' });
   }
 
   @Get('rating')
