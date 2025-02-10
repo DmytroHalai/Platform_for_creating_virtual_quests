@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from 'react-router-dom';
 import { FaStar } from "react-icons/fa";
 import "./QuestItemRoute.css";
 import Comment from "../../components/Comment/Comment";
@@ -69,9 +69,12 @@ const QuestItemRoute: React.FC = () => {
               </span>
             </div>
 
-            <p className="quest-details__description">{quest.description}</p>
-
-            <button className="quest-details__start-btn">START PASSING</button>
+            <p className="quest-details__description">
+              {quest.description.length > 600 ? quest.description.slice(0, 600) + "..." : quest.description}
+            </p>
+            <Link to={'/progress/:userQuestId'}>
+              <button className="quest-details__start-btn">START PASSING</button>
+            </Link>
           </div>
         </div>
 

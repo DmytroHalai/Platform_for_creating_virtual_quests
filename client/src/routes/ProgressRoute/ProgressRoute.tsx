@@ -192,7 +192,9 @@ const ProgressRoute: React.FC = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
 export default ProgressRoute;
+

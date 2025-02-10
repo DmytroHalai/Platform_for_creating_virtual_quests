@@ -1,0 +1,340 @@
+.user-quest {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.user-quest__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 2rem;
+}
+
+.user-quest__section-title {
+    color: var(--whiteBlue);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.user-quest__timer {
+    color: var(--whiteBlue);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.user-quest__main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.user-quest__quest-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.user-quest__image-container,
+.task__image-container {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.user-quest__image,
+.task__image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.user-quest__details {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.user-quest__title {
+    color: var(--whiteBlue);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.user-quest__meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-quest__time,
+.user-quest__category {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: var(--whiteBlue);
+    font-size: 0.875rem;
+}
+
+.user-quest__description {
+    color: var(--whiteBlue);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.user-quest__task-nav {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.task-nav__button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task-nav__button.active {
+    background: var(--lightBlue);
+    color: var(--darkBlue);
+}
+
+.task-nav__button.answered {
+    background: var(--primary);
+    color: white;
+}
+
+.task-nav__button.answered.active {
+    background: var(--lightBlue);
+    color: var(--darkBlue);
+    border: 2px solid var(--primary);
+}
+
+.user-quest__task {
+    margin-bottom: 2rem;
+}
+
+.task__content {
+    margin-top: 1rem;
+}
+
+.task__image-hint {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    color: var(--whiteBlue);
+    font-size: 0.875rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.task__question {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-size: 1.125rem;
+}
+
+.answers__grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.answer-button {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.answer-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.answer-button.selected {
+    background: var(--lightBlue);
+    color: var(--darkBlue);
+}
+
+.answer-button.correct {
+    background: #4caf50;
+    color: white;
+}
+
+.answer-button.incorrect {
+    background: #f44336;
+    color: white;
+}
+
+.text-answer__input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.user-quest__finish-btn {
+    display: block;
+    margin-left: auto;
+    margin-top: 2rem;
+    padding: 0.75rem 2rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-quest__finish-btn:hover {
+    background: var(--lightBlueHov);
+}
+
+.user-quest__next-btn {
+    display: block;
+    margin-left: auto;
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-quest__next-btn:hover {
+    background: var(--lightBlueHov);
+}
+
+.user-quest__submit-btn {
+    display: block;
+    margin-left: auto;
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-quest__submit-btn:hover {
+    background: var(--lightBlueHov);
+}
+
+.user-quest__submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.enlarged-image__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.enlarged-image__container {
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.enlarged-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.clickable {
+    cursor: crosshair !important;
+}
+
+.click-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+    .user-quest__quest-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-quest {
+        padding: 1rem 0;
+    }
+
+    .user-quest__header {
+        padding: 0 1rem;
+    }
+
+    .user-quest__main {
+        padding: 0 1rem;
+    }
+
+    .user-quest__section-title {
+        font-size: 1.25rem;
+    }
+
+    .user-quest__timer {
+        font-size: 1.5rem;
+    }
+
+    .user-quest__title {
+        font-size: 1.25rem;
+    }
+
+    .user-quest__meta {
+        flex-direction: column;
+    }
+
+    .task-nav__button {
+        width: 32px;
+        height: 32px;
+    }
+}
+

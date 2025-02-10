@@ -78,6 +78,7 @@ const QuestsRoute: React.FC = () => {
     }
   }
 
+
   return (
     <div className="quests-page">
       <main className="quests-page__main">
