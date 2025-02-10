@@ -103,6 +103,10 @@ let router = createBrowserRouter([
         path: 'rating/:authorId',
         element: <AuthorRoute />,
       },
+      {
+        path: 'aboutUs',
+        element: <AboutUsRoute />,
+      },
     ],
   },
 ]);
