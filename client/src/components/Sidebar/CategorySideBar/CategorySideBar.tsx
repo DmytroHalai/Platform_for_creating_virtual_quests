@@ -1,7 +1,6 @@
 import type React from "react"
-import { FaPalette, FaFlask, FaLeaf, FaBuilding } from "react-icons/fa"
+import { FaPalette, FaFlask, FaLeaf, FaBuilding, FaHome } from "react-icons/fa"
 import "./CategorySideBar.css"
-import { JSX } from 'react';
 
 interface Category {
   id: string
@@ -10,6 +9,7 @@ interface Category {
 }
 
 const categories: Category[] = [
+  { id: "all", name: "ALL", icon: FaHome },
   { id: "art", name: "ART", icon: FaPalette },
   { id: "science", name: "SCIENCE", icon: FaFlask },
   { id: "nature", name: "NATURE", icon: FaLeaf },
@@ -25,6 +25,7 @@ const CategorySideBar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCat
   return (
     <aside className="sidebar">
       <nav className="sidebar__categories">
+        
         {categories.map((category) => (
           <button
             key={category.id}

@@ -1,6 +1,6 @@
 import { type JSX, useState } from "react"
 import { Link } from "react-router-dom"
-import { Eye, EyeOff } from "lucide-react"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 import "./RegisterRoute.css"
 
 function RegisterRoute(): JSX.Element {
@@ -35,7 +35,7 @@ function RegisterRoute(): JSX.Element {
                   required
                 />
                 <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Eye /> : <EyeOff />}
+                  {showPassword ? <FiEye /> : <FiEyeOff />}
                 </button>
               </div>
             </div>
@@ -53,7 +53,7 @@ function RegisterRoute(): JSX.Element {
                   className="password-toggle"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <Eye /> : <EyeOff />}
+                  {showConfirmPassword ? <FiEye /> : <FiEyeOff />}
                 </button>
               </div>
             </div>
