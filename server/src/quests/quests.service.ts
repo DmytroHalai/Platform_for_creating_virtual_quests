@@ -6,6 +6,7 @@ import { REPOSITORY } from 'src/constants/enums/repositories';
 import { Quest } from './entities/quest.entity';
 import { UsersService } from 'src/users/users.service';
 import { uploadQuestsPath } from 'src/constants/filePath/upload';
+import { PATH } from 'src/constants/enums/filePath';
 
 @Injectable()
 export class QuestsService {
@@ -25,7 +26,7 @@ export class QuestsService {
 
     const quest = this.questsRepository.create({
       ...createQuestDto,
-      photo: photo ? `${uploadQuestsPath}/${photo.filename}` : undefined,
+      photo: photo ? `${PATH.DB_QUEST}/${photo.filename}` : undefined,
       author: { user_id: userId },
     });
     await this.questsRepository.save(quest);
@@ -81,5 +82,14 @@ export class QuestsService {
       },
       relations: ['ratings'],
     });
+  }
+
+  async findById(id: number) {
+    const quest = await this.questsRepository.find({
+      where: { quest_id: id },
+      relations: ['tasks.answers'],
+    });
+
+    return quest;
   }
 }
