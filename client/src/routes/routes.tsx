@@ -16,7 +16,7 @@ import QuestsRoute from './QuestsRoute/QuestsRoute.tsx';
 import QuestItemRoute from './QuestItemRoute/QuestItemRoute.tsx';
 import CreateQuestRoute from './CreateQuestRoute/CreateQuestRoute.tsx';
 import ProgressRoute from './ProgressRoute/ProgressRoute.tsx';
-import UserQuestItemRoute from './UserQuestItemRoute.tsx';
+import UserQuestItemRoute from './UserQuestItemRoute/UserQuestItemRoute.tsx';
 import TaskItemRoute from './TaskItemRoute.tsx';
 import RatingRoute from './RatingRoute/RatingRoute.tsx';
 import AuthorRoute from './AuthorRoute.tsx';

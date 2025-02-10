@@ -178,4 +178,3 @@ const ProgressRoute: React.FC = () => {
 }
 
 export default ProgressRoute
-

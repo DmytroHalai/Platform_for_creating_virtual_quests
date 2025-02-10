@@ -13,7 +13,7 @@ export const mockQuests = Array(9)
     id: index + 1,
     image: `https://picsum.photos/800/600?random=${index}`,
     title: "TOP ARCHITECTURE BUILDINGS",
-    description: "THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFUL...",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     rating: 5,
     category: "art",
     time: 20
@@ -22,7 +22,6 @@ export const mockQuests = Array(9)
 // Mock data - replace with API call
 
 const QuestsRoute: React.FC = () => {
-  const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
 
