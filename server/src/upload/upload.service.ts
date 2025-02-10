@@ -2,17 +2,15 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import {
-  uploadQuestsPath,
-  uploadTasksPath,
-} from 'src/constants/filePath/upload';
+import { PATH } from 'src/constants/enums/filePath';
+
 import { v4 as uuidv4 } from 'uuid';
 
-if (!fs.existsSync(uploadQuestsPath)) {
-  fs.mkdirSync(uploadQuestsPath, { recursive: true });
+if (!fs.existsSync(PATH.UPLOAD_QUEST)) {
+  fs.mkdirSync(PATH.UPLOAD_QUEST, { recursive: true });
 }
-if (!fs.existsSync(uploadTasksPath)) {
-  fs.mkdirSync(uploadTasksPath, { recursive: true });
+if (!fs.existsSync(PATH.UPLOAD_TASK)) {
+  fs.mkdirSync(PATH.UPLOAD_TASK, { recursive: true });
 }
 
 @Injectable()
@@ -21,11 +19,11 @@ export class UploadService {
     return diskStorage({
       destination: (req, file, callback) => {
         if (file.fieldname === 'photo') {
-          callback(null, uploadQuestsPath);
+          callback(null, PATH.UPLOAD_QUEST);
         } else if (file.fieldname.startsWith('media[')) {
-          callback(null, uploadTasksPath);
+          callback(null, PATH.UPLOAD_TASK);
         } else {
-          callback(new Error('Invalid file type'), uploadTasksPath);
+          callback(new Error('Invalid file type'), PATH.UPLOAD_TASK);
         }
       },
       filename: (req, file, callback) => {
