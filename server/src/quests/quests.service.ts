@@ -1,11 +1,9 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuestDto } from './dto/create-quest.dto';
-import { UpdateQuestDto } from './dto/update-quest.dto';
 import { Repository } from 'typeorm';
 import { REPOSITORY } from 'src/constants/enums/repositories';
 import { Quest } from './entities/quest.entity';
 import { UsersService } from 'src/users/users.service';
-import { uploadQuestsPath } from 'src/constants/filePath/upload';
 import { PATH } from 'src/constants/enums/filePath';
 
 @Injectable()
@@ -33,22 +31,6 @@ export class QuestsService {
 
     return quest;
   }
-
-  // findAll() {
-  //   return `This action returns all quests`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} quest`;
-  // }
-
-  // update(id: number, updateQuestDto: UpdateQuestDto) {
-  //   return `This action updates a #${id} quest`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} quest`;
-  // }
 
   async updateProgress(userId: number, questId: number, progress: number) {
     const quest = await this.questsRepository.findOne({

@@ -5,7 +5,6 @@ import { REPOSITORY } from 'src/constants/enums/repositories';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { AnswersService } from 'src/answers/answers.service';
-import { uploadTasksPath } from 'src/constants/filePath/upload';
 import { PATH } from 'src/constants/enums/filePath';
 
 @Injectable()
@@ -47,21 +46,5 @@ export class TasksService {
     );
 
     return tasks;
-  }
-
-  findAll() {
-    return `This action returns all tasks`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
-  }
-
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} task`;
   }
 }

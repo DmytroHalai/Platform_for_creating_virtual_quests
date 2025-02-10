@@ -14,14 +14,12 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
 import { CreateQuestDto } from './dto/create-quest.dto';
-import { UpdateQuestDto } from './dto/update-quest.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
 import { AnswersService } from './../answers/answers.service';
-import { uploadQuestsPath } from 'src/constants/filePath/upload';
 
 @Controller('quests')
 export class QuestsController {
@@ -59,11 +57,6 @@ export class QuestsController {
       photoFiles.length > 0 ? photoFiles[0] : undefined,
     );
 
-    // if (photoFiles && photoFiles[0]) {
-    //   quest.photo = `${uploadQuestsPath}/${photoFiles[0].filename}`;
-    //   this.questsService.update(quest.quest_id, { photo: quest.photo });
-    // }
-
     const sortedMedia = mediaFiles.sort((a, b) => {
       const indexA = a.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
       const indexB = b.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
@@ -94,24 +87,6 @@ export class QuestsController {
   @Get(':id')
   async findQuest(@Param('id') id: string, @Response() res) {
     const quest = await this.questsService.findById(+id);
-    //console.log(quest);
-
     return res.send({ quest });
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto) {
-  //   return this.questsService.update(+id, updateQuestDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.questsService.remove(+id);
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Get('all')
-  // findAll(@GetUser() id: IUser) {
-  //   return this.questsService.findAllByAuthor(+id);
-  // }
 }

@@ -14,7 +14,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
-  
+
   app.enableCors({
     origin: 'http://localhost:5173',
     methods: 'GET, POST, PUT, DELETE, PATCH',

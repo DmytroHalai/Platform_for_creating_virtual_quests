@@ -33,12 +33,6 @@ export class UsersController {
     return { message: 'Logged in successfully' };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
   @Post('confirm')
   async confirmEmail(@Query('token') token: string, @Response() res) {
     const message = await this.usersService.confirmEmail(token);
@@ -81,19 +75,4 @@ export class UsersController {
     const user = await this.usersService.findByName(username);
     return res.send({ user });
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOneByEmail(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
 }

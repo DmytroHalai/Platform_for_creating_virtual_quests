@@ -80,9 +80,6 @@ export class UsersService {
     return user;
   }
 
-  async findAll() {
-    return `This action returns all users`;
-  }
   async findById(userId: number) {
     return this.userRepository.findOneBy({ user_id: userId });
   }
@@ -130,8 +127,4 @@ export class UsersService {
     const userProfile = await this.findProfile(+user.user_id);
     return userProfile;
   }
-
-  // async remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }
