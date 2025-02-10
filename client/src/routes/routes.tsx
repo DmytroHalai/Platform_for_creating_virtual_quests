@@ -6,21 +6,22 @@ import ErrorRoute from './ErrorRoute/ErrorRoute.tsx';
 import HomeRoute from './HomeRoute/HomeRoute.tsx';
 import LoginRoute from './LoginRoute/LoginRoute.tsx';
 import RegisterRoute from './RegisterRoute/RegisterRoute.tsx';
-import ProfileRoute from './ProfileRoute.tsx';
-import ProfileLayout from './ProfileLayout.tsx';
-import UserQuestsRoute from './UserQuestsRoute.tsx';
-import ActiveQuestsRoute from './ActiveQuestsRoute.tsx';
-import CompletedQuestsRoute from './CompletedQuestsRoute.tsx';
-import EditProfileRoute from './EditProfileRoute.tsx';
+import ProfileRoute from './ProfileRoute/ProfileRoute.tsx';
+import ProfileLayout from './ProfileLayout/ProfileLayout.tsx';
+import UserQuestsRoute from './UserQuestsRoute/UserQuestsRoute.tsx';
+import ActiveQuestsRoute from './ActiveQuestsRoute/ActiveQuestsRoute.tsx';
+import CompletedQuestsRoute from './CompletedQuestsRoute/CompletedQuestsRoute.tsx';
+import EditProfileRoute from './EditProfileRoute/EditProfileRoute.tsx';
 import QuestsRoute from './QuestsRoute/QuestsRoute.tsx';
 import QuestItemRoute from './QuestItemRoute/QuestItemRoute.tsx';
 import CreateQuestRoute from './CreateQuestRoute/CreateQuestRoute.tsx';
-import ProgressRoute from './ProgressRoute.tsx';
+import ProgressRoute from './ProgressRoute/ProgressRoute.tsx';
 import UserQuestItemRoute from './UserQuestItemRoute.tsx';
 import TaskItemRoute from './TaskItemRoute.tsx';
-import RatingRoute from './RatingRoute.tsx';
+import RatingRoute from './RatingRoute/RatingRoute.tsx';
 import AuthorRoute from './AuthorRoute.tsx';
 import { JSX} from 'react';
+import QuestRatingRoute from './QuestRatingRoute/QuestRatingRoute.tsx';
 
 let router = createBrowserRouter([
   {
@@ -75,7 +76,11 @@ let router = createBrowserRouter([
         element: <QuestItemRoute />,
       },
       {
-        path: 'quests/create-quest',
+        path: 'quests/:questId/rate',
+        element: <QuestRatingRoute />,
+      },
+      {
+        path: 'quests/createQuest',
         element: <CreateQuestRoute />,
       },
       {

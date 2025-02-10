@@ -21,7 +21,7 @@ interface Answer {
 
 export default function CreateQuestRoute() {
   const dispatch = useAppDispatch()
-  const { loading, error } = useAppSelector((state) => state.quests)
+  //const { loading, error } = useAppSelector((state) => state.quests)
 
   const [title, setTitle] = useState("")
   const [time, setTime] = useState("")
@@ -56,12 +56,12 @@ export default function CreateQuestRoute() {
       answers,
     }
 
-    try {
-      await dispatch(createQuest(questData)).unwrap()
-      // Reset form or redirect after successful creation
-    } catch (err) {
-      console.error("Failed to create quest:", err)
-    }
+    // try {
+    //   await dispatch(createQuest(questData)).unwrap()
+    //   // Reset form or redirect after successful creation
+    // } catch (err) {
+    //   console.error("Failed to create quest:", err)
+    // }
   }
 
   const addTask = () => {

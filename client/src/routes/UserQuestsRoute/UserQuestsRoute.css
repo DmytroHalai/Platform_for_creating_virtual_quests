@@ -1,0 +1,119 @@
+.my-quests {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.my-quests__container {
+    display: flex;
+    gap: 2rem;
+}
+
+.my-quests__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.my-quests__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.my-quests__title {
+    color: var(--whiteBlue);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.create-quest-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-quest-btn:hover {
+    background: var(--lightBlueHov);
+}
+
+.my-quests__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.my-quests__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-current {
+    color: var(--whiteBlue);
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .my-quests__container {
+        flex-direction: column;
+    }
+
+    .my-quests__header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .my-quests__title {
+        font-size: 1.5rem;
+    }
+
+    .create-quest-btn {
+        width: 100%;
+    }
+
+    .my-quests__grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .my-quests {
+        padding: 1rem 0;
+    }
+}
+
