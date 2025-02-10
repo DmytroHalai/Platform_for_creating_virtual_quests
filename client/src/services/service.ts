@@ -1,5 +1,5 @@
 const service = {
-  getData: async <T>(api: string, id?: number): Promise<T> => {
+  get: async <T>(api: string, id?: number): Promise<T> => {
     const res: Response = await fetch(`${api}${id ? `/${id}` : ''}`);
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -7,7 +7,7 @@ const service = {
     return await res.json();
   },
 
-  postData: async <T>(api: string, data: Omit<T, 'id'>): Promise<T> => {
+  post: async <T>(api: string, data: Omit<T, 'id'>): Promise<T> => {
     const res: Response = await fetch(`${api}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +19,7 @@ const service = {
     return await res.json();
   },
 
-  putData: async <T>(api: string, data: Partial<T>, id: number): Promise<T> => {
+  put: async <T>(api: string, data: Partial<T>, id: number): Promise<T> => {
     const res: Response = await fetch(`${api}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -31,7 +31,7 @@ const service = {
     return await res.json();
   },
 
-  deleteData: async <T>(api: string, id: number): Promise<T> => {
+  delete: async <T>(api: string, id: number): Promise<T> => {
     const res: Response = await fetch(`${api}/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },

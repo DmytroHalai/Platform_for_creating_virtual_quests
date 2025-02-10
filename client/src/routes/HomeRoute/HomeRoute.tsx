@@ -61,7 +61,7 @@ function HomeRoute(): JSX.Element {
               Create, play, rate – be part of exciting quests!
             </p>
             <NavigateBtn
-              path={!auth ? `/register` : `/quests`}
+              path={!auth ? `/login` : `/quests`}
               title={!auth ? `Join Now` : `Go to Quests`}
               className="discover__content-link"
             />

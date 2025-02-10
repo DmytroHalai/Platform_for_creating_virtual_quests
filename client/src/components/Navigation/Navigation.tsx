@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 import { NavLink, NavLinkRenderProps } from 'react-router-dom';
-import { IClass } from '../../types/IComponents';
+import { IClass } from '../../types/components';
 import './Navigation.css';
 
 interface MenuItem {
@@ -47,7 +47,7 @@ const menuUser: MenuItem[] = [
 ];
 
 function Navigation({ className }: IClass): JSX.Element {
-  const authorized = true; ///
+  const authorized = true; /// redux
   const menu: MenuItem[] = authorized ? menuUser : menuGuest;
 
   const getClass = (value: NavLinkRenderProps): string => {
