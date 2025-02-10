@@ -7,6 +7,7 @@ import {
   Response,
   UseInterceptors,
   UploadedFiles,
+  Param,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
@@ -16,7 +17,7 @@ import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
-
+import { extractFiles, sortMediaFiles } from 'src/utils/files/file-utils';
 
 @Controller('quests')
 export class QuestsController {
@@ -38,10 +39,7 @@ export class QuestsController {
     @Response() res,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    const photoFiles =
-      files?.filter((file) => file.fieldname === 'photo') || [];
-    const mediaFiles =
-      files?.filter((file) => file.fieldname.startsWith('media')) || [];
+    const { photoFiles, mediaFiles } = extractFiles(files);
 
     if (typeof createQuestDto.tasks === 'string') {
       createQuestDto.tasks = JSON.parse(createQuestDto.tasks);
@@ -53,11 +51,7 @@ export class QuestsController {
       photoFiles.length > 0 ? photoFiles[0] : undefined,
     );
 
-    const sortedMedia = mediaFiles.sort((a, b) => {
-      const indexA = a.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
-      const indexB = b.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
-      return Number(indexA) - Number(indexB);
-    });
+    const sortedMedia = sortMediaFiles(mediaFiles);
 
     await this.tasksService.create(
       createQuestDto.tasks,

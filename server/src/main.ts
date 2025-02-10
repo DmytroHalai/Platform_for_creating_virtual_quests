@@ -31,3 +31,28 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+// import { io } from 'socket.io-client';
+
+// const socket = io('http://localhost:4000');
+
+// // При начале квеста:
+// socket.emit('startQuest', { userId: 13, questId: 61 });
+
+// // Подписка на обновления:
+// socket.on('questStarted', (data) => {
+//   console.log('Квест начат', data);
+// });
+// socket.on('timerUpdate', (data) => {
+//   console.log('Осталось времени:', data.remaining);
+// });
+// socket.on('timeUp', (data) => {
+//   console.log('Время истекло для квеста:', data.questId);
+// });
+// socket.on('progressUpdate', (data) => {
+//   console.log('Обновление прогресса:', data);
+// });
+// socket.on('Error', (data) => {
+//   console.log('Error:', data);
+// });
+
