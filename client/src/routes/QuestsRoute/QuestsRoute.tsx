@@ -92,7 +92,7 @@ const QuestsRoute: React.FC = () => {
               <h1 className="quests-page__title">Quests</h1>
               <NavigateBtn
                 title="Create Quest"
-                path="/create-quest"
+                path="createQuest"
                 className="quests-page__create-btn"
               />
             </div>

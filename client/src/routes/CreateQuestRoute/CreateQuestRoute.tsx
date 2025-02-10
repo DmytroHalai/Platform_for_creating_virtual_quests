@@ -2,8 +2,6 @@
 
 import React, { useState } from "react"
 import { FiUpload, FiPlus, FiCheck, FiX } from "react-icons/fi"
-import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { createQuest } from "../../store/questSlice"
 import "./CreateQuestRoute.css"
 
 interface Task {
@@ -20,7 +18,7 @@ interface Answer {
 }
 
 export default function CreateQuestRoute() {
-  const dispatch = useAppDispatch()
+  //const dispatch = useAppDispatch()
   //const { loading, error } = useAppSelector((state) => state.quests)
 
   const [title, setTitle] = useState("")
