@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -28,13 +26,6 @@ const QuestsRoute: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [currentPage, setCurrentPage] = useState(1)
 
-
-
-
-
-
-
-
   return (
     <div className="quests-page">
       <main className="quests-page__main">
@@ -47,7 +38,7 @@ const QuestsRoute: React.FC = () => {
             </div>
             <div className="quests-page__grid">
               {mockQuests.map((quest) => (
-                <QuestCard key={quest.id} {...quest} onClick={() => navigate(`/quests/${quest.id}`)} />
+                <QuestCard key={quest.id} {...quest} path={`${quest.id}`} />
               ))}
             </div>
             <div className="quests-page__pagination">

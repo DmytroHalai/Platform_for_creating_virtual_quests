@@ -24,9 +24,6 @@ interface SidebarProps {
 const CategorySideBar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCategory }) => {
   return (
     <aside className="sidebar">
-      <div className="sidebar__search">
-        <input type="text" placeholder="SEARCH FOR CATEGORIES" className="sidebar__search-input" />
-      </div>
       <nav className="sidebar__categories">
         {categories.map((category) => (
           <button

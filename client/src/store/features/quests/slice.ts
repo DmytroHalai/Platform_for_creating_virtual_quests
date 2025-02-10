@@ -27,7 +27,7 @@ export const slice = createSlice({
   reducers: {
     createQuest: (state, action: PayloadAction<number>) => {},
   },
-  extraReducers: (builder) => {
+  extraReducers: (builder) => {-
     builder
       .addCase(fetchQuests.pending, (state) => {
         state.isLoading = true;
@@ -36,7 +36,7 @@ export const slice = createSlice({
         state.isLoading = false;
         state.error = null;
 
-        
+
       })
       .addCase(fetchQuests.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;

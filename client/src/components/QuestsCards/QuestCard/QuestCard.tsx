@@ -1,21 +1,29 @@
-import type React from "react"
-import { FaStar } from "react-icons/fa"
-import "./QuestCard.css"
+import type React from 'react';
+import { FiStar } from 'react-icons/fi';
+import {Link} from 'react-router-dom'
+import './QuestCard.css';
 
 interface QuestCardProps {
-  image: string
-  title: string
-  description: string
-  rating: number
-  maxRating?: number
-  onClick?: () => void
+  image: string;
+  title: string;
+  description: string;
+  rating: number;
+  maxRating?: number;
+  path: string;
 }
 
-const QuestCard: React.FC<QuestCardProps> = ({ image, title, description, rating, maxRating = 5, onClick }) => {
+const QuestCard: React.FC<QuestCardProps> = ({
+  image,
+  title,
+  description,
+  rating,
+  maxRating = 5,
+  path,
+}) => {
   return (
-    <div className="quest-card" onClick={onClick}>
+    <Link to={path} className="quest-card">
       <div className="quest-card__image">
-        <img src={image || "/placeholder.svg"} alt={title} />
+        <img src={image || '/placeholder.svg'} alt={title} />
       </div>
       <div className="quest-card__content">
         <h3 className="quest-card__title">{title}</h3>
@@ -24,11 +32,11 @@ const QuestCard: React.FC<QuestCardProps> = ({ image, title, description, rating
           <span>
             {rating}/{maxRating}
           </span>
-          <FaStar className="quest-card__rating-star" />
+          <FiStar className="quest-card__rating-star" />
         </div>
       </div>
-    </div>
-  )
-}
+    </Link>
+  );
+};
 
-export default QuestCard
+export default QuestCard;

@@ -2,7 +2,6 @@ import type React from "react"
 import { useNavigate } from "react-router-dom"
 import { FaUser, FaEdit, FaScroll, FaClipboardList, FaCheckSquare, FaSignOutAlt } from "react-icons/fa"
 import "./ProfileSidebar.css"
-import { JSX } from 'react';
 
 interface MenuItem {
   id: string

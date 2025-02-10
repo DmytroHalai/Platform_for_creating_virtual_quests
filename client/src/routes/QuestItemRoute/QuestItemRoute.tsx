@@ -32,13 +32,13 @@ const comments = [
 ];
 
 const QuestItemRoute: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const quest = mockQuests.find((q) => q.id === Number(id));
-  console.log(quest.id);
+  const { questId } = useParams<string>();
+  const quest = mockQuests.find((q) => q.id === Number(questId));
+  console.log(quest)
 
-  if (!quest) {
-    return <div>Quest not found</div>;
-  }
+  // if (!quest) {
+  //   return <div>Quest not found</div>;
+  // }
 
   return (
     <div className="quest-details">
