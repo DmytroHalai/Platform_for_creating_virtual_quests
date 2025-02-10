@@ -13,6 +13,10 @@ if (!fs.existsSync(PATH.UPLOAD_TASK)) {
   fs.mkdirSync(PATH.UPLOAD_TASK, { recursive: true });
 }
 
+if (!fs.existsSync(PATH.UPLOAD_AVATAR)) {
+  fs.mkdirSync(PATH.UPLOAD_AVATAR, { recursive: true });
+}
+
 @Injectable()
 export class UploadService {
   getStorage() {
@@ -22,6 +26,8 @@ export class UploadService {
           callback(null, PATH.UPLOAD_QUEST);
         } else if (file.fieldname.startsWith('media[')) {
           callback(null, PATH.UPLOAD_TASK);
+        } else if (file.fieldname === 'avatar') {
+          callback(null, PATH.UPLOAD_AVATAR);
         } else {
           callback(new Error('Invalid file type'), PATH.UPLOAD_TASK);
         }
