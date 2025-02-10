@@ -21,7 +21,7 @@ export class Quest {
   title: string;
 
   @Column({ nullable: true })
-  photo: string;
+  photo: string | null;
 
   @Column('text')
   description: string;

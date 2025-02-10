@@ -5,6 +5,7 @@ import { REPOSITORY } from 'src/constants/enums/repositories';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { AnswersService } from 'src/answers/answers.service';
+import { uploadTasksPath } from 'src/constants/filePath/upload';
 
 @Injectable()
 export class TasksService {
@@ -22,7 +23,7 @@ export class TasksService {
     const tasks = await Promise.all(
       createTaskDtos.map(async (task, index) => {
         if (media && media[index]) {
-          task.media = `/uploads/tasks/${media[index].filename}`;
+          task.media = `${uploadTasksPath}/${media[index].filename}`;
         }
 
         const createdTask = this.tasksRepository.create({

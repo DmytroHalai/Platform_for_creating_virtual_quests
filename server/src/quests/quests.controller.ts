@@ -3,9 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   UseGuards,
   Response,
   UseInterceptors,
@@ -14,24 +11,20 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
 import { CreateQuestDto } from './dto/create-quest.dto';
-import { UpdateQuestDto } from './dto/update-quest.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
-import { AnswersService } from './../answers/answers.service';
-import { uploadQuestsPath } from 'src/constants/filePath/upload';
 
 @Controller('quests')
 export class QuestsController {
   constructor(
     private readonly questsService: QuestsService,
     private readonly tasksService: TasksService,
-    private readonly answersService: AnswersService,
   ) {}
 
-  @Post()
+  @Post('create')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     AnyFilesInterceptor({
@@ -41,12 +34,12 @@ export class QuestsController {
   async create(
     @Body() createQuestDto: CreateQuestDto,
     @GetUser() id: IUser,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    const photoFiles = files.filter((file) => file.fieldname === 'photo');
-    const mediaFiles = files.filter((file) =>
-      file.fieldname.startsWith('media'),
-    );
+    const photoFiles =
+      files?.filter((file) => file.fieldname === 'photo') || [];
+    const mediaFiles =
+      files?.filter((file) => file.fieldname.startsWith('media')) || [];
 
     if (typeof createQuestDto.tasks === 'string') {
       createQuestDto.tasks = JSON.parse(createQuestDto.tasks);
@@ -55,13 +48,8 @@ export class QuestsController {
     const quest = await this.questsService.create(
       createQuestDto,
       +id,
-      photoFiles && photoFiles[0] ? photoFiles[0] : undefined,
+      photoFiles.length > 0 ? photoFiles[0] : undefined,
     );
-
-    // if (photoFiles && photoFiles[0]) {
-    //   quest.photo = `${uploadQuestsPath}/${photoFiles[0].filename}`;
-    //   this.questsService.update(quest.quest_id, { photo: quest.photo });
-    // }
 
     const sortedMedia = mediaFiles.sort((a, b) => {
       const indexA = a.fieldname.match(/\[(\d+)\]/)?.[1] ?? '0';
