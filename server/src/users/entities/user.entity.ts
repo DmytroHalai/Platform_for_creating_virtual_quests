@@ -1,3 +1,4 @@
+import { Progress } from 'src/progress/entities/progress.entity';
 import { Quest } from 'src/quests/entities/quest.entity';
 import { Rating } from 'src/rating/entities/rating.entity';
 import {
@@ -46,6 +47,9 @@ export class User {
 
   @OneToMany(() => Rating, (rating) => rating.user)
   ratings: Rating[];
+
+  @OneToMany(() => Progress, (progress) => progress.user)
+  progress: Progress[];
 
   @CreateDateColumn()
   created_at: Date;

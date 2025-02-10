@@ -1,4 +1,5 @@
 import { QuestCategory } from 'src/constants/enums/questCategory';
+import { Progress } from 'src/progress/entities/progress.entity';
 import { Rating } from 'src/rating/entities/rating.entity';
 import { Task } from 'src/tasks/entities/task.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -20,7 +21,7 @@ export class Quest {
   @Column('text')
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   photo: string | null;
 
   @Column('text')
@@ -40,6 +41,9 @@ export class Quest {
 
   @OneToMany(() => Task, (task) => task.quest)
   tasks: Task[];
+
+  @OneToMany(() => Progress, (progress) => progress.quest)
+  progress: Progress[];
 
   @CreateDateColumn()
   created_at: Date;

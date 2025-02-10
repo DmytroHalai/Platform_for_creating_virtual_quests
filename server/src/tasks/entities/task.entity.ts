@@ -1,5 +1,6 @@
 import { Answer } from 'src/answers/entities/answer.entity';
 import { QuestionType } from 'src/constants/enums/questionType';
+import { Progress } from 'src/progress/entities/progress.entity';
 import { Quest } from 'src/quests/entities/quest.entity';
 import {
   Column,
@@ -30,6 +31,9 @@ export class Task {
 
   @OneToMany(() => Answer, (answer) => answer.task)
   answers: Answer[];
+
+  @OneToMany(() => Progress, (progress) => progress.task)
+  progress: Progress[];
 
   @CreateDateColumn()
   created_at: Date;
