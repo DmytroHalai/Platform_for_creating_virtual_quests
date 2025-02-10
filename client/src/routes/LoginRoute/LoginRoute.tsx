@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Eye, EyeOff, Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
+import { FiEye, FiEyeOff, FiFacebook, FiInstagram, FiLinkedin} from "react-icons/fi"
+import { FaXTwitter } from "react-icons/fa6"
 import "./LoginRoute.css"
 import {JSX} from 'react';
 
@@ -136,7 +137,7 @@ function LoginRoute(): JSX.Element {
                   required
                 />
                 <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Eye /> : <EyeOff />}
+                  {showPassword ? <FiEye /> : <FiEyeOff />}
                 </button>
               </div>
               {validationErrors.password && <span className="form__error">{validationErrors.password}</span>}
@@ -159,16 +160,16 @@ function LoginRoute(): JSX.Element {
               <p className="social-login__title">LOG IN VIA</p>
               <div className="social-login__buttons">
                 <button type="button" className="social-button" onClick={() => handleSocialLogin("instagram")}>
-                  <Instagram />
+                  <FiInstagram />
                 </button>
                 <button type="button" className="social-button" onClick={() => handleSocialLogin("twitter")}>
-                  <Twitter />
+                  <FaXTwitter />
                 </button>
                 <button type="button" className="social-button" onClick={() => handleSocialLogin("linkedin")}>
-                  <Linkedin />
+                  <FiLinkedin />
                 </button>
                 <button type="button" className="social-button" onClick={() => handleSocialLogin("facebook")}>
-                  <Facebook />
+                  <FiFacebook />
                 </button>
               </div>
             </div>

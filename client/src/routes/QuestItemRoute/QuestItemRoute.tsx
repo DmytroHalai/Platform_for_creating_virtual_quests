@@ -33,7 +33,7 @@ const comments = [
 
 const QuestItemRoute: React.FC = () => {
   const { questId } = useParams<string>();
-  const quest = mockQuests.find((q) => q.id === Number(questId));
+  const quest : any = mockQuests.find((q) => q.id === Number(questId));
   console.log(quest)
 
   // if (!quest) {
