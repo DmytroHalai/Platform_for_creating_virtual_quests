@@ -11,6 +11,9 @@ import {
   Response,
   Query,
   Put,
+  UploadedFiles,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,11 +23,16 @@ import { CookieService } from 'src/cookie/cookie.service';
 import { GetUser } from 'src/common/decorators/getUser';
 import { IUser } from 'src/constants/types/user/user';
 
+import { FileSizeValidationPipe } from 'src/common/pipes/file-size-validation.pipe';
+import { FileUploadService } from 'src/file-upload/file-upload.service';
+import { UploadFile } from 'src/common/decorators/file-upload.decorator';
+
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly cookieService: CookieService,
+    private readonly fileUploadService: FileUploadService,
   ) {}
 
   @Post('/registration')
@@ -54,7 +62,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch()
+  @Patch('edit')
   async update(
     @GetUser() id: IUser,
     @Body() updateUserDto: UpdateUserDto,
@@ -62,6 +70,20 @@ export class UsersController {
   ) {
     const update = await this.usersService.update(+id, updateUserDto);
     return res.send({ update });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload/avatar')
+  @UploadFile('file')
+  async uploadFile(
+    @GetUser() id: IUser,
+    @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
+    @Query('type') type: string,
+    @Response() res,
+  ) {
+    const filePath = await this.fileUploadService.saveFile(file, type);
+    await this.usersService.update(+id, { avatar: filePath });
+    return res.send({ message: 'File upload' });
   }
 
   @Get('rating')

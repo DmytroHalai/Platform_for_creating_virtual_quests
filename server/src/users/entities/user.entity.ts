@@ -29,6 +29,9 @@ export class User {
   @Column('text', { nullable: true })
   dateOfBirth: string;
 
+  @Column('text', { nullable: true })
+  avatar: string;
+
   @Column('text', { default: 'user' })
   role: string;
 
