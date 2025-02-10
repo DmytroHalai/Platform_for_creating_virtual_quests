@@ -31,7 +31,7 @@ export class QuestsController {
     private readonly answersService: AnswersService,
   ) {}
 
-  @Post()
+  @Post('create')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     AnyFilesInterceptor({
@@ -41,12 +41,13 @@ export class QuestsController {
   async create(
     @Body() createQuestDto: CreateQuestDto,
     @GetUser() id: IUser,
-    @UploadedFiles() files: Express.Multer.File[],
+    @Response() res,
+    @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    const photoFiles = files.filter((file) => file.fieldname === 'photo');
-    const mediaFiles = files.filter((file) =>
-      file.fieldname.startsWith('media'),
-    );
+    const photoFiles =
+      files?.filter((file) => file.fieldname === 'photo') || [];
+    const mediaFiles =
+      files?.filter((file) => file.fieldname.startsWith('media')) || [];
 
     if (typeof createQuestDto.tasks === 'string') {
       createQuestDto.tasks = JSON.parse(createQuestDto.tasks);
@@ -55,7 +56,7 @@ export class QuestsController {
     const quest = await this.questsService.create(
       createQuestDto,
       +id,
-      photoFiles && photoFiles[0] ? photoFiles[0] : undefined,
+      photoFiles.length > 0 ? photoFiles[0] : undefined,
     );
 
     // if (photoFiles && photoFiles[0]) {
@@ -75,7 +76,7 @@ export class QuestsController {
       sortedMedia,
     );
 
-    return { quest };
+    return res.send({ quest });
   }
 
   @Get('count')
@@ -88,6 +89,14 @@ export class QuestsController {
   async findAll(@Response() res) {
     const quests = await this.questsService.findAll();
     return res.send({ quests });
+  }
+
+  @Get(':id')
+  async findQuest(@Param('id') id: string, @Response() res) {
+    const quest = await this.questsService.findById(+id);
+    //console.log(quest);
+
+    return res.send({ quest });
   }
 
   // @Patch(':id')
