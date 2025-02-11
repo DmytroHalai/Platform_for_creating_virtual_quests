@@ -1,12 +1,13 @@
-import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
+import { PipeTransform, Injectable, BadRequestException } from "@nestjs/common";
+import { MAX_SIZE } from "src/constants/uploadsSize/size";
 
 @Injectable()
 export class FileSizeValidationPipe implements PipeTransform {
   transform(file: Express.Multer.File) {
-    const maxSize = 1000000;
+    const maxSize = MAX_SIZE;
     if (file.size > maxSize) {
       throw new BadRequestException(
-        `Размер файла должен быть меньше ${maxSize} байт`,
+        `File size must be less than ${maxSize} bytes`
       );
     }
     return file;

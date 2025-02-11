@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
-import { DATA_SOURCE } from 'src/constants/dataSource/dataSource';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { Answer } from './entities/answer.entity';
+import { DataSource } from "typeorm";
+import { DATA_SOURCE } from "src/constants/dataSource/dataSource";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { Answer } from "./entities/answer.entity";
 
 export const answerProviders = [
   {
