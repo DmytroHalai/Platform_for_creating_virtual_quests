@@ -12,8 +12,7 @@ export class ScheduleService {
 
   @Cron(SCHEDULE.DELETE_UNCONFIRMED_USERS)
   async deleteUnconfirmedUsers() {
-    const now = new Date();
-    const usersToDelete = await this.userRepository.findOverdue(now);
+    const usersToDelete = await this.userRepository.findOverdue();
     if (usersToDelete.length) {
       await this.userRepository.removeOverdue(usersToDelete);
       log(`Deleted ${usersToDelete.length} unconfirmed users.`);

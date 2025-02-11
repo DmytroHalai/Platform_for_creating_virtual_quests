@@ -32,8 +32,6 @@ export class CreateQuestDto {
   category: QuestCategory;
 
   @IsNotEmpty()
-  @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => CreateTaskDto)
   tasks: CreateTaskDto[];
 }
