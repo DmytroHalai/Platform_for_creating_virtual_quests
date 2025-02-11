@@ -1,23 +1,22 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { Progress } from './entities/progress.entity';
-import { Repository } from 'typeorm';
-import { ProgressStatus } from 'src/constants/enums/progressStatus';
-import { User } from 'src/users/entities/user.entity';
-import { Quest } from 'src/quests/entities/quest.entity';
-import { Task } from 'src/tasks/entities/task.entity';
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { Progress } from "./entities/progress.entity";
+import { Repository } from "typeorm";
+import { ProgressStatus } from "src/constants/enums/progressStatus";
+import { User } from "src/users/entities/user.entity";
+import { Quest } from "src/quests/entities/quest.entity";
 
 @Injectable()
 export class ProgressService {
   constructor(
     @Inject(REPOSITORY.PROGRESS)
-    private progressRepository: Repository<Progress>,
+    private progressRepository: Repository<Progress>
   ) {}
 
   async startQuest(
     userId: number,
     questId: number,
-    timeLimit: number,
+    timeLimit: number
   ): Promise<Progress> {
     let progress = await this.progressRepository.findOne({
       where: {
@@ -32,12 +31,10 @@ export class ProgressService {
         quest: { quest_id: questId } as Quest,
         status: ProgressStatus.STARTED,
         remainingTime: timeLimit,
-        task: null,
       });
     } else {
       progress.status = ProgressStatus.STARTED;
       progress.remainingTime = timeLimit;
-      progress.task = null;
     }
 
     return await this.progressRepository.save(progress);
@@ -46,9 +43,8 @@ export class ProgressService {
   async updateProgress(
     userId: number,
     questId: number,
-    taskId: number | null,
     remainingTime: number,
-    status?: ProgressStatus,
+    status?: ProgressStatus
   ): Promise<Progress> {
     const progress = await this.progressRepository.findOne({
       where: {
@@ -58,17 +54,38 @@ export class ProgressService {
     });
 
     if (!progress) {
-      throw new NotFoundException(
-        'Progress record not found. Start quest first.',
-      );
+      throw new Error("Progress not found");
     }
 
-    progress.task = taskId ? ({ task_id: taskId } as Task) : null;
-    progress.remainingTime = remainingTime;
-    if (status) {
+    if (status !== undefined) {
       progress.status = status;
     }
 
+    if (remainingTime !== null) {
+      progress.remainingTime = remainingTime;
+    }
     return await this.progressRepository.save(progress);
+  }
+
+  async getCurrentProgress(
+    questId: number
+  ): Promise<{ remainingTime: number; status: ProgressStatus }> {
+    const progress = await this.progressRepository.findOne({
+      where: {
+        quest: { quest_id: questId },
+      },
+    });
+
+    if (progress) {
+      return {
+        remainingTime: progress.remainingTime,
+        status: progress.status,
+      };
+    }
+
+    return {
+      remainingTime: 0,
+      status: ProgressStatus.NOT_STARTED,
+    };
   }
 }
