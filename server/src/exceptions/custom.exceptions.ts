@@ -12,6 +12,12 @@ export class QuestNotFoundException extends NotFoundException {
   }
 }
 
+export class ProgressNotFoundException extends NotFoundException {
+  constructor() {
+    super("Progress record not found. Start quest first.");
+  }
+}
+
 export class UserOwnerException extends ForbiddenException {
   constructor() {
     super("You can only delete your own account");
@@ -21,5 +27,11 @@ export class UserOwnerException extends ForbiddenException {
 export class TokenException extends NotFoundException {
   constructor() {
     super("Invalid or expired token");
+  }
+}
+
+export class EmailConfirmException extends NotFoundException {
+  constructor() {
+    super("User email is not confirm");
   }
 }

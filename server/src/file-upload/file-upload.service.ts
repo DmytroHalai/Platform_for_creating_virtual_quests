@@ -2,12 +2,12 @@ import {
   Injectable,
   InternalServerErrorException,
   BadRequestException,
-} from '@nestjs/common';
-import { writeFile, mkdir } from 'fs/promises';
-import { join, extname } from 'path';
-import { UPLOAD, UPLOADS_DIR } from 'src/constants/dirNames/dirname';
-import { FOLDERS } from 'src/constants/enums/uploadFolders';
-import { v4 as uuidv4 } from 'uuid';
+} from "@nestjs/common";
+import { writeFile, mkdir } from "fs/promises";
+import { join, extname } from "path";
+import { UPLOAD, UPLOADS_DIR } from "src/constants/dirNames/dirname";
+import { FOLDERS } from "src/constants/enums/uploadFolders";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class FileUploadService {
@@ -18,9 +18,7 @@ export class FileUploadService {
   }
 
   async saveFile(file: Express.Multer.File, type: string) {
-    if (!file) {
-      throw new BadRequestException('File exist');
-    }
+    if (!file) throw new BadRequestException("File exist");
 
     const subfolder = this.getUploadPath(type);
     const folderPath = join(this.uploadFolder, subfolder);
@@ -32,7 +30,7 @@ export class FileUploadService {
       await writeFile(filePath, file.buffer);
       return `${UPLOAD}/${subfolder}/${uniqueName}`;
     } catch (error) {
-      throw new InternalServerErrorException('Error during save');
+      throw new InternalServerErrorException("Error during save");
     }
   }
 }

@@ -1,5 +1,5 @@
-import { CreateAnswerDto } from 'src/answers/dto/create-answer.dto';
-import { QuestionType } from 'src/constants/enums/questionType';
+import { CreateAnswerDto } from "src/answers/dto/create-answer.dto";
+import { QuestionType } from "src/constants/enums/questionType";
 
 export class CreateTaskDto {
   media?: string;

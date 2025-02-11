@@ -1,11 +1,11 @@
-import * as nodemailer from 'nodemailer';
-import { Injectable } from '@nestjs/common';
-import { EMAIL } from 'src/constants/enums/email';
+import * as nodemailer from "nodemailer";
+import { Injectable } from "@nestjs/common";
+import { EMAIL } from "src/constants/enums/email";
 
 @Injectable()
 export class EmailService {
   private transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: EMAIL.SERVICE,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,

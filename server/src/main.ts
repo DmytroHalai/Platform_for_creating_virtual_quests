@@ -12,9 +12,8 @@ async function bootstrap() {
   const { log, error } = logger("main");
 
   try {
-    if (!process.env.APP_PORT) {
+    if (!process.env.APP_PORT)
       throw new Error("APP_PORT is not defined in environment variables");
-    }
 
     const app = await NestFactory.create(AppModule);
 

@@ -1,15 +1,19 @@
-import * as bcrypt from 'bcryptjs';
-import { Injectable, NotFoundException, Response } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import { IGoogleUser, IUser } from 'src/constants/types/user/user';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import * as bcrypt from "bcryptjs";
+import { Injectable, NotFoundException, Response } from "@nestjs/common";
+import { UsersService } from "../users/users.service";
+import { JwtService } from "@nestjs/jwt";
+import { IGoogleUser, IUser } from "src/constants/types/user/user";
+import { CreateUserDto } from "src/users/dto/create-user.dto";
+import {
+  EmailConfirmException,
+  UserNotFoundException,
+} from "src/exceptions/custom.exceptions";
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async login(user: IUser) {
@@ -22,9 +26,8 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOneByEmail(email);
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
+    if (!user) throw new UserNotFoundException();
+
     if (bcrypt.compareSync(password, user.password)) {
       const { password, ...result } = user;
       return result;
@@ -33,13 +36,9 @@ export class AuthService {
   }
 
   async validateGoogleUser(profile: IGoogleUser) {
-    if (!profile.isEmailConfirmed) {
-      throw new NotFoundException('user email is not confirm');
-    }
+    if (!profile.isEmailConfirmed) throw new EmailConfirmException();
     const user = await this.usersService.findOneByEmail(profile.email);
-    if (!user) {
-      return await this.usersService.createByGoogle(profile);
-    }
+    if (!user) return await this.usersService.createByGoogle(profile);
     return user;
   }
 }

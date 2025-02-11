@@ -1,4 +1,4 @@
 export enum ProgressStatus {
-  STARTED = 'started',
-  FINISHED = 'finished',
+  STARTED = "started",
+  FINISHED = "finished",
 }
