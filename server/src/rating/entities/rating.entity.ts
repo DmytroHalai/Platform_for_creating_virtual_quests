@@ -1,5 +1,5 @@
-import { Quest } from 'src/quests/entities/quest.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Quest } from "src/quests/entities/quest.entity";
+import { User } from "src/users/entities/user.entity";
 import {
   Column,
   CreateDateColumn,
@@ -7,24 +7,24 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   Unique,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('rating')
-@Unique(['user', 'quest'])
+@Entity("rating")
+@Unique(["user", "quest"])
 export class Rating {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column('int')
+  @Column("int")
   rating: number;
 
-  @Column('text')
+  @Column({ nullable: true })
   comment: string;
 
-  @ManyToOne(() => User, (user) => user.ratings, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.ratings, { onDelete: "CASCADE" })
   user: User;
 
-  @ManyToOne(() => Quest, (quest) => quest.ratings, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Quest, (quest) => quest.ratings, { onDelete: "CASCADE" })
   quest: Quest;
 
   @CreateDateColumn()
