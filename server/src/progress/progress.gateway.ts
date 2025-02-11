@@ -27,12 +27,12 @@ export class ProgressGateway {
     @MessageBody() data: { userId: number; questId: number },
     @ConnectedSocket() client: Socket,
   ) {
-    const quest = await this.questsService.findById(data.questId);
+    const quest = await this.questsService.findOneById(data.questId);
     if (!quest) {
       throw new Error('Quest not found');
     }
 
-    const timeLimit: number = +quest.time;
+    const timeLimit: number = +quest.time * 60;
 
     const progress = await this.progressService.startQuest(
       data.userId,

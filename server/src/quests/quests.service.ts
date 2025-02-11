@@ -54,16 +54,16 @@ export class QuestsService {
     });
   }
 
-  // async findById(id: number) {
-  //   const quest = await this.questsRepository.find({
-  //     where: { quest_id: id },
-  //     relations: ['tasks.answers'],
-  //   });
+  async findById(id: number) {
+    const quest = await this.questsRepository.find({
+      where: { quest_id: id },
+      relations: ['tasks.answers'],
+    });
 
-  //   return quest;
-  // }
+    return quest;
+  }
 
-  async findById(questId: number): Promise<Quest | null> {
+  async findOneById(questId: number): Promise<Quest | null> {
     return await this.questsRepository.findOne({
       where: { quest_id: questId },
     });

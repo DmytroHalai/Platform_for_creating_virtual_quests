@@ -8,7 +8,6 @@ import {
   Response,
   UseInterceptors,
   UploadedFiles,
-  Param,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
@@ -19,7 +18,6 @@ import { IUser } from 'src/constants/types/user/user';
 import { UploadService } from 'src/upload/upload.service';
 import { TasksService } from 'src/tasks/tasks.service';
 import { extractFiles, sortMediaFiles } from 'src/utils/files/file-utils';
-
 
 @Controller('quests')
 export class QuestsController {
