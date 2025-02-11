@@ -1,0 +1,16 @@
+<svg width="128" height="127" viewBox="0 0 128 127" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="92" width="26" height="32" fill="#BFC8FF"/>
+<path d="M52 74H78V124H52V74Z" fill="#BFC8FF"/>
+<path d="M95 56H121V124H95V56Z" fill="#BFC8FF"/>
+<rect x="55" y="57.5209" width="3" height="16" transform="rotate(-10 55 57.5209)" fill="#BFC8FF"/>
+<path d="M39.9522 61.4637L55.4355 57.4306L56.1918 60.3337L40.7084 64.3668L39.9522 61.4637Z" fill="#BFC8FF"/>
+<path d="M46.03 37.54L53.1103 48.4427L50.5943 50.0766L43.514 39.1739L46.03 37.54Z" fill="#BFC8FF"/>
+<path d="M45.11 39.27L35.6024 48.136L33.5564 45.9419L43.064 37.0759L45.11 39.27Z" fill="#BFC8FF"/>
+<path d="M36.5 46.51L34.02 59.2684L31.0751 58.696L33.5551 45.9376L36.5 46.51Z" fill="#BFC8FF"/>
+<path d="M51 46.24L61.9027 39.1597L63.5366 41.6757L52.6339 48.756L51 46.24Z" fill="#BFC8FF"/>
+<rect x="39" y="62.7538" width="26" height="3" transform="rotate(-81 39 62.7538)" fill="#BFC8FF"/>
+<rect x="33.83" y="76.4" width="3" height="16" transform="rotate(34 33.83 76.4)" fill="#BFC8FF"/>
+<rect x="39.24" y="62.0828" width="3" height="16" transform="rotate(21 39.24 62.0828)" fill="#BFC8FF"/>
+<path d="M52 30C52 33.3137 49.3137 36 46 36C42.6863 36 40 33.3137 40 30C40 26.6863 42.6863 24 46 24C49.3137 24 52 26.6863 52 30Z" fill="#BFC8FF"/>
+<line x1="57.9158" y1="56.8622" x2="42.1951" y2="61.054" stroke="#BFC8FF" stroke-width="0.35"/>
+</svg>

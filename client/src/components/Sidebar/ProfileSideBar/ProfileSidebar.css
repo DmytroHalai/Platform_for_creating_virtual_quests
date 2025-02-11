@@ -1,0 +1,54 @@
+.profile-sidebar {
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.profile-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    text-decoration: none;
+}
+
+.profile-sidebar__item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.profile-sidebar__item.active {
+    background: var(--lightBlue);
+    color: var(--darkBlue);
+}
+
+.profile-sidebar__item-icon {
+    font-size: 1.25rem;
+}
+
+.profile-sidebar__item-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .profile-sidebar {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+

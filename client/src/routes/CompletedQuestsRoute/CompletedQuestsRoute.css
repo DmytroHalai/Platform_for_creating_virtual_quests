@@ -1,0 +1,100 @@
+.completed-quests {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.completed-quests__container {
+    display: flex;
+    gap: 2rem;
+}
+
+.completed-quests__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.completed-quests__header {
+    margin-bottom: 2rem;
+}
+
+.completed-quests__title {
+    color: var(--whiteBlue);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.completed-quests__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Pagination Styles */
+.completed-quests__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-current {
+    color: var(--whiteBlue);
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .completed-quests__container {
+        flex-direction: column;
+    }
+
+    .completed-quests__title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .completed-quests__grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .completed-quests {
+        padding: 1rem 0;
+    }
+
+    .completed-quest-card__details,
+    .completed-quest-card__completion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
+

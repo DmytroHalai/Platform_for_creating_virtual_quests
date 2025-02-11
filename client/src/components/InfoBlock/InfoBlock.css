@@ -1,0 +1,21 @@
+.info-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.info-block__icon {
+  color: var(--whiteBlue);
+  font-size: 60px;
+}
+
+.info-block__title {
+  color: var(--lightBlue);
+}
+
+.info-block__desc {
+  margin-top: 0.778em;
+  font-size: 1.125rem;
+  text-align: center;
+}
