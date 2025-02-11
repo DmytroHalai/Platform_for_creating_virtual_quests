@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useCallback, useRef } from "react"
 import { useParams } from "react-router-dom"
 import type { Task, Answer, ImageClickArea } from "./types"

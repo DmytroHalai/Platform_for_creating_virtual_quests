@@ -1,7 +1,9 @@
 import type React from 'react';
-import { useState, useReducer, useEffect } from 'react';
-import { FaStar } from 'react-icons/fa';
+import { useState, useReducer, useEffect, useRef } from 'react';
 import CategorySideBar from '../../components/Sidebar/CategorySideBar/CategorySideBar';
+import { ActiveQuestsCard } from '../../components/QuestsCards/ActiveQuestCard';
+import { CompletedQuestCard } from '../../components/QuestsCards/CompletedQuestCard';
+import { COMP_PAGINATION_SIZE } from '../../constants/constants';
 import './ProgressRoute.css';
 
 interface Quest {
@@ -17,12 +19,11 @@ interface Quest {
 
 interface Action {
   type: string;
-  source: Quest[];
-  payload?: string;
+  payload: { category: string; source: Quest[]; page: number };
 }
 
 // Mock data - replace with API call
-const mockActiveQuests: Quest[] = Array(3)
+const mockActiveQuests: Quest[] = Array(13)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
@@ -34,7 +35,7 @@ const mockActiveQuests: Quest[] = Array(3)
     category: index % 2 ? 'architecture' : 'art',
   })); ///
 
-const mockCompletedQuests: Quest[] = Array(6)
+const mockCompletedQuests: Quest[] = Array(16)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
@@ -45,45 +46,8 @@ const mockCompletedQuests: Quest[] = Array(6)
     maxRating: 5,
     category: index % 2 ? 'architecture' : 'art',
     completedAt: '12.02.2025, 12:00',
+    isRated: index % 3 ? true : false,
   })); ///
-
-const QuestCard: React.FC<Quest> = ({
-  title,
-  description,
-  image,
-  rating,
-  maxRating,
-  completedAt,
-}) => {
-  return (
-    <div className="quest-card">
-      <div className="quest-card__image-container">
-        <img
-          src={image || '/placeholder.svg'}
-          alt={title}
-          className="quest-card__image"
-        />
-      </div>
-      <div className="quest-card__content">
-        <h3 className="quest-card__title">{title}</h3>
-        <p className="quest-card__description">{description}</p>
-        <div className="quest-card__footer">
-          {completedAt && (
-            <span className="quest-card__completed">
-              Completed: {completedAt}
-            </span>
-          )}
-          <div className="quest-card__rating">
-            <span>
-              {rating}/{maxRating}
-            </span>
-            <FaStar />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const ProgressRoute: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -98,36 +62,78 @@ const ProgressRoute: React.FC = () => {
     [...mockCompletedQuests],
   );
 
-  useEffect(() => {
-    dispatchFilteredActiveQuests({
-      type: 'filter',
-      payload: selectedCategory,
-      source: mockActiveQuests,
-    });
-    dispatchFilteredCompletedQuests({
-      type: 'filter',
-      payload: selectedCategory,
-      source: mockCompletedQuests,
-    });
-  }, [selectedCategory]);
+  const activeQuestsRef = useRef<HTMLHeadingElement | null>(null);
+  const completedQuestsRef = useRef<HTMLHeadingElement | null>(null);
 
-  function reducer(
-    state: Quest[],
-    { type, payload = selectedCategory, source }: Action,
-  ): Quest[] {
+  const totalActivePages = Math.ceil(
+    mockActiveQuests.length / COMP_PAGINATION_SIZE,
+  ); // logic
+  const totalCompletedPages = Math.ceil(
+    mockCompletedQuests.length / COMP_PAGINATION_SIZE,
+  ); // logic
+
+  function reducer(state: Quest[], { type, payload }: Action): Quest[] {
     switch (type) {
       case 'filter':
-        return source.filter((quest) => {
-          if (
-            payload.toLowerCase() === 'all' ||
-            quest.category.toLowerCase() === payload.toLowerCase()
+        const startIndex = (payload.page - 1) * COMP_PAGINATION_SIZE;
+        return payload.source
+          .filter(
+            (quest: Quest) =>
+              payload.category.toLowerCase() === 'all' ||
+              quest.category.toLowerCase() === payload.category.toLowerCase(),
           )
-            return quest;
-        });
+          .slice(startIndex, startIndex + COMP_PAGINATION_SIZE);
       default:
         return state;
     }
   }
+
+  function scrollToTitle(ref: React.RefObject<HTMLElement | null>) {
+    ref.current?.scrollIntoView();
+  }
+
+  useEffect(() => {
+    dispatchFilteredActiveQuests({
+      type: 'filter',
+      payload: {
+        category: selectedCategory,
+        source: mockActiveQuests,
+        page: 1,
+      },
+    });
+    dispatchFilteredCompletedQuests({
+      type: 'filter',
+      payload: {
+        category: selectedCategory,
+        source: mockCompletedQuests,
+        page: 1,
+      },
+    });
+    setActiveQuestsPage(1);
+    setCompletedQuestsPage(1);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    dispatchFilteredActiveQuests({
+      type: 'filter',
+      payload: {
+        category: selectedCategory,
+        source: mockActiveQuests,
+        page: activeQuestsPage,
+      },
+    });
+  }, [activeQuestsPage]);
+
+  useEffect(() => {
+    dispatchFilteredCompletedQuests({
+      type: 'filter',
+      payload: {
+        category: selectedCategory,
+        source: mockCompletedQuests,
+        page: completedQuestsPage,
+      },
+    });
+  }, [completedQuestsPage]);
 
   return (
     <div className="progress-page">
@@ -139,16 +145,26 @@ const ProgressRoute: React.FC = () => {
 
         <div className="progress-page__content">
           <section className="progress-section">
-            <h2 className="progress-section__title">Your Active Quests</h2>
+            <h2 className="progress-section__title" ref={activeQuestsRef}>
+              Your Active Quests
+            </h2>
             <div className="progress-section__grid">
               {filteredActiveQuests.map((quest) => (
-                <QuestCard key={quest.id} {...quest} />
+                <ActiveQuestsCard
+                  key={quest.id}
+                  {...quest}
+                  username="anatoliy"
+                  timeRemaining="200"
+                /> // username
               ))}
             </div>
             <div className="pagination">
               <button
                 className="pagination-btn"
-                onClick={() => setActiveQuestsPage((p) => Math.max(1, p - 1))}
+                onClick={() => {
+                  setActiveQuestsPage((p) => Math.max(1, p - 1));
+                  scrollToTitle(activeQuestsRef);
+                }}
                 disabled={activeQuestsPage === 1}
               >
                 &lt;
@@ -156,7 +172,11 @@ const ProgressRoute: React.FC = () => {
               <span className="pagination-current">{activeQuestsPage}</span>
               <button
                 className="pagination-btn"
-                onClick={() => setActiveQuestsPage((p) => p + 1)}
+                onClick={() => {
+                  setActiveQuestsPage((p) => p + 1);
+                  scrollToTitle(activeQuestsRef);
+                }}
+                disabled={activeQuestsPage === totalActivePages}
               >
                 &gt;
               </button>
@@ -164,18 +184,26 @@ const ProgressRoute: React.FC = () => {
           </section>
 
           <section className="progress-section">
-            <h2 className="progress-section__title">Your Completed Quests</h2>
+            <h2 className="progress-section__title" ref={completedQuestsRef}>
+              Your Completed Quests
+            </h2>
             <div className="progress-section__grid">
               {filteredCompletedQuests.map((quest) => (
-                <QuestCard key={quest.id} {...quest} />
+                <CompletedQuestCard
+                  isRated={false}
+                  key={quest.id}
+                  {...quest}
+                  username="anatoliy"
+                /> // username
               ))}
             </div>
             <div className="pagination">
               <button
                 className="pagination-btn"
-                onClick={() =>
-                  setCompletedQuestsPage((p) => Math.max(1, p - 1))
-                }
+                onClick={() => {
+                  setCompletedQuestsPage((p) => Math.max(1, p - 1));
+                  scrollToTitle(completedQuestsRef);
+                }}
                 disabled={completedQuestsPage === 1}
               >
                 &lt;
@@ -183,7 +211,11 @@ const ProgressRoute: React.FC = () => {
               <span className="pagination-current">{completedQuestsPage}</span>
               <button
                 className="pagination-btn"
-                onClick={() => setCompletedQuestsPage((p) => p + 1)}
+                onClick={() => {
+                  setCompletedQuestsPage((p) => p + 1);
+                  scrollToTitle(completedQuestsRef);
+                }}
+                disabled={completedQuestsPage === totalCompletedPages}
               >
                 &gt;
               </button>
@@ -192,9 +224,7 @@ const ProgressRoute: React.FC = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
 export default ProgressRoute;
-
