@@ -8,7 +8,6 @@ import {
   Response,
   UseInterceptors,
   UploadedFiles,
-  Param,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QuestsService } from './quests.service';
