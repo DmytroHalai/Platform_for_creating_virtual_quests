@@ -32,9 +32,6 @@ export class Task {
   @OneToMany(() => Answer, (answer) => answer.task)
   answers: Answer[];
 
-  @OneToMany(() => Progress, (progress) => progress.task)
-  progress: Progress[];
-
   @CreateDateColumn()
   created_at: Date;
 

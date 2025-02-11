@@ -9,8 +9,6 @@ import { UsersModule } from "src/users/users.module";
 
 @Module({
   imports: [DatabaseModule, QuestsModule, UsersModule],
-  controllers: [ProgressController],
   providers: [ProgressService, ProgressGateway, ...progressProviders],
-  exports: [ProgressService, ProgressGateway],
 })
 export class ProgressModule {}

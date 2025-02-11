@@ -5,8 +5,6 @@ import { Repository } from "typeorm";
 import { ProgressStatus } from "src/constants/enums/progressStatus";
 import { User } from "src/users/entities/user.entity";
 import { Quest } from "src/quests/entities/quest.entity";
-import { Task } from "src/tasks/entities/task.entity";
-import { ProgressNotFoundException } from "src/exceptions/custom.exceptions";
 
 @Injectable()
 export class ProgressService {
@@ -15,7 +13,11 @@ export class ProgressService {
     private progressRepository: Repository<Progress>
   ) {}
 
-  async startQuest(userId: number, questId: number, timeLimit: number) {
+  async startQuest(
+    userId: number,
+    questId: number,
+    timeLimit: number
+  ): Promise<Progress> {
     let progress = await this.progressRepository.findOne({
       where: {
         user: { user_id: userId },
@@ -29,35 +31,61 @@ export class ProgressService {
         quest: { quest_id: questId } as Quest,
         status: ProgressStatus.STARTED,
         remainingTime: timeLimit,
-        task: null,
       });
     } else {
       progress.status = ProgressStatus.STARTED;
       progress.remainingTime = timeLimit;
-      progress.task = null;
     }
+
     return await this.progressRepository.save(progress);
   }
 
   async updateProgress(
     userId: number,
     questId: number,
-    taskId: number | null,
     remainingTime: number,
     status?: ProgressStatus
-  ) {
+  ): Promise<Progress> {
     const progress = await this.progressRepository.findOne({
       where: {
         user: { user_id: userId },
         quest: { quest_id: questId },
       },
     });
-    if (!progress) throw new ProgressNotFoundException();
 
-    progress.task = taskId ? ({ task_id: taskId } as Task) : null;
-    progress.remainingTime = remainingTime;
-    if (status) progress.status = status;
+    if (!progress) {
+      throw new Error("Progress not found");
+    }
 
+    if (status !== undefined) {
+      progress.status = status;
+    }
+
+    if (remainingTime !== null) {
+      progress.remainingTime = remainingTime;
+    }
     return await this.progressRepository.save(progress);
+  }
+
+  async getCurrentProgress(
+    questId: number
+  ): Promise<{ remainingTime: number; status: ProgressStatus }> {
+    const progress = await this.progressRepository.findOne({
+      where: {
+        quest: { quest_id: questId },
+      },
+    });
+
+    if (progress) {
+      return {
+        remainingTime: progress.remainingTime,
+        status: progress.status,
+      };
+    }
+
+    return {
+      remainingTime: 0,
+      status: ProgressStatus.NOT_STARTED,
+    };
   }
 }
