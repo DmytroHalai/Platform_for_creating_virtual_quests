@@ -3,7 +3,7 @@ import { useState, useReducer, useEffect, useRef } from 'react';
 import CategorySideBar from '../../components/Sidebar/CategorySideBar/CategorySideBar';
 import { ActiveQuestsCard } from '../../components/QuestsCards/ActiveQuestCard';
 import { CompletedQuestCard } from '../../components/QuestsCards/CompletedQuestCard';
-import { COMP_PAGINATION_SIZE} from '../../constants/constants';
+import { COMP_PAGINATION_SIZE } from '../../constants/constants';
 import './ProgressRoute.css';
 import service from '../../services/service';
 import { API_USERS_PROFILE } from '../../services/api';
@@ -23,35 +23,6 @@ interface Action {
   type: string;
   payload: { category: string; source: Quest[]; page: number };
 }
-
-// Mock data - replace with API call
-const mockActiveQuests: Quest[] = Array(13)
-  .fill(null)
-  .map((_, index) => ({
-    id: index + 1,
-    title: 'TOP ARCHITECTURE BUILDINGS',
-    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
-    image: `https://picsum.photos/800/600?random=${index}`,
-    rating: 5,
-    maxRating: 5,
-    category: index % 2 ? 'architecture' : 'art',
-    completedAt: '12.02.2025, 12:00',
-    username: 'АШОТ',
-  })); ///
-
-const mockCompletedQuests: Quest[] = Array(16)
-  .fill(null)
-  .map((_, index) => ({
-    id: index + 1,
-    title: 'TOP ARCHITECTURE BUILDINGS',
-    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
-    image: `https://picsum.photos/800/600?random=${index}`,
-    rating: 5,
-    maxRating: 5,
-    category: index % 2 ? 'architecture' : 'art',
-    completedAt: '12.02.2025, 12:00',
-    isRated: index % 3 ? true : false,
-  })); ///
 
 const ProgressRoute: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -74,11 +45,11 @@ const ProgressRoute: React.FC = () => {
   const completedQuestsRef = useRef<HTMLHeadingElement | null>(null);
 
   const totalActivePages = Math.ceil(
-    mockActiveQuests.length / COMP_PAGINATION_SIZE
-  ); // logic
+    progress.activeQuests.length / COMP_PAGINATION_SIZE
+  );
   const totalCompletedPages = Math.ceil(
-    mockCompletedQuests.length / COMP_PAGINATION_SIZE
-  ); // logic
+    progress.completedQuests.length / COMP_PAGINATION_SIZE
+  );
 
   function reducer(state: any[], { type, payload }: Action): any[] {
     switch (type) {
@@ -192,7 +163,7 @@ const ProgressRoute: React.FC = () => {
             <div className="progress-section__grid">
               {filteredActiveQuests.map((quest) => (
                 <ActiveQuestsCard
-                  //key={quest.id}
+                  key={quest.id}
                   id={quest.progress_id}
                   title={quest.quest.title}
                   category={quest.quest.category}
@@ -240,7 +211,7 @@ const ProgressRoute: React.FC = () => {
                   title={quest.quest.title}
                   category={quest.quest.category}
                   image={quest.quest.photo}
-                /> 
+                />
               ))}
             </div>
             <div className="pagination">
