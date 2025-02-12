@@ -16,7 +16,7 @@ async function bootstrap() {
   const { log, error } = logger("main");
   try {
     if (!process.env.APP_PORT) throw new EnvException();
-    
+
     const app = await NestFactory.create(AppModule);
     app.use(cookieParser());
     app.use(`/${UPLOAD}`, express.static(join(__dirname, "..", UPLOAD)));
