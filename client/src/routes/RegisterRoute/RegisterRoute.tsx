@@ -38,8 +38,8 @@ function RegisterRoute(): JSX.Element {
           username: usernameRef.current?.value,
           email: emailRef.current?.value,
           password: passwordRef.current?.value,
-          dateOfBirth: dateRef.current?.value,
-          gender: genderRef.current?.value,
+          //dateOfBirth: dateRef.current?.value,
+          //gender: genderRef.current?.value,
         };
 
         await service.post(API_ENDP_REGISTER, formData);

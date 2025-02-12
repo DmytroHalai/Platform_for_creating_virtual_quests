@@ -5,6 +5,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { GetUser } from "src/common/decorators/get-user.decorator";
 import { IUser } from "src/constants/types/user/user";
 import { ApiDoc } from "src/common/decorators/api-doc.decorator";
+import {ApiProperty} from "@nestjs/swagger";
 
 @Controller("quests")
 export class RatingController {
@@ -12,6 +13,7 @@ export class RatingController {
 
   @Post(":id/rating")
   @UseGuards(JwtAuthGuard)
+  @ApiProperty({ example: '5', description: 'Quest rate' })
   @ApiDoc("Rate a quest", 201, "Rating added successfully", true)
   create(
     @Body() createRatingDto: CreateRatingDto,
