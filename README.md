@@ -34,6 +34,17 @@ To deploy the entire project using Docker:
 docker-compose up --build
 ```
 
+
+### 3️⃣ Run Frontend
+
+To run frontend use this command:
+
+```
+cd client
+npm i
+npm run dev
+```
+
 ### Unfortunately, we didn't have enought time to complete this project fully :( But, anyway:
 1 - the backend of this project is written and you can check it's abilities using Swagger(just join [this link](http://localhost:3000/api/docs#/) after building Docker)
 
