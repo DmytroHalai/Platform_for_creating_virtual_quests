@@ -22,7 +22,7 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    })
+    }),
   );
 
   app.enableCors({
@@ -31,7 +31,6 @@ async function bootstrap() {
     allowedHeaders: "Content-Type, Authorization",
     credentials: true,
   });
-
 
   try {
     if (!process.env.APP_PORT)
@@ -43,14 +42,14 @@ async function bootstrap() {
     app.use("/uploads", express.static(join(__dirname, "..", "uploads")));
 
     const config = new DocumentBuilder()
-      .setTitle("User API")
-      .setDescription("DOMinators Quest API")
+      .setTitle("Aman API")
+      .setDescription("API documentation for Aman virtual quest platform")
       .setVersion("1.0")
       .addBearerAuth()
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup("api/docs", app, document);
+    SwaggerModule.setup("api", app, document);
 
     app.enableCors({
       origin: process.env.CLIENT_ORIGIN,

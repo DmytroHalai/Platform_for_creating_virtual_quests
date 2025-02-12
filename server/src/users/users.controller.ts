@@ -30,7 +30,7 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly cookieService: CookieService,
-    private readonly fileUploadService: FileUploadService
+    private readonly fileUploadService: FileUploadService,
   ) {}
 
   @Post("/registration")
@@ -74,7 +74,7 @@ export class UsersController {
   async uploadFile(
     @GetUser() id: IUser,
     @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
-    @Query("type") type: string
+    @Query("type") type: string,
   ) {
     const filePath = await this.fileUploadService.saveFile(file, type);
     return await this.usersService.update(+id, { avatar: filePath });

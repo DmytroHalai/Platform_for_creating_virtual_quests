@@ -24,21 +24,22 @@ import { ApiDoc } from "src/common/decorators/api-doc.decorator";
 export class QuestsController {
   constructor(
     private readonly questsService: QuestsService,
-    private readonly tasksService: TasksService
+    private readonly tasksService: TasksService,
   ) {}
 
   @Post("create")
   @UseGuards(JwtAuthGuard)
+  @ApiDoc("Create quest", 201, "Creates a quest", true)
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: new UploadService().getStorage(),
-    })
+    }),
   )
   async create(
     @Body() createQuestDto: CreateQuestDto,
     @GetUser() id: IUser,
     @Response() res,
-    @UploadedFiles() files?: Express.Multer.File[]
+    @UploadedFiles() files?: Express.Multer.File[],
   ) {
     const { photoFiles, mediaFiles } = extractFiles(files);
     if (typeof createQuestDto.tasks === "string") {
@@ -47,19 +48,23 @@ export class QuestsController {
     const quest = await this.questsService.create(
       createQuestDto,
       +id,
-      photoFiles.length > 0 ? photoFiles[0] : undefined
+      photoFiles.length > 0 ? photoFiles[0] : undefined,
     );
     const sortedMedia = sortMediaFiles(mediaFiles);
     await this.tasksService.create(
       createQuestDto.tasks,
       quest.quest_id,
-      sortedMedia
+      sortedMedia,
     );
     return res.send({ quest });
   }
 
   @Get("count")
-  @ApiDoc("Get total quests count ", 200, "Returns the total quests number ")
+  @ApiDoc(
+    "Get total quests count ",
+    200,
+    "Returns the total amount of the quests ",
+  )
   async countAll(@Response() res) {
     const questsCount = await this.questsService.countAll();
     return res.send({ questsCount });
