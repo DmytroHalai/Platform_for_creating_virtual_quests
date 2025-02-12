@@ -48,7 +48,7 @@ const service = {
     return await res.json();
   },
 
-  path: async <T>(
+  patch: async <T>(
     endpoint: string,
     data: Partial<T>,
     id: string

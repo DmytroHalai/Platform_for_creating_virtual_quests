@@ -33,7 +33,7 @@ export class UsersController {
     private readonly fileUploadService: FileUploadService
   ) {}
 
-  @Post("/registration")
+  @Post("registration")
   @ApiDoc("Register a new user", 201, "User registered successfully")
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
