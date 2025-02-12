@@ -20,7 +20,6 @@ import { HttpExceptionModule } from "./http-exception/http-exception.module";
     TasksModule,
     ProgressModule,
     RatingModule,
-
     AuthModule,
     CookieModule,
     EmailModule,

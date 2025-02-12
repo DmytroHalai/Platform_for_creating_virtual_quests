@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
-import { SCHEDULE } from 'src/constants/enums/scheduleConfig';
-import { UsersService } from 'src/users/users.service';
+import { Injectable } from "@nestjs/common";
+import { Cron } from "@nestjs/schedule";
+import { SCHEDULE } from "src/constants/enums/scheduleConfig";
+import { UsersService } from "src/users/users.service";
 
-import logger from '../utils/loger/loger';
-const { log } = logger('user-cleanup');
+import logger from "../utils/loger/loger";
+const { log } = logger("user-cleanup");
 
 @Injectable()
 export class ScheduleService {

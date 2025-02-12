@@ -12,6 +12,7 @@ import { CreateRatingDto } from "./dto/create-rating.dto";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { IUser } from "src/constants/types/user/user";
 import { GetUser } from "src/common/decorators/get-user.decorator";
+import { ApiDoc } from "src/common/decorators/api-doc.decorator";
 
 @Controller("quests")
 export class RatingController {
@@ -19,26 +20,12 @@ export class RatingController {
 
   @Post(":id/rating")
   @UseGuards(JwtAuthGuard)
+  @ApiDoc("Rate a quest", 201, "Rating added successfully", true)
   create(
     @Body() createRatingDto: CreateRatingDto,
     @GetUser() user_id: IUser,
     @Param("id") quest_id: string
   ) {
     return this.ratingService.create(createRatingDto, +user_id, +quest_id);
-  }
-
-  @Get("users/rating")
-  findAll() {
-    return this.ratingService.findAll();
-  }
-
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.ratingService.findOne(+id);
-  }
-
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.ratingService.remove(+id);
   }
 }

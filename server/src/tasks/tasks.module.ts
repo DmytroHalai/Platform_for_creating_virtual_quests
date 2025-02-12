@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { DatabaseModule } from 'src/database/database.module';
-import { taskProviders } from './tasks.providers';
-import { AnswersModule } from 'src/answers/answers.module';
+import { Module } from "@nestjs/common";
+import { TasksService } from "./tasks.service";
+import { DatabaseModule } from "src/database/database.module";
+import { taskProviders } from "./tasks.providers";
+import { AnswersModule } from "src/answers/answers.module";
 
 @Module({
   imports: [DatabaseModule, AnswersModule],

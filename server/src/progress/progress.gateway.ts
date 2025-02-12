@@ -9,6 +9,7 @@ import { Server, Socket } from "socket.io";
 import { ProgressService } from "./progress.service";
 import { QuestsService } from "src/quests/quests.service";
 import { ProgressStatus } from "src/constants/enums/progressStatus";
+import { QuestNotFoundException } from "src/exceptions/custom.exceptions";
 
 @WebSocketGateway({
   cors: { origin: "*" },
@@ -49,12 +50,9 @@ export class ProgressGateway {
     @ConnectedSocket() client: Socket
   ) {
     const quest = await this.questsService.findOneById(data.questId);
-    if (!quest) {
-      throw new Error("Quest not found");
-    }
+    if (!quest) throw new QuestNotFoundException();
 
     const timeLimit: number = +quest.time * 60;
-
     const progress = await this.progressService.startQuest(
       data.userId,
       data.questId,

@@ -4,5 +4,5 @@ export default interface ILogger {
   error: (text: string, err: any) => void;
 }
 
-export const FILE_WRIGHT_PATH = 'src/logs/server.log';
-export const FLAGS = 'a'
+export const FILE_WRIGHT_PATH = "src/logs/server.log";
+export const FLAGS = "a";
