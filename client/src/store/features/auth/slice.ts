@@ -1,26 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './constants';
-
-export interface AuthState {
-  userId: number | null;
-  token: string | null; //
-}
+import { fetchProfile } from './thunks';
+import { AuthState } from '../../../types/auth';
 
 const initialState: AuthState = {
-  userId: null,
-  token: null,
+  user: null,
 };
 
 export const slice = createSlice({
   name: SLICE_NAME,
   initialState,
-  reducers: {
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      // state.value += action.payload
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(fetchProfile.rejected, (state) => {
+        state.user = null;
+        console.log('slice')
+      });
   },
 });
 
-export const { incrementByAmount } = slice.actions;
+export const {} = slice.actions;
 export default slice.reducer;

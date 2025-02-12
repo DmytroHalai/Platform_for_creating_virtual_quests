@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, useEffect } from 'react';
 import { FiEdit, FiStar, FiClock, FiUser } from 'react-icons/fi';
 import { SiSidequest } from 'react-icons/si';
 
@@ -6,8 +6,15 @@ import NavigateBtn from '../../components/ui/NavigateBtn/NavigateBtn';
 import InfoBlock from '../../components/InfoBlock/InfoBlock';
 import { IFeature } from '../../components/InfoBlock/InfoBlock';
 import logo from '../../assets/images/logo-slogan.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import {
+  fetchQuests,
+  fetchQuestsCount,
+} from '../../store/features/quests/thunks';
 
 import './HomeRoute.css';
+import { fetchUsersCount } from '../../store/features/users/thunk';
 
 const features1: IFeature[] = [
   {
@@ -31,7 +38,7 @@ const features2: IFeature[] = [
   // redux
   {
     icon: FiUser,
-    title: '1,245 quests',
+    title: `Quests`, // 'number Quests'
     desc: 'Join a community of creative authors who inspire others with their ideas..',
   },
   {
@@ -41,13 +48,29 @@ const features2: IFeature[] = [
   },
   {
     icon: SiSidequest,
-    title: '845 Creators',
+    title: 'Creators', // 'number Creators'
     desc: 'From simple puzzles to multi-level adventures, our community offers something interesting for everyone.',
   },
 ];
 
 function HomeRoute(): JSX.Element {
-  const auth: boolean = false; // redux
+  const { auth, quests, users } = useSelector((state: RootState) => state);
+  const dispatch = useDispatch();
+
+  features2[0].title = quests.count?`${quests.count}`:'2378' + features2[0].title;
+  features2[2].title = users.count?`${users.count}`:'2378' + features2[2].title;
+
+  useEffect(() => {
+    if (!quests.quests.length) {
+      dispatch(fetchQuests());
+    }
+    if (!quests.count) {
+      dispatch(fetchQuestsCount());
+    }
+    if (!users.count) {
+      dispatch(fetchUsersCount());
+    }
+  }, []);
 
   return (
     <>
