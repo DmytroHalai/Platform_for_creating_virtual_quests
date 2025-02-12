@@ -1,0 +1,40 @@
+.comment {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.comment__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment__content {
+    flex: 1;
+}
+
+.comment__author {
+    color: var(--whiteBlue);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.comment__text {
+    color: var(--whiteBlue);
+    opacity: 0.7;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .comment__avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .comment__author {
+        font-size: 1rem;
+    }
+}

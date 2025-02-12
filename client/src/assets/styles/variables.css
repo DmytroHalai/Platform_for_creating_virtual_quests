@@ -1,0 +1,14 @@
+:root{
+  --blue: #373C5D;
+  --darkBlue: #272547;
+  --blackBlue: #151123;
+  --lightBlue: #BFC8FF;
+  --whiteBlue: #DFE3FF;
+
+  --lightBlueHov: #969dc6;
+  --whiteBlueHov:#9d9fb2;
+
+  --h1Size: 2.75rem;
+  --h3Size: 2rem;
+  --mainTextSize: 0.875rem;
+}

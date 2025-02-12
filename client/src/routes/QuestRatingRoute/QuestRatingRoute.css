@@ -1,0 +1,167 @@
+.quest-rating {
+    background-color: var(--darkBlue);
+    padding: 2rem 0;
+}
+
+.quest-rating__container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quest-rating__content {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.quest-rating__header {
+    margin-bottom: 2rem;
+}
+
+.quest-rating__title {
+    color: var(--whiteBlue);
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.quest-rating__quest-info {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.quest-rating__image-container {
+    flex: 1;
+    max-width: 300px;
+}
+
+.quest-rating__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.quest-rating__details {
+    flex: 2;
+}
+
+.quest-rating__quest-title {
+    color: var(--whiteBlue);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.quest-rating__category {
+    color: var(--lightBlue);
+    margin-bottom: 1rem;
+}
+
+.quest-rating__description {
+    color: var(--whiteBlue);
+    opacity: 0.7;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.quest-rating__completed {
+    color: var(--whiteBlue);
+    opacity: 0.7;
+}
+
+.quest-rating__form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--whiteBlue);
+    margin-bottom: 0.5rem;
+}
+
+.rating-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.rating-star {
+    position: absolute;
+    right: 1rem;
+    color: var(--lightBlue);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--lightBlue);
+    border-radius: 8px;
+    color: var(--whiteBlue);
+    font-size: 1rem;
+}
+
+.form-input.error,
+.form-textarea.error {
+    border-color: #ff4444;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--lightBlue);
+    border: none;
+    border-radius: 8px;
+    color: var(--darkBlue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background: var(--lightBlueHov);
+}
+
+@media (max-width: 768px) {
+    .quest-rating__quest-info {
+        flex-direction: column;
+    }
+
+    .quest-rating__image-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .quest-rating {
+        padding: 1rem 0;
+    }
+
+    .quest-rating__content {
+        padding: 1rem;
+    }
+
+    .quest-rating__title {
+        font-size: 1.5rem;
+    }
+}
+

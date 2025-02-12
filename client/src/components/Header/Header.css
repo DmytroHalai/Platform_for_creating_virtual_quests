@@ -1,0 +1,19 @@
+.header{
+  background-color: var(--darkBlue);
+}
+
+.header__container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo{
+  width: 64px;
+}
+
+.header__logo-text{
+  color: var(--lightBlue);
+  font-weight: bold;
+  font-size: 20px;
+}
