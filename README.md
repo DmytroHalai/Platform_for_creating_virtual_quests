@@ -34,7 +34,10 @@ To deploy the entire project using Docker:
 docker-compose up --build
 ```
 
-### 
+### Unfortunately, we didn't have enought time to complete this project fully :( But, anyway:
+1 - the backend of this project is written and you can check it's abilities using Swagger(just join [this link](http://localhost:3000/api/docs#/) after building Docker)
+
+2 - the design is already created and some pages are created too, but not for all of them the communication with backend is written([Figma](https://www.figma.com/design/mHlYRTqXjDalxN8mO9Xocq/aman?node-id=0-1&t=F8H3ETeL0VeDmO1D-1))
 
 ## 📜 License
 
