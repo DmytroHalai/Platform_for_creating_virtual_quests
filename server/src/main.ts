@@ -1,28 +1,26 @@
-import 'dotenv/config';
-import * as cookieParser from 'cookie-parser';
-import * as express from 'express';
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import logger from './utils/loger/loger';
-import { join } from 'path';
-import { CORS } from './constants/enums/cors';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import "dotenv/config";
+import * as cookieParser from "cookie-parser";
+import * as express from "express";
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import logger from "./utils/loger/loger";
+import { join } from "path";
+import { CORS } from "./constants/enums/cors";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { UPLOAD } from "./constants/dirNames/dirname";
+import { DOCS_API } from "./constants/enums/docs-api";
+import { EnvException } from "./exceptions/custom.exceptions";
 
 async function bootstrap() {
-  const { log, error } = logger('main');
-
+  const { log, error } = logger("main");
   try {
-    if (!process.env.APP_PORT)
-      throw new Error('APP_PORT is not defined in environment variables');
+    if (!process.env.APP_PORT) throw new EnvException();
 
     const app = await NestFactory.create(AppModule);
-    app.enableCors({
-      origin: 'http://localhost:5173',
-      methods: ['GET, POST, PUT, DELETE, PATCH'],
-      allowedHeaders: ['Content-Type, Authorization'],
-      credentials: true,
-    });
+    app.use(cookieParser());
+    app.use(`/${UPLOAD}`, express.static(join(__dirname, "..", UPLOAD)));
+
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -31,31 +29,28 @@ async function bootstrap() {
       })
     );
 
-    app.use(cookieParser());
-    app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
-
-    const config = new DocumentBuilder()
-      .setTitle('User API')
-      .setDescription('DOMinators Quest API')
-      .setVersion('1.0')
+    const docsConfig = new DocumentBuilder()
+      .setTitle(DOCS_API.TITLE)
+      .setDescription(DOCS_API.DESCRIPTION)
+      .setVersion(DOCS_API.VERSION)
       .addBearerAuth()
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/docs', app, document);
+    const document = SwaggerModule.createDocument(app, docsConfig);
+    SwaggerModule.setup(DOCS_API.URL, app, document);
 
-    // app.enableCors({
-    //   origin: process.env.CLIENT_ORIGIN,
-    //   methods: CORS.METHODS,
-    //   allowedHeaders: CORS.HEADERS,
-    //   credentials: CORS.CREDENTIALS,
-    // });
+    app.enableCors({
+      origin: CORS.ORIGIN,
+      methods: CORS.METHODS,
+      allowedHeaders: CORS.HEADERS,
+      credentials: CORS.CREDENTIALS,
+    });
 
     const port = Number(process.env.APP_PORT);
     await app.listen(port);
     log(`Server is running on http://localhost:${port}`);
   } catch (err) {
-    error('Failed to start the server', err);
+    error("Failed to start the server", err);
     process.exit(1);
   }
 }

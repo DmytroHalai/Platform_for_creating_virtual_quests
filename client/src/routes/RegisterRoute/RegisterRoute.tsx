@@ -55,7 +55,7 @@ function RegisterRoute(): JSX.Element {
       } catch (err: any) {
         console.log(err);
         alert(err.message);
-        
+
       }
     }
   };
