@@ -1,20 +1,7 @@
 import type React from "react"
-import { FaPalette, FaFlask, FaLeaf, FaBuilding, FaHome } from "react-icons/fa"
 import "./CategorySideBar.css"
+import questCategories, {Category} from "../../../constants/categorys"
 
-interface Category {
-  id: string
-  name: string
-  icon: React.ElementType
-}
-
-const categories: Category[] = [
-  { id: "all", name: "ALL", icon: FaHome },
-  { id: "art", name: "ART", icon: FaPalette },
-  { id: "science", name: "SCIENCE", icon: FaFlask },
-  { id: "nature", name: "NATURE", icon: FaLeaf },
-  { id: "architecture", name: "ARCHITECTURE", icon: FaBuilding },
-]
 
 interface SidebarProps {
   onCategorySelect?: (category: string) => void
@@ -26,7 +13,7 @@ const CategorySideBar: React.FC<SidebarProps> = ({ onCategorySelect, selectedCat
     <aside className="sidebar">
       <nav className="sidebar__categories">
         
-        {categories.map((category) => (
+        {questCategories.map((category) => (
           <button
             key={category.id}
             className={`sidebar__category ${selectedCategory === category.id ? "active" : ""}`}

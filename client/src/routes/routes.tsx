@@ -20,7 +20,6 @@ import UserQuestItemRoute from './UserQuestItemRoute/UserQuestItemRoute.tsx';
 import TaskItemRoute from './TaskItemRoute.tsx';
 import RatingRoute from './RatingRoute/RatingRoute.tsx';
 import AuthorRoute from './AuthorRoute.tsx';
-import { JSX} from 'react';
 import QuestRatingRoute from './QuestRatingRoute/QuestRatingRoute.tsx';
 
 let router = createBrowserRouter([

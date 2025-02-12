@@ -1,0 +1,106 @@
+.completed-quest-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.completed-quest-card:hover {
+  transform: translateY(-4px);
+}
+
+.completed-quest-card__image-container {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.completed-quest-card__link{
+  position: absolute;
+  inset: 0;
+}
+
+.completed-quest-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.completed-quest-card__content {
+  padding: 1rem;
+}
+
+.completed-quest-card__title {
+  color: var(--whiteBlue);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.completed-quest-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.completed-quest-card__details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.completed-quest-card__category,
+.completed-quest-card__username {
+  color: var(--whiteBlue);
+  opacity: 0.7;
+  font-size: 0.875rem;
+}
+
+.completed-quest-card__completion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.completed-quest-card__date {
+  color: var(--whiteBlue);
+  font-size: 0.875rem;
+}
+
+.completed-quest-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--whiteBlue);
+  font-size: 0.875rem;
+}
+
+.completed-quest-card__rating svg {
+  color: var(--lightBlue);
+}
+
+.completed-quest-card__rate-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--lightBlue);
+  border: none;
+  border-radius: 6px;
+  color: var(--darkBlue);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.completed-quest-card__rate-btn:hover {
+  background: var(--lightBlueHov);
+}
+
+.completed-quest-card__rate-btn svg {
+  font-size: 1rem;
+}

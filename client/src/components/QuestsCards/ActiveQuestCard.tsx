@@ -1,31 +1,36 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export interface ActiveQuest {
-  id: number
-  title: string
-  category: string
-  username: string
-  timeRemaining: string
-  image: string
-  rating: number
-  maxRating: number
+  id: number;
+  title: string;
+  category: string;
+  username: string;
+  timeRemaining: string;
+  image: string;
+  rating: number;
+  maxRating: number;
 }
 
-export const ActiveQuestsCard: React.FC<ActiveQuest & { onClick: () => void }> = ({
-                                                                             title,
-                                                                             category,
-                                                                             username,
-                                                                             timeRemaining,
-                                                                             image,
-                                                                             rating,
-                                                                             maxRating,
-                                                                             onClick,
-                                                                           }) => {
+const ActiveQuestsCard: React.FC<ActiveQuest> = ({
+  id,
+  title,
+  category,
+  username,
+  timeRemaining,
+  image,
+  rating,
+  maxRating,
+}) => {
   return (
-    <div className="active-quest-card" onClick={onClick}>
+    <Link to={`/progress/${id}`} className="active-quest-card">
       <div className="active-quest-card__image-container">
-        <img src={image || "/placeholder.svg"} alt={title} className="active-quest-card__image" />
+        <img
+          src={image || '/placeholder.svg'}
+          alt={title}
+          className="active-quest-card__image"
+        />
       </div>
       <div className="active-quest-card__content">
         <h3 className="active-quest-card__title">{title}</h3>
@@ -40,6 +45,8 @@ export const ActiveQuestsCard: React.FC<ActiveQuest & { onClick: () => void }> =
           </span>
         </div>
       </div>
-    </div>
-  )
-}
+    </Link>
+  );
+};
+
+export { ActiveQuestsCard };

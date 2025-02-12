@@ -2,6 +2,8 @@ import { JSX } from 'react';
 import { NavLink, NavLinkRenderProps } from 'react-router-dom';
 import { IClass } from '../../types/components';
 import './Navigation.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 interface MenuItem {
   title: string;
@@ -47,8 +49,9 @@ const menuUser: MenuItem[] = [
 ];
 
 function Navigation({ className }: IClass): JSX.Element {
-  const authorized = true; /// redux
-  const menu: MenuItem[] = authorized ? menuUser : menuGuest;
+  const auth = useSelector((state: RootState) => state.auth);
+
+  const menu: MenuItem[] = auth.user ? menuUser : menuGuest;
 
   const getClass = (value: NavLinkRenderProps): string => {
     const classes: string[] = ['nav__list-link'];
