@@ -1,4 +1,4 @@
-import { JSX, useEffect, useReducer, useRef, useState } from 'react';
+import { JSX } from 'react';
 import { FiEdit, FiStar, FiClock, FiUser } from 'react-icons/fi';
 import { SiSidequest } from 'react-icons/si';
 
@@ -6,17 +6,6 @@ import NavigateBtn from '../../components/ui/NavigateBtn/NavigateBtn';
 import InfoBlock from '../../components/InfoBlock/InfoBlock';
 import { IFeature } from '../../components/InfoBlock/InfoBlock';
 import logo from '../../assets/images/logo-slogan.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import {
-  fetchQuests,
-  fetchQuestsCount,
-} from '../../store/features/quests/thunks';
-import { fetchUsersCount } from '../../store/features/users/thunk';
-import questCategorys from '../../constants/categorys';
-import QuestCard from '../../components/QuestsCards/QuestCard/QuestCard';
-import { COMP_HOMEPAGE_PAGINATION_SIZE } from '../../constants/constants';
-import IQuest from '../../types/quest';
 
 import './HomeRoute.css';
 
@@ -42,7 +31,7 @@ const features2: IFeature[] = [
   // redux
   {
     icon: FiUser,
-    title: `Creators`, // 'number Quests'
+    title: '1,245 quests',
     desc: 'Join a community of creative authors who inspire others with their ideas..',
   },
   {
@@ -52,92 +41,13 @@ const features2: IFeature[] = [
   },
   {
     icon: SiSidequest,
-    title: 'Quests', // 'number Creators'
+    title: '845 Creators',
     desc: 'From simple puzzles to multi-level adventures, our community offers something interesting for everyone.',
   },
 ];
 
-interface Action {
-  type: string;
-  payload: { category: string; source: IQuest[]; page: number };
-}
-
 function HomeRoute(): JSX.Element {
-  const { auth, quests, users } = useSelector((state: RootState) => state);
-  const dispatch = useDispatch();
-
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filteredQuests, dispatchFilteredQuests] = useReducer(reducer, [
-    ...quests.quests,
-  ]);
-
-  const totalPages = Math.ceil(
-    quests.quests.length / COMP_HOMEPAGE_PAGINATION_SIZE
-  ); // logic
-
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-
-  function reducer(state: IQuest[], { type, payload }: Action): IQuest[] {
-    switch (type) {
-      case 'filter':
-        const startIndex = (payload.page - 1) * COMP_HOMEPAGE_PAGINATION_SIZE;
-        return payload.source
-          .filter(
-            (quest: IQuest) =>
-              payload.category.toLowerCase() === 'all' ||
-              quest.category.toLowerCase() === payload.category.toLowerCase()
-          )
-          .slice(startIndex, startIndex + COMP_HOMEPAGE_PAGINATION_SIZE);
-      default:
-        return state;
-    }
-  }
-
-  function scrollToTitle(ref: React.RefObject<HTMLElement | null>) {
-    ref.current?.scrollIntoView();
-  }
-
-  useEffect(() => {
-    dispatchFilteredQuests({
-      type: 'filter',
-      payload: {
-        category: selectedCategory,
-        source: quests.quests,
-        page: 1,
-      },
-    });
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    dispatchFilteredQuests({
-      type: 'filter',
-      payload: {
-        category: selectedCategory,
-        source: quests.quests,
-        page: currentPage,
-      },
-    });
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (!quests.quests.length) {
-      dispatch(fetchQuests());
-    }
-    if (!quests.count) {
-      dispatch(fetchQuestsCount());
-    }
-    if (!users.count) {
-      dispatch(fetchUsersCount());
-    }
-    features2[0].title = quests.count
-      ? `${quests.count} `
-      : '2378 ' + features2[0].title;
-    features2[2].title = users.count
-      ? `${users.count} `
-      : '1344 ' + features2[2].title;
-  }, []);
+  const auth: boolean = false; // redux
 
   return (
     <>
@@ -189,60 +99,10 @@ function HomeRoute(): JSX.Element {
         </div>
       </section>
       <section className="explore">
-        <div className="explore__container container">
-          <h2 className="explore__title" ref={titleRef}>
-            EXPLORE BY CATEGORIES
-          </h2>
-
-          <div className="explore__categories">
-            <div className="explore__categories-wrapper">
-              {questCategorys.map((category) => (
-                <button
-                  onClick={() => setSelectedCategory(category.name)}
-                  key={category.id}
-                  className={`explore__category-btn ${
-                    category.name.toLowerCase() ===
-                    selectedCategory.toLowerCase()
-                      ? `explore__category-btn--active`
-                      : ''
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="explore__grid">
-            {filteredQuests.map((quest) => (
-              <QuestCard key={quest.quest_id} {...quest} image={quest.photo} />
-            ))}
-          </div>
-
-          <div className="quests-page__pagination">
-            <button
-              className="pagination-btn"
-              onClick={() => {
-                setCurrentPage((p) => Math.max(1, p - 1));
-                scrollToTitle(titleRef);
-              }}
-              disabled={currentPage === 1}
-            >
-              &lt;
-            </button>
-            <span className="pagination-current">{currentPage}</span>
-            <button
-              className="pagination-btn"
-              onClick={() => {
-                setCurrentPage((p) => p + 1);
-                scrollToTitle(titleRef);
-              }}
-              disabled={currentPage === totalPages}
-            >
-              &gt;
-            </button>
-          </div>
-        </div>
+        <div
+          className="container explore__container"
+          style={{ height: '600px' }}
+        ></div>
       </section>
       <section className="features-2">
         <div className="container features-2__container">

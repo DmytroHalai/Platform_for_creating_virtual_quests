@@ -9,7 +9,6 @@ import RegisterRoute from './RegisterRoute/RegisterRoute.tsx';
 import ProfileRoute from './ProfileRoute/ProfileRoute.tsx';
 import ProfileLayout from './ProfileLayout/ProfileLayout.tsx';
 import UserQuestsRoute from './UserQuestsRoute/UserQuestsRoute.tsx';
-import ActiveQuestsRoute from './ActiveQuestsRoute/ActiveQuestsRoute.tsx';
 import CompletedQuestsRoute from './CompletedQuestsRoute/CompletedQuestsRoute.tsx';
 import EditProfileRoute from './EditProfileRoute/EditProfileRoute.tsx';
 import QuestsRoute from './QuestsRoute/QuestsRoute.tsx';
@@ -56,10 +55,7 @@ let router = createBrowserRouter([
             path: 'myQuests',
             element: <UserQuestsRoute />,
           },
-          {
-            path: 'activeQuests',
-            element: <ActiveQuestsRoute />,
-          },
+          
           {
             path: 'completedQuests',
             element: <CompletedQuestsRoute />,

@@ -42,13 +42,13 @@ export class User {
   @Column({ default: false })
   isEmailConfirmed: boolean;
 
-  @OneToMany(() => Quest, (quest) => quest.author)
+  @OneToMany(() => Quest, (quest) => quest.author, { cascade: ["remove"] })
   quests: Quest[];
 
-  @OneToMany(() => Rating, (rating) => rating.user)
+  @OneToMany(() => Rating, (rating) => rating.user, { cascade: ["remove"] })
   ratings: Rating[];
 
-  @OneToMany(() => Progress, (progress) => progress.user)
+  @OneToMany(() => Progress, (progress) => progress.user, { cascade: ["remove"] })
   progress: Progress[];
 
   @CreateDateColumn()
