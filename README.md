@@ -26,13 +26,7 @@ git clone https://github.com/DmytroHalai/Platform_for_creating_virtual_quests.gi
 cd Platform_for_creating_virtual_quests
 ```
 
-### 2️⃣ Install dependencies
-
-```sh
-npm install
-```
-
-### 3️⃣ Run with Docker
+### 2️⃣ Run with Docker
 
 To deploy the entire project using Docker:
 
