@@ -1,16 +1,20 @@
-import React from 'react';
-import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { MAX_RATING } from "../../constants/constants";
 
 export interface ActiveQuest {
   id: number;
   title: string;
   category: string;
   username: string;
-  timeRemaining: string;
+  timeRemaining: any;
   image: string;
-  rating: number;
-  maxRating: number;
+}
+
+const getRandom =() =>{
+  const randomStep = Math.floor(Math.random() * (50 + 1));
+  return (0 + randomStep * 0.1).toFixed(1);
 }
 
 const ActiveQuestsCard: React.FC<ActiveQuest> = ({
@@ -20,14 +24,14 @@ const ActiveQuestsCard: React.FC<ActiveQuest> = ({
   username,
   timeRemaining,
   image,
-  rating,
-  maxRating,
 }) => {
+
+
   return (
     <Link to={`/progress/${id}`} className="active-quest-card">
       <div className="active-quest-card__image-container">
         <img
-          src={image || '/placeholder.svg'}
+          src={image || "/placeholder.svg"}
           alt={title}
           className="active-quest-card__image"
         />
@@ -41,7 +45,7 @@ const ActiveQuestsCard: React.FC<ActiveQuest> = ({
         <div className="active-quest-card__footer">
           <span className="active-quest-card__time">Time: {timeRemaining}</span>
           <span className="active-quest-card__rating">
-            {rating}/{maxRating} <FaStar />
+            {getRandom()}/{MAX_RATING} <FaStar />
           </span>
         </div>
       </div>

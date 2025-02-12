@@ -11,7 +11,7 @@ import ProfileSidebar from '../../components/Sidebar/ProfileSideBar/ProfileSideb
 import './ProfileRoute.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './../../store/store.ts';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchProfile } from '../../store/features/auth/thunks.ts';
 import { MAX_RATING } from '../../constants/constants.ts';
 
@@ -36,12 +36,34 @@ const ProfileRoute: React.FC = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
 
-  // useEffect(() => {
-  //   if (!Object.keys(auth.user).length) {
-  //     dispatch(fetchProfile());
-  //   }
-  // }, []);
-  return (
+  const date = useMemo(()=>{
+    return new Date(auth.user?.created_at).toLocaleDateString()
+  }, [auth.user])
+
+  const resultRating = useMemo(() => {
+    let result = 0;
+    let ratedQuestsCount = 0;
+    auth.user?.quests.forEach((quest) => {
+      if (quest.ratings.length) {
+        ratedQuestsCount++;
+        result += (
+          Math.round(
+            (quest.ratings.reduce(
+              (sum: number, { rating }: { rating: number }) => sum + rating,
+              0
+            ) /
+              quest.ratings.length) *
+              10
+          ) / 10
+        );
+      } else {
+        return;
+      }
+    });
+    return Math.round(result/ratedQuestsCount*10)/10;
+  }, [auth.user]);
+
+  return auth.user ? (
     <div className="profile">
       <div className="container profile__container">
         <ProfileSidebar activeItem="profile" />
@@ -60,12 +82,12 @@ const ProfileRoute: React.FC = () => {
               <div className="profile__title-container">
                 <h1 className="profile__username">
                   {auth.user.username}
-                  <span className="profile__id">{auth.user.id}</span>
+                  <span className="profile__id">{auth.user.user_id}</span>
                 </h1>
                 <div className="profile__rating">
                   <FaStar />
                   <span>
-                    {auth.user.rating}/{MAX_RATING}
+                    {resultRating}/{MAX_RATING}
                   </span>
                 </div>
               </div>
@@ -89,7 +111,7 @@ const ProfileRoute: React.FC = () => {
                   <FaPen className="profile__stat-icon" />
                   <div className="profile__stat-content">
                     <span className="profile__stat-value">
-                      {auth.user.createdQuests}
+                      {auth.user.quests.length}
                     </span>
                     <span className="profile__stat-label">Created Quests</span>
                   </div>
@@ -106,7 +128,7 @@ const ProfileRoute: React.FC = () => {
 
             <div className="profile__detail">
               <FaGift className="profile__detail-icon" />
-              <span>{auth.user.birthday}</span>
+              <span>{auth.user.dateOfBirth}</span>
             </div>
 
             <div className="profile__detail">
@@ -116,12 +138,12 @@ const ProfileRoute: React.FC = () => {
           </div>
 
           <div className="profile__created-at">
-            Created At: {auth.user.createdAt}
+            Created At: {date}
           </div>
         </div>
       </div>
     </div>
-  );
+  ): <h1>User Not Found</h1>
 };
 
 export default ProfileRoute;

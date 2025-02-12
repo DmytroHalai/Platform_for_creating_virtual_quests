@@ -5,96 +5,97 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseGuards,
-  Request,
   Response,
   Query,
-  Put,
-  UploadedFiles,
-  UseInterceptors,
   UploadedFile,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CookieService } from 'src/cookie/cookie.service';
-import { GetUser } from 'src/common/decorators/getUser';
-import { IUser } from 'src/constants/types/user/user';
+  Delete,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { CookieService } from "src/cookie/cookie.service";
+import { GetUser } from "src/common/decorators/get-user.decorator";
+import { IUser } from "src/constants/types/user/user";
+import { FileSizeValidationPipe } from "src/common/pipes/file-size-validation.pipe";
+import { FileUploadService } from "src/file-upload/file-upload.service";
+import { UploadFile } from "src/common/decorators/file-upload.decorator";
+import { ApiTags } from "@nestjs/swagger";
+import { ApiDoc } from "src/common/decorators/api-doc.decorator";
 
-import { FileSizeValidationPipe } from 'src/common/pipes/file-size-validation.pipe';
-import { FileUploadService } from 'src/file-upload/file-upload.service';
-import { UploadFile } from 'src/common/decorators/file-upload.decorator';
-
-@Controller('users')
+@ApiTags("Users")
+@Controller("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly cookieService: CookieService,
-    private readonly fileUploadService: FileUploadService,
+    private readonly fileUploadService: FileUploadService
   ) {}
 
-  @Post('/registration')
+  @Post("registration")
+  @ApiDoc("Register a new user", 201, "User registered successfully")
   async create(@Body() createUserDto: CreateUserDto) {
-    await this.usersService.create(createUserDto);
-    return { message: 'Logged in successfully' };
+    return await this.usersService.create(createUserDto);
   }
 
-  @Post('confirm')
-  async confirmEmail(@Query('token') token: string, @Response() res) {
-    const message = await this.usersService.confirmEmail(token);
+  @Post("confirm")
+  @ApiDoc("Confirm user email", 200, "Email confirmed successfully")
+  async confirmEmail(@Query("token") token: string, @Response() res) {
+    const confirmEmail = await this.usersService.confirmEmail(token);
     this.cookieService.setUserCookie(res, token);
-    return res.send({ message });
+    return res.send(confirmEmail);
   }
 
-  @Get('count')
-  async countAllActiveUsers(@Response() res) {
-    const count = await this.usersService.countAllActiveUsers();
-    return res.send({ count });
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async findProfile(@Response() res, @GetUser() id: IUser) {
-    const user = await this.usersService.findProfile(+id);
-    return res.send({ user });
+  @Get("count")
+  @ApiDoc("Get total active users", 200, "Returns active user count")
+  async countAllActiveUsers() {
+    return await this.usersService.countAllActiveUsers();
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('edit')
-  async update(
-    @GetUser() id: IUser,
-    @Body() updateUserDto: UpdateUserDto,
-    @Response() res,
-  ) {
-    const update = await this.usersService.update(+id, updateUserDto);
-    return res.send({ update });
+  @Get("profile")
+  @ApiDoc("Get user profile", 200, "User profile returned", true)
+  async findProfile(@GetUser() id: IUser) {
+    return await this.usersService.findProfile(+id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('upload/avatar')
-  @UploadFile('file')
+  @Patch("edit")
+  @ApiDoc("Update user profile", 200, "User profile updated successfully", true)
+  async update(@GetUser() id: IUser, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(+id, updateUserDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("upload/avatar")
+  @UploadFile("file")
+  @ApiDoc("Upload user avatar", 201, "Avatar uploaded successfully", true)
   async uploadFile(
     @GetUser() id: IUser,
     @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
-    @Query('type') type: string,
-    @Response() res,
+    @Query("type") type: string
   ) {
     const filePath = await this.fileUploadService.saveFile(file, type);
-    await this.usersService.update(+id, { avatar: filePath });
-    return res.send({ message: 'File upload' });
+    return await this.usersService.update(+id, { avatar: filePath });
   }
 
-  @Get('rating')
-  async selectRating(@Response() res) {
-    const users = await this.usersService.selectRating();
-    return res.send({ users });
+  @Get("rating")
+  @ApiDoc("Get users ranking", 200, "Returns user rating list")
+  async selectRating() {
+    return await this.usersService.selectRating();
   }
 
-  @Get(':username')
-  async findByName(@Response() res, @Param('username') username: string) {
-    const user = await this.usersService.findByName(username);
-    return res.send({ user });
+  @Get(":username")
+  @ApiDoc("Find user by username", 200, "User found successfully")
+  async findByName(@Param("username") username: string) {
+    return await this.usersService.findByName(username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete("/remove/:user_id")
+  @ApiDoc("Delete a user", 200, "User deleted successfully", true)
+  async remove(@GetUser() id: IUser, @Param("user_id") user_id: string) {
+    return await this.usersService.remove(+id, +user_id);
   }
 }

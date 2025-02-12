@@ -3,6 +3,7 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import './CompletedQuestCard.css';
+import { MAX_RATING } from '../../constants/constants';
 
 export interface CompletedQuest {
   id: number;
@@ -16,22 +17,23 @@ export interface CompletedQuest {
   isRated: boolean;
 }
 
+const getRandom =() =>{
+  const randomStep = Math.floor(Math.random() * (50 + 1));
+  return (0 + randomStep * 0.1).toFixed(1);
+}
+
 const CompletedQuestCard: React.FC<CompletedQuest & { path: string }> = ({
   id,
   title,
   category,
   username,
-  completedAt,
   image,
-  rating,
-  maxRating,
   isRated,
-  path,
 }) => {
   return (
     <div className="completed-quest-card">
       <Link
-        to={path}
+        to={`/progress`}
         className="completed-quest-card__link"
         aria-label={`Go to quest '${title}'`}
       ></Link>
@@ -52,11 +54,11 @@ const CompletedQuestCard: React.FC<CompletedQuest & { path: string }> = ({
           </div>
           <div className="completed-quest-card__completion">
             <span className="completed-quest-card__date">
-              Completed: {completedAt}
+              Completed
             </span>
             {isRated ? (
               <span className="completed-quest-card__rating">
-                {rating}/{maxRating} <FaStar />
+                {getRandom()}/{MAX_RATING} <FaStar />
               </span>
             ) : (
               <button

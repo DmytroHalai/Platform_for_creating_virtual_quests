@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { DatabaseModule } from 'src/database/database.module';
-import { userProviders } from './users.providers';
-import { JwtModule } from '@nestjs/jwt';
-import { ScheduleModule } from '@nestjs/schedule';
-import { CookieModule } from 'src/cookie/cookie.module';
-import { EmailModule } from 'src/email/email.module';
-import { UploadModule } from 'src/upload/upload.module';
-import { FileUploadModule } from 'src/file-upload/file-upload.module';
+import { Module } from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { UsersController } from "./users.controller";
+import { DatabaseModule } from "src/database/database.module";
+import { userProviders } from "./users.providers";
+import { JwtModule } from "@nestjs/jwt";
+import { ScheduleModule } from "@nestjs/schedule";
+import { CookieModule } from "src/cookie/cookie.module";
+import { EmailModule } from "src/email/email.module";
+import { UploadModule } from "src/upload/upload.module";
+import { FileUploadModule } from "src/file-upload/file-upload.module";
 
 @Module({
   imports: [

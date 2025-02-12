@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
-import { DATA_SOURCE } from 'src/constants/dataSource/dataSource';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { Quest } from './entities/quest.entity';
+import { DataSource } from "typeorm";
+import { DATA_SOURCE } from "src/constants/dataSource/dataSource";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { Quest } from "./entities/quest.entity";
 
 export const questProviders = [
   {
