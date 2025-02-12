@@ -1,4 +1,4 @@
-export default interface NormalizedState<T> { 
-  byId: Record<number, Partial<T>>;
-  allIds: number[];
+export default interface State {
+  isLoading: boolean;
+  error: string | null;
 }
