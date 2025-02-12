@@ -1,20 +1,20 @@
-import 'dotenv/config';
-import * as bcrypt from 'bcryptjs';
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
-import { BCRYPT } from 'src/constants/enums/bcryptSalt';
-import { JwtService } from '@nestjs/jwt';
-import { EMAIL } from 'src/constants/enums/email';
-import { EmailService } from 'src/email/email.service';
+import "dotenv/config";
+import * as bcrypt from "bcryptjs";
+import { Inject, Injectable } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { User } from "./entities/user.entity";
+import { Repository } from "typeorm";
+import { BCRYPT } from "src/constants/enums/bcryptSalt";
+import { JwtService } from "@nestjs/jwt";
+import { EMAIL } from "src/constants/enums/email";
+import { EmailService } from "src/email/email.service";
 import {
   TokenException,
   UserNotFoundException,
   UserOwnerException,
-} from 'src/exceptions/custom.exceptions';
+} from "src/exceptions/custom.exceptions";
 
 @Injectable()
 export class UsersService {
@@ -39,7 +39,7 @@ export class UsersService {
     };
     const token = this.jwtService.sign(payload);
     await this.emailService.sendConfirmationEmail(user.email, token);
-    return { message: 'Logged in successfully' };
+    return { message: "Logged in successfully" };
   }
 
   async confirmEmail(token: string) {
@@ -70,7 +70,7 @@ export class UsersService {
   async findProfile(id: number) {
     const user = await this.userRepository.findOne({
       where: { user_id: id },
-      relations: ['quests', 'progress', 'quests.ratings'],
+      relations: ["quests", "quests.ratings", "progress"],
     });
     if (!user) throw new UserNotFoundException();
     const { password, ...userData } = user;
@@ -121,7 +121,7 @@ export class UsersService {
           rating: true,
         },
       },
-      relations: ['ratings'],
+      relations: ["ratings"],
     });
     return users;
   }
