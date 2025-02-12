@@ -35,3 +35,9 @@ export class EmailConfirmException extends NotFoundException {
     super("User email is not confirm");
   }
 }
+
+export class EnvException extends Error {
+  constructor() {
+    super("APP_PORT is not defined in environment variables");
+  }
+}

@@ -1,16 +1,54 @@
-import { type JSX, useState } from "react"
-import { Link } from "react-router-dom"
-import { FiEye, FiEyeOff } from "react-icons/fi"
-import "./RegisterRoute.css"
+import { JSX, useState } from "react";
+import { Link } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
+import "./RegisterRoute.css";
+import { services } from "./registration";
 
 function RegisterRoute(): JSX.Element {
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    dateOfBirth: "",
+    gender: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    /// Handle form submission with Redux and backend integration
-  }
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    const user = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      dateOfBirth: formData.dateOfBirth,
+      gender: formData.gender,
+    };
+
+    try {
+      console.log(user);
+
+      const response = await services.post(user);
+      console.log("User registered:", response);
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
 
   return (
     <div className="signup">
@@ -19,22 +57,42 @@ function RegisterRoute(): JSX.Element {
           <h1 className="signup__title">LET'S GET ACQUAINTED</h1>
           <form className="signup__form" onSubmit={handleSubmit}>
             <div className="form__group">
-              <input type="text" placeholder="ENTER YOUR USERNAME" className="form__input" required />
+              <input
+                type="text"
+                name="username"
+                placeholder="ENTER YOUR USERNAME"
+                className="form__input"
+                required
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form__group">
-              <input type="email" placeholder="ENTER YOUR EMAIL" className="form__input" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="ENTER YOUR EMAIL"
+                className="form__input"
+                required
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form__group">
               <div className="password-input">
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="ENTER YOUR PASSWORD"
                   className="form__input"
                   required
+                  onChange={handleChange}
                 />
-                <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   {showPassword ? <FiEye /> : <FiEyeOff />}
                 </button>
               </div>
@@ -44,9 +102,11 @@ function RegisterRoute(): JSX.Element {
               <div className="password-input">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
                   placeholder="REPEAT YOUR PASSWORD"
                   className="form__input"
                   required
+                  onChange={handleChange}
                 />
                 <button
                   type="button"
@@ -59,11 +119,22 @@ function RegisterRoute(): JSX.Element {
             </div>
 
             <div className="form__group">
-              <input type="date" placeholder="DATE-OF-BIRTH" className="form__input" required />
+              <input
+                type="date"
+                name="dateOfBirth"
+                className="form__input"
+                required
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form__group">
-              <select className="form__input" required>
+              <select
+                name="gender"
+                className="form__input"
+                required
+                onChange={handleChange}
+              >
                 <option value="">SELECT YOUR GENDER</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -85,8 +156,7 @@ function RegisterRoute(): JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default RegisterRoute
-
+export default RegisterRoute;

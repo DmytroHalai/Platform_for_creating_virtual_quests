@@ -70,7 +70,7 @@ export class UsersService {
   async findProfile(id: number) {
     const user = await this.userRepository.findOne({
       where: { user_id: id },
-      relations: ["quests", "quests.ratings"],
+      relations: ["quests", "quests.ratings", "progress"],
     });
     if (!user) throw new UserNotFoundException();
     const { password, ...userData } = user;

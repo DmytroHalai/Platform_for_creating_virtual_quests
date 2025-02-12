@@ -1,29 +1,30 @@
-import { JSX } from 'react';
-import { FiEdit, FiStar, FiClock, FiUser } from 'react-icons/fi';
-import { SiSidequest } from 'react-icons/si';
+import { JSX, useEffect, useState } from "react";
+import { FiEdit, FiStar, FiClock, FiUser } from "react-icons/fi";
+import { SiSidequest } from "react-icons/si";
 
-import NavigateBtn from '../../components/ui/NavigateBtn/NavigateBtn';
-import InfoBlock from '../../components/InfoBlock/InfoBlock';
-import { IFeature } from '../../components/InfoBlock/InfoBlock';
-import logo from '../../assets/images/logo-slogan.svg';
+import NavigateBtn from "../../components/ui/NavigateBtn/NavigateBtn";
+import InfoBlock from "../../components/InfoBlock/InfoBlock";
+import { IFeature } from "../../components/InfoBlock/InfoBlock";
+import logo from "../../assets/images/logo-slogan.svg";
 
-import './HomeRoute.css';
+import "./HomeRoute.css";
+import { services } from "./services";
 
 const features1: IFeature[] = [
   {
     icon: FiEdit,
-    title: 'Create',
-    desc: 'Design your own interactive quests with ease and creativity.',
+    title: "Create",
+    desc: "Design your own interactive quests with ease and creativity.",
   },
   {
     icon: FiClock,
-    title: 'Play',
-    desc: 'Join exciting quests in real-time and challenge yourself.',
+    title: "Play",
+    desc: "Join exciting quests in real-time and challenge yourself.",
   },
   {
     icon: FiStar,
-    title: 'Rate',
-    desc: 'Explore quests created by others, rate them, and share feedback.',
+    title: "Rate",
+    desc: "Explore quests created by others, rate them, and share feedback.",
   },
 ];
 
@@ -31,23 +32,34 @@ const features2: IFeature[] = [
   // redux
   {
     icon: FiUser,
-    title: '1,245 quests',
-    desc: 'Join a community of creative authors who inspire others with their ideas..',
+    title: "1,245 quests",
+    desc: "Join a community of creative authors who inspire others with their ideas..",
   },
   {
     icon: FiClock,
-    title: '4.6/5',
-    desc: 'We strive for improvement to provide the best experience for everyone.',
+    title: "4.6/5",
+    desc: "We strive for improvement to provide the best experience for everyone.",
   },
   {
     icon: SiSidequest,
-    title: '845 Creators',
-    desc: 'From simple puzzles to multi-level adventures, our community offers something interesting for everyone.',
+    title: "845 Creators",
+    desc: "From simple puzzles to multi-level adventures, our community offers something interesting for everyone.",
   },
 ];
 
 function HomeRoute(): JSX.Element {
-  const auth: boolean = false; // redux
+  const auth: boolean = false;
+
+  useEffect(() => {
+    (async () => {
+      const usersCount = await services.getUsersCount();
+      const questsCount = await services.getQuestsCount();
+      const quests = await services.getAllQuests();
+      console.log(usersCount);
+      console.log(questsCount);
+      console.log(quests);
+    })();
+  }, []);
 
   return (
     <>
@@ -101,7 +113,7 @@ function HomeRoute(): JSX.Element {
       <section className="explore">
         <div
           className="container explore__container"
-          style={{ height: '600px' }}
+          style={{ height: "600px" }}
         ></div>
       </section>
       <section className="features-2">
