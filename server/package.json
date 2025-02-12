@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.8",
     "@nestjs/platform-socket.io": "^11.0.8",
     "@nestjs/schedule": "^5.0.1",
+    "@nestjs/swagger": "^11.0.3",
     "@nestjs/typeorm": "^11.0.0",
     "@nestjs/websockets": "^11.0.8",
     "bcryptjs": "^2.4.3",
@@ -47,6 +48,7 @@
     "rxjs": "^7.8.1",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
+    "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {

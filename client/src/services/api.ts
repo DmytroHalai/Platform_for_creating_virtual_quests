@@ -1,4 +1,4 @@
-export const API = 'http://localhost:4000';
+export const API = 'http://localhost:3000';
 
 export const API_ENDP_LOGIN = '/auth/login';
 export const API_ENDP_REGISTER = '/users/registration';

@@ -1,13 +1,13 @@
-import React from 'react';
-import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export interface ActiveQuest {
   id: number;
   title: string;
   category: string;
   username: string;
-  timeRemaining: string;
+  timeRemaining: any;
   image: string;
   rating: number;
   maxRating: number;
@@ -23,11 +23,12 @@ const ActiveQuestsCard: React.FC<ActiveQuest> = ({
   rating,
   maxRating,
 }) => {
+
   return (
     <Link to={`/progress/${id}`} className="active-quest-card">
       <div className="active-quest-card__image-container">
         <img
-          src={image || '/placeholder.svg'}
+          src={image || "/placeholder.svg"}
           alt={title}
           className="active-quest-card__image"
         />

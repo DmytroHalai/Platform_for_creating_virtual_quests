@@ -1,4 +1,4 @@
-import { FileValidator } from '@nestjs/common';
+import { FileValidator } from "@nestjs/common";
 
 export class FileTypeValidator extends FileValidator<{ fileType: string }> {
   isValid(file: Express.Multer.File): boolean {
@@ -6,6 +6,6 @@ export class FileTypeValidator extends FileValidator<{ fileType: string }> {
   }
 
   buildErrorMessage(): string {
-    return `Файл должен быть типа ${this.validationOptions.fileType}`;
+    return `File must be ${this.validationOptions.fileType}`;
   }
 }

@@ -1,10 +1,10 @@
-import type React from 'react';
-import { useState, useReducer, useEffect, useRef } from 'react';
-import CategorySideBar from '../../components/Sidebar/CategorySideBar/CategorySideBar';
-import { ActiveQuestsCard } from '../../components/QuestsCards/ActiveQuestCard';
-import { CompletedQuestCard } from '../../components/QuestsCards/CompletedQuestCard';
-import { COMP_PAGINATION_SIZE } from '../../constants/constants';
-import './ProgressRoute.css';
+import type React from "react";
+import { useState, useReducer, useEffect, useRef } from "react";
+import CategorySideBar from "../../components/Sidebar/CategorySideBar/CategorySideBar";
+import { ActiveQuestsCard } from "../../components/QuestsCards/ActiveQuestCard";
+import { CompletedQuestCard } from "../../components/QuestsCards/CompletedQuestCard";
+import { COMP_PAGINATION_SIZE } from "../../constants/constants";
+import "./ProgressRoute.css";
 
 interface Quest {
   id: number;
@@ -27,60 +27,62 @@ const mockActiveQuests: Quest[] = Array(13)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
-    title: 'TOP ARCHITECTURE BUILDINGS',
-    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
+    title: "TOP ARCHITECTURE BUILDINGS",
+    description: "THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...",
     image: `https://picsum.photos/800/600?random=${index}`,
     rating: 5,
     maxRating: 5,
-    category: index % 2 ? 'architecture' : 'art',
+    category: index % 2 ? "architecture" : "art",
+    completedAt: "12.02.2025, 12:00",
+    username: "АШОТ",
   })); ///
 
 const mockCompletedQuests: Quest[] = Array(16)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
-    title: 'TOP ARCHITECTURE BUILDINGS',
-    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
+    title: "TOP ARCHITECTURE BUILDINGS",
+    description: "THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...",
     image: `https://picsum.photos/800/600?random=${index}`,
     rating: 5,
     maxRating: 5,
-    category: index % 2 ? 'architecture' : 'art',
-    completedAt: '12.02.2025, 12:00',
+    category: index % 2 ? "architecture" : "art",
+    completedAt: "12.02.2025, 12:00",
     isRated: index % 3 ? true : false,
   })); ///
 
 const ProgressRoute: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [activeQuestsPage, setActiveQuestsPage] = useState(1);
   const [completedQuestsPage, setCompletedQuestsPage] = useState(1);
   const [filteredActiveQuests, dispatchFilteredActiveQuests] = useReducer(
     reducer,
-    [...mockActiveQuests],
+    [...mockActiveQuests]
   );
   const [filteredCompletedQuests, dispatchFilteredCompletedQuests] = useReducer(
     reducer,
-    [...mockCompletedQuests],
+    [...mockCompletedQuests]
   );
 
   const activeQuestsRef = useRef<HTMLHeadingElement | null>(null);
   const completedQuestsRef = useRef<HTMLHeadingElement | null>(null);
 
   const totalActivePages = Math.ceil(
-    mockActiveQuests.length / COMP_PAGINATION_SIZE,
+    mockActiveQuests.length / COMP_PAGINATION_SIZE
   ); // logic
   const totalCompletedPages = Math.ceil(
-    mockCompletedQuests.length / COMP_PAGINATION_SIZE,
+    mockCompletedQuests.length / COMP_PAGINATION_SIZE
   ); // logic
 
   function reducer(state: Quest[], { type, payload }: Action): Quest[] {
     switch (type) {
-      case 'filter':
+      case "filter":
         const startIndex = (payload.page - 1) * COMP_PAGINATION_SIZE;
         return payload.source
           .filter(
             (quest: Quest) =>
-              payload.category.toLowerCase() === 'all' ||
-              quest.category.toLowerCase() === payload.category.toLowerCase(),
+              payload.category.toLowerCase() === "all" ||
+              quest.category.toLowerCase() === payload.category.toLowerCase()
           )
           .slice(startIndex, startIndex + COMP_PAGINATION_SIZE);
       default:
@@ -94,7 +96,7 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredActiveQuests({
-      type: 'filter',
+      type: "filter",
       payload: {
         category: selectedCategory,
         source: mockActiveQuests,
@@ -102,7 +104,7 @@ const ProgressRoute: React.FC = () => {
       },
     });
     dispatchFilteredCompletedQuests({
-      type: 'filter',
+      type: "filter",
       payload: {
         category: selectedCategory,
         source: mockCompletedQuests,
@@ -115,7 +117,7 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredActiveQuests({
-      type: 'filter',
+      type: "filter",
       payload: {
         category: selectedCategory,
         source: mockActiveQuests,
@@ -126,7 +128,7 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredCompletedQuests({
-      type: 'filter',
+      type: "filter",
       payload: {
         category: selectedCategory,
         source: mockCompletedQuests,
@@ -151,11 +153,16 @@ const ProgressRoute: React.FC = () => {
             <div className="progress-section__grid">
               {filteredActiveQuests.map((quest) => (
                 <ActiveQuestsCard
-                  key={quest.id}
-                  {...quest}
+                  //key={quest.id}
+                  id={quest.id}
+                  title={quest.title}
+                  category={quest.category}
                   username="anatoliy"
-                  timeRemaining="200"
-                /> // username
+                  timeRemaining={quest.completedAt}
+                  image={quest.image}
+                  rating={quest.rating}
+                  maxRating={quest.maxRating}
+                />
               ))}
             </div>
             <div className="pagination">

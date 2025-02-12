@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
-import { DATA_SOURCE } from 'src/constants/dataSource/dataSource';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { Rating } from './entities/rating.entity';
+import { DataSource } from "typeorm";
+import { DATA_SOURCE } from "src/constants/dataSource/dataSource";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { Rating } from "./entities/rating.entity";
 
 export const ratingProviders = [
   {

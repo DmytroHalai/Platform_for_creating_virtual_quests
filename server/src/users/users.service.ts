@@ -1,17 +1,20 @@
-import 'dotenv/config';
-import * as bcrypt from 'bcryptjs';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { REPOSITORY } from 'src/constants/enums/repositories';
-import { User } from './entities/user.entity';
-import { LessThan, Repository } from 'typeorm';
-import { BCRYPT } from 'src/constants/enums/bcryptSalt';
-import { JwtService } from '@nestjs/jwt';
-import { EMAIL } from 'src/constants/enums/email';
-import { SCHEDULE } from 'src/constants/enums/scheduleConfig';
-import { EmailService } from 'src/email/email.service';
-
+import "dotenv/config";
+import * as bcrypt from "bcryptjs";
+import { Inject, Injectable } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { REPOSITORY } from "src/constants/enums/repositories";
+import { User } from "./entities/user.entity";
+import { Repository } from "typeorm";
+import { BCRYPT } from "src/constants/enums/bcryptSalt";
+import { JwtService } from "@nestjs/jwt";
+import { EMAIL } from "src/constants/enums/email";
+import { EmailService } from "src/email/email.service";
+import {
+  TokenException,
+  UserNotFoundException,
+  UserOwnerException,
+} from "src/exceptions/custom.exceptions";
 
 @Injectable()
 export class UsersService {
@@ -19,30 +22,24 @@ export class UsersService {
     @Inject(REPOSITORY.USER)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly emailService: EmailService,
+    private readonly emailService: EmailService
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { password, ...userData } = createUserDto;
     const hashPassword = await bcrypt.hash(password, BCRYPT.SALT);
-
     const user = this.userRepository.create({
       ...userData,
       password: hashPassword,
     });
     await this.userRepository.save(user);
-
     const payload = {
       user_id: user.user_id,
       sub: user.user_id,
     };
-
     const token = this.jwtService.sign(payload);
     await this.emailService.sendConfirmationEmail(user.email, token);
-  }
-
-  async createByGoogle(profile: CreateUserDto) {
-    return await this.userRepository.save(profile);
+    return { message: "Logged in successfully" };
   }
 
   async confirmEmail(token: string) {
@@ -53,35 +50,14 @@ export class UsersService {
       await this.userRepository.save(user);
       return EMAIL.CONFIRM_SUCCESS;
     } catch (error) {
-      throw new NotFoundException('Invalid or expired token');
+      throw new TokenException();
     }
-  }
-
-  async findOverdue(time: Date) {
-    return await this.userRepository.find({
-      where: {
-        isEmailConfirmed: false,
-      },
-    });
-  }
-
-  async removeOverdue(usersToDelete) {
-    return await this.userRepository.remove(usersToDelete);
-  }
-
-  async findOneByEmail(email: string) {
-    return await this.userRepository.findOne({ where: { email } });
   }
 
   async findOneById(id: number) {
     const user = await this.userRepository.findOne({ where: { user_id: id } });
-    if (!user) throw new NotFoundException('user not found');
-
+    if (!user) throw new UserNotFoundException();
     return user;
-  }
-
-  async findById(userId: number) {
-    return this.userRepository.findOneBy({ user_id: userId });
   }
 
   async countAllActiveUsers() {
@@ -94,16 +70,47 @@ export class UsersService {
   async findProfile(id: number) {
     const user = await this.userRepository.findOne({
       where: { user_id: id },
-      relations: ['quests', 'quests.ratings'],
+      relations: ["quests", "quests.ratings"],
     });
-    if (!user) throw new NotFoundException('user not found');
+    if (!user) throw new UserNotFoundException();
     const { password, ...userData } = user;
     return userData;
   }
 
+  async findByName(username: string) {
+    const user = await this.userRepository.findOneBy({ username });
+    if (!user) throw new UserNotFoundException();
+    const userProfile = await this.findProfile(+user.user_id);
+    return userProfile;
+  }
+
+  async remove(id: number, user_id: number) {
+    const user = await this.findById(id);
+    if (!user) throw new UserNotFoundException();
+    if (user.user_id !== user_id) throw new UserOwnerException();
+    await this.userRepository.remove(user);
+    return `User ${user.user_id} deleted successfully`;
+  }
+
+  async createByGoogle(profile: CreateUserDto) {
+    return await this.userRepository.save(profile);
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
-    return 'successful update';
+    return `User ${id} update successfully`;
+  }
+
+  async findById(userId: number) {
+    return this.userRepository.findOneBy({ user_id: userId });
+  }
+
+  async removeOverdue(usersToDelete) {
+    return await this.userRepository.remove(usersToDelete);
+  }
+
+  async findOneByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email } });
   }
 
   async selectRating() {
@@ -114,17 +121,16 @@ export class UsersService {
           rating: true,
         },
       },
-      relations: ['ratings'],
+      relations: ["ratings"],
     });
-
     return users;
   }
 
-  async findByName(username: string) {
-    const user = await this.userRepository.findOneBy({ username });
-    if (!user) throw new NotFoundException('user not found');
-
-    const userProfile = await this.findProfile(+user.user_id);
-    return userProfile;
+  async findOverdue() {
+    return await this.userRepository.find({
+      where: {
+        isEmailConfirmed: false,
+      },
+    });
   }
 }

@@ -1,6 +1,6 @@
-import { Progress } from 'src/progress/entities/progress.entity';
-import { Quest } from 'src/quests/entities/quest.entity';
-import { Rating } from 'src/rating/entities/rating.entity';
+import { Progress } from "src/progress/entities/progress.entity";
+import { Quest } from "src/quests/entities/quest.entity";
+import { Rating } from "src/rating/entities/rating.entity";
 import {
   Column,
   CreateDateColumn,
@@ -8,35 +8,35 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('users')
+@Entity("users")
 export class User {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn("increment")
   user_id: number;
 
-  @Column('text')
+  @Column("text")
   email: string;
 
-  @Column('text')
+  @Column("text")
   username: string;
 
-  @Column('text')
+  @Column("text")
   password: string;
 
-  @Column('text', { nullable: true })
+  @Column("text", { nullable: true })
   gender: string;
 
-  @Column('text', { nullable: true })
+  @Column("text", { nullable: true })
   dateOfBirth: string;
 
-  @Column('text', { nullable: true })
+  @Column("text", { nullable: true })
   avatar: string;
 
-  @Column('text', { default: 'user' })
+  @Column("text", { default: "user" })
   role: string;
 
-  @Column('text', { nullable: true })
+  @Column("text", { nullable: true })
   description: string;
 
   @Column({ default: false })

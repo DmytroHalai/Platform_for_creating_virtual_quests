@@ -10,7 +10,7 @@ const service = {
         headers: {
           'Content-Type': 'application/json',
         },
-      },
+      }
     );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -34,7 +34,7 @@ const service = {
   put: async <T>(
     endpoint: string,
     data: Partial<T>,
-    id: string,
+    id: string
   ): Promise<T> => {
     const res: Response = await fetch(`${API}${endpoint}/${id}`, {
       method: 'PUT',
@@ -51,7 +51,7 @@ const service = {
   path: async <T>(
     endpoint: string,
     data: Partial<T>,
-    id: string,
+    id: string
   ): Promise<T> => {
     const res: Response = await fetch(`${API}${endpoint}/${id}`, {
       method: 'PATCH',
