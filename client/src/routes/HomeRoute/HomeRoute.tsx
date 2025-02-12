@@ -124,7 +124,6 @@ function HomeRoute(): JSX.Element {
   useEffect(() => {
     if (!quests.quests.length) {
       dispatch(fetchQuests());
-      console.log(quests);
     }
     if (!quests.count) {
       dispatch(fetchQuestsCount());

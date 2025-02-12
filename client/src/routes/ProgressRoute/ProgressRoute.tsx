@@ -1,10 +1,12 @@
-import type React from "react";
-import { useState, useReducer, useEffect, useRef } from "react";
-import CategorySideBar from "../../components/Sidebar/CategorySideBar/CategorySideBar";
-import { ActiveQuestsCard } from "../../components/QuestsCards/ActiveQuestCard";
-import { CompletedQuestCard } from "../../components/QuestsCards/CompletedQuestCard";
-import { COMP_PAGINATION_SIZE } from "../../constants/constants";
-import "./ProgressRoute.css";
+import type React from 'react';
+import { useState, useReducer, useEffect, useRef } from 'react';
+import CategorySideBar from '../../components/Sidebar/CategorySideBar/CategorySideBar';
+import { ActiveQuestsCard } from '../../components/QuestsCards/ActiveQuestCard';
+import { CompletedQuestCard } from '../../components/QuestsCards/CompletedQuestCard';
+import { COMP_PAGINATION_SIZE} from '../../constants/constants';
+import './ProgressRoute.css';
+import service from '../../services/service';
+import { API_USERS_PROFILE } from '../../services/api';
 
 interface Quest {
   id: number;
@@ -27,41 +29,45 @@ const mockActiveQuests: Quest[] = Array(13)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
-    title: "TOP ARCHITECTURE BUILDINGS",
-    description: "THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...",
+    title: 'TOP ARCHITECTURE BUILDINGS',
+    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
     image: `https://picsum.photos/800/600?random=${index}`,
     rating: 5,
     maxRating: 5,
-    category: index % 2 ? "architecture" : "art",
-    completedAt: "12.02.2025, 12:00",
-    username: "АШОТ",
+    category: index % 2 ? 'architecture' : 'art',
+    completedAt: '12.02.2025, 12:00',
+    username: 'АШОТ',
   })); ///
 
 const mockCompletedQuests: Quest[] = Array(16)
   .fill(null)
   .map((_, index) => ({
     id: index + 1,
-    title: "TOP ARCHITECTURE BUILDINGS",
-    description: "THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...",
+    title: 'TOP ARCHITECTURE BUILDINGS',
+    description: 'THIS QUEST PROVIDES YOU A CHANCE TO BE REALLY IMPACTFULL...',
     image: `https://picsum.photos/800/600?random=${index}`,
     rating: 5,
     maxRating: 5,
-    category: index % 2 ? "architecture" : "art",
-    completedAt: "12.02.2025, 12:00",
+    category: index % 2 ? 'architecture' : 'art',
+    completedAt: '12.02.2025, 12:00',
     isRated: index % 3 ? true : false,
   })); ///
 
 const ProgressRoute: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeQuestsPage, setActiveQuestsPage] = useState(1);
   const [completedQuestsPage, setCompletedQuestsPage] = useState(1);
+  const [progress, dispatchProgress] = useReducer(progressReducer, {
+    activeQuests: [],
+    completedQuests: [],
+  });
   const [filteredActiveQuests, dispatchFilteredActiveQuests] = useReducer(
     reducer,
-    [...mockActiveQuests]
+    [...progress.activeQuests]
   );
   const [filteredCompletedQuests, dispatchFilteredCompletedQuests] = useReducer(
     reducer,
-    [...mockCompletedQuests]
+    [...progress.completedQuests]
   );
 
   const activeQuestsRef = useRef<HTMLHeadingElement | null>(null);
@@ -74,17 +80,38 @@ const ProgressRoute: React.FC = () => {
     mockCompletedQuests.length / COMP_PAGINATION_SIZE
   ); // logic
 
-  function reducer(state: Quest[], { type, payload }: Action): Quest[] {
+  function reducer(state: any[], { type, payload }: Action): any[] {
     switch (type) {
-      case "filter":
+      case 'filter':
         const startIndex = (payload.page - 1) * COMP_PAGINATION_SIZE;
         return payload.source
           .filter(
-            (quest: Quest) =>
-              payload.category.toLowerCase() === "all" ||
-              quest.category.toLowerCase() === payload.category.toLowerCase()
+            (quest: any) =>
+              payload.category.toLowerCase() === 'all' ||
+              quest.quest.category.toLowerCase() ===
+                payload.category.toLowerCase()
           )
           .slice(startIndex, startIndex + COMP_PAGINATION_SIZE);
+      default:
+        return state;
+    }
+  }
+
+  function progressReducer(state: any, { type, payload }: any) {
+    switch (type) {
+      case 'set':
+        const [activeQuests, completedQuests] = payload.reduce(
+          (acc, quest) => {
+            if (quest.status === 'started') {
+              acc[0].push(quest);
+            } else if (quest.status === 'finished') {
+              acc[1].push(quest);
+            }
+            return acc;
+          },
+          [[], []]
+        );
+        return { activeQuests: activeQuests, completedQuests: completedQuests };
       default:
         return state;
     }
@@ -96,18 +123,18 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredActiveQuests({
-      type: "filter",
+      type: 'filter',
       payload: {
         category: selectedCategory,
-        source: mockActiveQuests,
+        source: progress.activeQuests,
         page: 1,
       },
     });
     dispatchFilteredCompletedQuests({
-      type: "filter",
+      type: 'filter',
       payload: {
         category: selectedCategory,
-        source: mockCompletedQuests,
+        source: progress.completedQuests,
         page: 1,
       },
     });
@@ -117,10 +144,10 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredActiveQuests({
-      type: "filter",
+      type: 'filter',
       payload: {
         category: selectedCategory,
-        source: mockActiveQuests,
+        source: progress.activeQuests,
         page: activeQuestsPage,
       },
     });
@@ -128,15 +155,27 @@ const ProgressRoute: React.FC = () => {
 
   useEffect(() => {
     dispatchFilteredCompletedQuests({
-      type: "filter",
+      type: 'filter',
       payload: {
         category: selectedCategory,
-        source: mockCompletedQuests,
+        source: progress.completedQuests,
         page: completedQuestsPage,
       },
     });
   }, [completedQuestsPage]);
 
+  async function getData() {
+    return await service.get(API_USERS_PROFILE);
+  }
+
+  useEffect(() => {
+    (async () => {
+      const res = await getData();
+      dispatchProgress({ type: 'set', payload: res.progress });
+    })();
+  }, []);
+  console.log(progress);
+  console.log(filteredActiveQuests);
   return (
     <div className="progress-page">
       <div className="container progress-page__container">
@@ -154,14 +193,12 @@ const ProgressRoute: React.FC = () => {
               {filteredActiveQuests.map((quest) => (
                 <ActiveQuestsCard
                   //key={quest.id}
-                  id={quest.id}
-                  title={quest.title}
-                  category={quest.category}
-                  username="anatoliy"
-                  timeRemaining={quest.completedAt}
-                  image={quest.image}
-                  rating={quest.rating}
-                  maxRating={quest.maxRating}
+                  id={quest.progress_id}
+                  title={quest.quest.title}
+                  category={quest.quest.category}
+                  username={quest.user.username}
+                  timeRemaining={quest.remainingTime}
+                  image={quest.quest.photo}
                 />
               ))}
             </div>
@@ -198,10 +235,12 @@ const ProgressRoute: React.FC = () => {
               {filteredCompletedQuests.map((quest) => (
                 <CompletedQuestCard
                   isRated={false}
-                  key={quest.id}
-                  {...quest}
-                  username="anatoliy"
-                /> // username
+                  key={quest.quest.quest_id}
+                  username={quest.user.username}
+                  title={quest.quest.title}
+                  category={quest.quest.category}
+                  image={quest.quest.photo}
+                /> 
               ))}
             </div>
             <div className="pagination">

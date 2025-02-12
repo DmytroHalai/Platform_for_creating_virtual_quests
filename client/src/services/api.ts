@@ -6,6 +6,6 @@ export const API_ENDP_PROFILE = '/users/profile';
 export const API_ENDP_QUESTS = '/quests';
 export const API_ENDP_QUESTS_COUNT = '/quests/count';
 export const API_USERS_COUNT = '/users/count';
-export const API_RATINGS = '/ratings';
+export const API_USERS_PROFILE = '/users/profile';
 
 export default API;
